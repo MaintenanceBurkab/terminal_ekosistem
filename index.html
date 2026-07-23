@@ -16,7 +16,7 @@
 <script>
 const CFG={GS_URL:'BURAYA_APPS_SCRIPT_WEB_APP_URL'};const S={user:null,d:{},a:[],o:[],s:[],k:[],b:[],q:[]};const menus=[['dashboard','▦ Genel Durum'],['aplikator','▣ Aplikatör Sicili'],['omur','◴ Parça Ömürleri'],['stok','▤ Yedek Parçalar'],['kesit','▧ Kesit PDF'],['bakim','⚙ Bakım & Revizyon'],['kalite','✓ Kalite Onayları']];
 function api(action,p={}){
-if(!CFG.GS_URL||CFG.GS_URL==='BURAYA_APPS_SCRIPT_WEB_APP_URL'){
+if(!CFG.GS_URL||CFG.GS_URL==='https://script.google.com/macros/s/AKfycbwRPDHyAfhz0CI4CeyT6w2VbDkwRXegB1CIK1hJld7p8oDHtQmcFHdqwRS-MJGdII-3/exec'){
   return Promise.reject(new Error('GS_URL ayarlanmadı. Apps Script /exec bağlantısını HTML içindeki CFG.GS_URL alanına yazın.'));
 }
 p.auth=S.user||{};return new Promise((ok,no)=>{const cb='tbe_'+Date.now()+'_'+Math.random().toString(36).slice(2),sc=document.createElement('script');let done=false;window[cb]=r=>{done=true;delete window[cb];sc.remove();r&&r.ok!==false?ok(r):no(new Error(r?.message||'Sunucu hatası'))};sc.onerror=()=>no(new Error('Bağlantı kurulamadı'));sc.src=CFG.GS_URL+'?action='+encodeURIComponent(action)+'&payload='+encodeURIComponent(JSON.stringify(p))+'&callback='+cb;document.body.appendChild(sc);setTimeout(()=>{if(!done)no(new Error('Zaman aşımı'))},20000)})}
