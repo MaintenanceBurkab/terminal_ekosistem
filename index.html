@@ -15,15 +15,132 @@
 <dialog id="kesitDlg"><div class="modalh"><b>Kesit PDF Kaydı</b><button onclick="kesitDlg.close()">✕</button></div><form id="kesitForm" class="modalb"><div class="formgrid"><div class="field"><label>Aplikatör *</label><select id="kesitAp" name="AplikatorId" required></select></div><div class="field"><label>Terminal *</label><input name="TerminalKodu" required></div><div class="field"><label>Proje</label><input name="ProjeKodu"></div><div class="field"><label>İş Emri</label><input name="IsEmriNo"></div><div class="field"><label>Lot</label><input name="LotNo"></div><div class="field"><label>Kablo Kesiti</label><input name="KabloKesiti"></div><div class="field full"><label>PDF / Drive URL *</label><input type="url" name="PDFURL" required></div><div class="field"><label>Sonuç</label><select name="KontrolSonucu"><option>BEKLIYOR</option><option>UYGUN</option><option>UYGUNSUZ</option></select></div><div class="field"><label>Operatör</label><input name="Operator"></div></div><div class="modalact"><button type="button" onclick="kesitDlg.close()">İptal</button><button class="primary">Kaydet</button></div></form></dialog>
 <script>
 const CFG={GS_URL:'https://script.google.com/macros/s/AKfycbwRPDHyAfhz0CI4CeyT6w2VbDkwRXegB1CIK1hJld7p8oDHtQmcFHdqwRS-MJGdII-3/exec'};const S={user:null,d:{},a:[],o:[],s:[],k:[],b:[],q:[]};const menus=[['dashboard','▦ Genel Durum'],['aplikator','▣ Aplikatör Sicili'],['omur','◴ Parça Ömürleri'],['stok','▤ Yedek Parçalar'],['kesit','▧ Kesit PDF'],['bakim','⚙ Bakım & Revizyon'],['kalite','✓ Kalite Onayları']];
-function api(action,p={}){
-if(!CFG.GS_URL||CFG.GS_URL==='https://script.google.com/macros/s/AKfycbwRPDHyAfhz0CI4CeyT6w2VbDkwRXegB1CIK1hJld7p8oDHtQmcFHdqwRS-MJGdII-3/exec'){
-  return Promise.reject(new Error('GS_URL ayarlanmadı. Apps Script /exec bağlantısını HTML içindeki CFG.GS_URL alanına yazın.'));
+function getStoredToken(){
+  return localStorage.getItem('burkab_tbe_token') ||
+         localStorage.getItem('burkab_auth_token') ||
+         '';
 }
-p.auth=S.user||{};return new Promise((ok,no)=>{const cb='tbe_'+Date.now()+'_'+Math.random().toString(36).slice(2),sc=document.createElement('script');let done=false;window[cb]=r=>{done=true;delete window[cb];sc.remove();r&&r.ok!==false?ok(r):no(new Error(r?.message||'Sunucu hatası'))};sc.onerror=()=>no(new Error('Bağlantı kurulamadı'));sc.src=CFG.GS_URL+'?action='+encodeURIComponent(action)+'&payload='+encodeURIComponent(JSON.stringify(p))+'&callback='+cb;document.body.appendChild(sc);setTimeout(()=>{if(!done)no(new Error('Zaman aşımı'))},20000)})}
-loginForm.onsubmit=async e=>{e.preventDefault();err.textContent='';try{let r;try{r=await api('login',{username:username.value,password:password.value,module:'TERMINAL_BASIM'})}catch(x){r={ok:true,user:{username:username.value,name:username.value,role:'ADMIN'}}}S.user=r.user||r.data;localStorage.setItem('burkab_tbe_user',JSON.stringify(S.user));show()}catch(x){err.textContent=x.message}};
+function api(action,p={}){
+  if(!CFG.GS_URL || !/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(CFG.GS_URL)){
+    return Promise.reject(new Error('GS_URL geçersiz. Apps Script web uygulamasının /exec bağlantısını CFG.GS_URL alanına yazın.'));
+  }
+
+  p = {...p};
+  p.auth = S.user || {};
+  const token = getStoredToken();
+  if(token){
+    p.authToken = token;
+    p.token = token;
+  }
+
+  return new Promise((ok,no)=>{
+    const cb='tbe_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const sc=document.createElement('script');
+    let done=false;
+    const finish=()=>{delete window[cb];sc.remove()};
+
+    window[cb]=r=>{
+      done=true;
+      finish();
+      if(r && r.ok!==false) ok(r);
+      else no(new Error(r?.error || r?.message || 'Sunucu hatası'));
+    };
+
+    sc.onerror=()=>{
+      if(done)return;
+      done=true;
+      finish();
+      no(new Error('Bağlantı kurulamadı'));
+    };
+
+    sc.src=CFG.GS_URL+
+      '?action='+encodeURIComponent(action)+
+      '&payload='+encodeURIComponent(JSON.stringify(p))+
+      '&callback='+encodeURIComponent(cb);
+
+    document.body.appendChild(sc);
+
+    setTimeout(()=>{
+      if(done)return;
+      done=true;
+      finish();
+      no(new Error('Zaman aşımı'));
+    },20000);
+  });
+}
+loginForm.onsubmit=async e=>{
+  e.preventDefault();
+  err.textContent='';
+  const btn=loginForm.querySelector('button[type="submit"],button:not([type])');
+  if(btn){btn.disabled=true;btn.textContent='Giriş yapılıyor…';}
+  try{
+    const r=await api('login',{
+      username:username.value.trim(),
+      password:password.value,
+      module:'TERMINAL_BASIM'
+    });
+
+    const user=r.user || r.data?.user || r.data;
+    const token=r.token || r.authToken || r.data?.token || r.data?.authToken;
+
+    if(!user) throw new Error('Kullanıcı bilgisi alınamadı.');
+    if(!token) throw new Error('Giriş başarılı fakat güvenlik anahtarı alınamadı. Apps Script login cevabını kontrol edin.');
+
+    S.user=user;
+    localStorage.setItem('burkab_tbe_user',JSON.stringify(S.user));
+    localStorage.setItem('burkab_tbe_token',token);
+    localStorage.setItem('burkab_auth_token',token);
+    show();
+  }catch(x){
+    err.textContent=x.message || 'Giriş başarısız.';
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Giriş Yap';}
+  }
+};
 function show(){login.classList.add('hidden');app.classList.remove('hidden');who.textContent='Kullanıcı: '+(S.user.name||S.user.username);nav.innerHTML=menus.map((m,i)=>`<button class="nav ${i?'':'active'}" data-p="${m[0]}" onclick="page('${m[0]}')">${m[1]}</button>`).join('');load()}
-function logout(){localStorage.removeItem('burkab_tbe_user');location.reload()}function page(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.p===p))}
+function logout(){
+  localStorage.removeItem('burkab_tbe_user');
+  localStorage.removeItem('burkab_tbe_token');
+  localStorage.removeItem('burkab_auth_token');
+  S.user=null;
+  location.reload();
+}function page(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.p===p))}
 async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap'),[o,s,k,b,q]=await Promise.all([api('tbeSayacListe'),api('tbeStokListe'),api('tbeKesitListe'),api('tbeBakimListe'),api('tbeKaliteListe')]);S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.o=o.data||[];S.s=s.data||[];S.k=k.data||[];S.b=b.data||[];S.q=q.data||[];conn.textContent='● Canlı bağlantı';render()}catch(e){conn.textContent='● Bağlantı hatası';console.error(e)}}
 function render(){const d=S.d;cards.innerHTML=[['Toplam',d.toplamAplikator],['Aktif',d.aktif],['Kritik Ömür',d.kritikOmur],['Kritik Stok',d.kritikStok],['Bakımda',d.bakimda],['Karantinada',d.karantinada],['Açık Bakım',d.acikBakim],['Kesit PDF',d.kesitPDF]].map(x=>`<div class="card"><small>${x[0]}</small><div class="value">${x[1]||0}</div></div>`).join('');apBody.innerHTML=S.a.map(x=>`<tr><td><b>${e(x.SicilNo)}</b></td><td>${e(x.Marka)} ${e(x.Model)}</td><td>${e(x.SeriNo)}</td><td>${e(x.Hat)} / ${e(x.Pres)}</td><td>${st(x.Durum)}</td><td><button onclick='openAp(${JSON.stringify(JSON.stringify(x))})'>Düzenle</button></td></tr>`).join('')||empty(6);omurBody.innerHTML=S.o.map(x=>`<tr><td>${e(x.AplikatorId)}</td><td>${e(x.ParcaId)}</td><td>${n(x.MevcutSayac)}</td><td>${n(x.MaksimumOmur)}</td><td>${n(x.KalanOmur)}</td><td>%${n(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.s.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${e(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${n(x.MevcutMiktar)}</td><td>${n(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);kesitBody.innerHTML=S.k.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${e(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a target=_blank href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.b.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${e(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.ArizaTanimi||x.YapilanIslem)}</td><td>${n(x.DurdurmaDakika)} dk</td><td>${n(x.Maliyet)} TL</td></tr>`).join('')||empty(7);kaliteBody.innerHTML=S.q.map(x=>`<tr><td>${dt(x.KontrolZamani)}</td><td>${e(x.AplikatorId)}</td><td>${e(x.KontrolTuru)}</td><td>${st(x.Sonuc||x.Durum)}</td><td>${e(x.CrimpYuksekligi)}</td><td>${e(x.PullForce)}</td><td>${e(x.KontrolEden)}</td></tr>`).join('')||empty(7);kesitAp.innerHTML='<option value="">Seçiniz</option>'+S.a.map(x=>`<option value="${ea(x.AplikatorId)}">${e(x.SicilNo)} — ${e(x.Marka)} ${e(x.Model)}</option>`).join('')}
-function openAp(raw){apForm.reset();if(raw){const x=JSON.parse(raw);Object.entries(x).forEach(([k,v])=>{if(apForm.elements[k])apForm.elements[k].value=v??''})}apDlg.showModal()}apForm.onsubmit=async ev=>{ev.preventDefault();await api('tbeAplikatorKaydet',Object.fromEntries(new FormData(apForm)));apDlg.close();load()};function openKesit(){kesitForm.reset();kesitDlg.showModal()}kesitForm.onsubmit=async ev=>{ev.preventDefault();await api('tbeKesitKaydet',Object.fromEntries(new FormData(kesitForm)));kesitDlg.close();load()};function e(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function ea(v){return e(v)}function n(v){return Number(v||0).toLocaleString('tr-TR')}function dt(v){if(!v)return'—';let d=new Date(v);return isNaN(d)?e(v):d.toLocaleString('tr-TR')}function st(v){v=String(v||'BELIRSIZ').toUpperCase().replace(/\s/g,'_');return`<span class="status ${ea(v)}">${e(v)}</span>`}function empty(c){return`<tr><td colspan="${c}" style="text-align:center;padding:35px;color:#777">Kayıt yok.</td></tr>`}(function(){const u=localStorage.getItem('burkab_tbe_user');if(u){S.user=JSON.parse(u);show()}})();
+function openAp(raw){apForm.reset();if(raw){const x=JSON.parse(raw);Object.entries(x).forEach(([k,v])=>{if(apForm.elements[k])apForm.elements[k].value=v??''})}apDlg.showModal()}apForm.onsubmit=async ev=>{
+  ev.preventDefault();
+  const btn=apForm.querySelector('button.primary');
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Kaydediliyor…';}
+    const data=Object.fromEntries(new FormData(apForm));
+    await api('tbeAplikatorKaydet',data);
+    apDlg.close();
+    await load();
+  }catch(x){
+    alert('Aplikatör kaydedilemedi: '+(x.message||x));
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Kaydet';}
+  }
+};function openKesit(){kesitForm.reset();kesitDlg.showModal()}kesitForm.onsubmit=async ev=>{
+  ev.preventDefault();
+  const btn=kesitForm.querySelector('button.primary');
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Kaydediliyor…';}
+    const data=Object.fromEntries(new FormData(kesitForm));
+    await api('tbeKesitKaydet',data);
+    kesitDlg.close();
+    await load();
+  }catch(x){
+    alert('Kesit PDF kaydedilemedi: '+(x.message||x));
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Kaydet';}
+  }
+};function e(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function ea(v){return e(v)}function n(v){return Number(v||0).toLocaleString('tr-TR')}function dt(v){if(!v)return'—';let d=new Date(v);return isNaN(d)?e(v):d.toLocaleString('tr-TR')}function st(v){v=String(v||'BELIRSIZ').toUpperCase().replace(/\s/g,'_');return`<span class="status ${ea(v)}">${e(v)}</span>`}function empty(c){return`<tr><td colspan="${c}" style="text-align:center;padding:35px;color:#777">Kayıt yok.</td></tr>`}(function(){
+  const u=localStorage.getItem('burkab_tbe_user');
+  const t=getStoredToken();
+  if(u && t){
+    try{S.user=JSON.parse(u);show()}
+    catch(_){logout()}
+  }
+})();
 </script></body></html>
