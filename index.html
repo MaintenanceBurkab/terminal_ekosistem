@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#1a1a1a">
-<title>BURKAB A.Ş. — Terminal Basım Ekosistemi v2.0.0</title>
+<title>BURKAB A.Ş. — Terminal Basım Ekosistemi v2.0.1</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -86,14 +86,125 @@ const menu=[['dashboard','fa-chart-column','Genel Durum'],['new','fa-plus','Yeni
 function token(){return localStorage.getItem('burkab_tbe_token')||localStorage.getItem('burkab_auth_token')||''}
 function api(action,p={}){p={...p,auth:S.user||{}};const t=token();if(t){p.authToken=t;p.token=t}return new Promise((resolve,reject)=>{const cb='tbe_'+Date.now()+'_'+Math.random().toString(36).slice(2),sc=document.createElement('script');let done=false;const finish=()=>{setTimeout(()=>{try{delete window[cb]}catch(_){};sc.remove()},1500)};window[cb]=r=>{if(done)return;done=true;finish();r&&r.ok!==false?resolve(r):reject(new Error(r?.error||r?.message||'Sunucu hatası'))};sc.onerror=()=>{if(done)return;done=true;finish();reject(new Error('Bağlantı kurulamadı'))};sc.src=CFG.GS_URL+'?action='+encodeURIComponent(action)+'&payload='+encodeURIComponent(JSON.stringify(p))+'&callback='+encodeURIComponent(cb)+'&_ts='+Date.now();document.body.appendChild(sc);setTimeout(()=>{if(done)return;done=true;finish();reject(new Error(action+' isteği zaman aşımına uğradı'))},45000)})}
 loginForm.onsubmit=async e=>{e.preventDefault();loginError.textContent='';const b=e.submitter;b.disabled=true;b.textContent='Giriş yapılıyor…';try{const r=await api('login',{username:username.value.trim(),password:password.value,module:'TERMINAL_BASIM'}),u=r.user||r.data?.user||r.data,t=r.token||r.authToken||r.data?.token||r.data?.authToken;if(!u||!t)throw new Error('Kullanıcı veya güvenlik anahtarı alınamadı.');S.user=u;localStorage.setItem('burkab_tbe_user',JSON.stringify(u));localStorage.setItem('burkab_tbe_token',t);show()}catch(x){loginError.textContent=x.message}finally{b.disabled=false;b.textContent='Giriş Yap'}};
-function show(){login.classList.add('hidden');app.classList.remove('hidden');who.textContent='Kullanıcı: '+(S.user.name||S.user.adSoyad||S.user.username);nav.innerHTML='<div class="side-title"><i class="fas fa-microchip"></i> TERMİNAL BASIM</div>'+menu.map((m,i)=>`<button class="nav ${i===0?'active':''}" data-p="${m[0]}" onclick="page('${m[0]}')"><i class="fas ${m[1]}"></i>${m[2]}</button>`).join('')+'<div class="version">BURKAB A.Ş.<br>v2.0.0</div>';load()}
+function show(){login.classList.add('hidden');app.classList.remove('hidden');who.textContent='Kullanıcı: '+(S.user.name||S.user.adSoyad||S.user.username);nav.innerHTML='<div class="side-title"><i class="fas fa-microchip"></i> TERMİNAL BASIM</div>'+menu.map((m,i)=>`<button class="nav ${i===0?'active':''}" data-p="${m[0]}" onclick="page('${m[0]}')"><i class="fas ${m[1]}"></i>${m[2]}</button>`).join('')+'<div class="version">BURKAB A.Ş.<br>v2.0.1</div>';load()}
 function logout(){localStorage.removeItem('burkab_tbe_user');localStorage.removeItem('burkab_tbe_token');S.user=null;location.reload()}
 function page(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.p===p));if(p==='new')window.scrollTo(0,0)}
 async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
 function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.stock.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${partName(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${num(x.MevcutMiktar)}</td><td>${num(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);ortakBody.innerHTML=S.pu.map(x=>`<tr><td>${e((S.parts.find(p=>String(p.ParcaId)===String(x.ParcaId))||{}).ParcaKodu)}</td><td>${partName(x.ParcaId)}</td><td>${apName(x.AplikatorId)}</td><td>${apModel(x.AplikatorId)}</td><td>${e(x.Pozisyon)}</td></tr>`).join('')||empty(5);kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(6);fillSelects()}
 function renderCards(){const d=S.d;cards.innerHTML=[['Toplam Aplikatör',d.toplamAplikator],['Aktif',d.aktif],['Kritik Ömür',d.kritikOmur],['Kritik Stok',d.kritikStok],['Bakımda',d.bakimda],['Karantinada',d.karantinada],['Açık Bakım',d.acikBakim],['Açık Aksiyon',d.acikAksiyon],['Kesit PDF',d.kesitPDF]].map(x=>`<div class="card"><small>${x[0]}</small><div class="value">${x[1]||0}</div></div>`).join('');const n=(d.kritikOmur||0)+(d.kritikStok||0)+(d.karantinada||0);criticalBanner.classList.toggle('show',n>0);criticalBanner.innerHTML=n?`<i class="fas fa-triangle-exclamation"></i> ${n} kritik kayıt bulunuyor. Ömür, stok ve karantina durumlarını kontrol edin.`:''}
 function renderAplikator(){const q=tbeN(apSearch?.value||'');const arr=S.a.filter(x=>!q||tbeN([x.SicilNo,x.Marka,x.Model,x.ModelSeriNo||x.SeriNo,x.Hat].join(' ')).includes(q));apBody.innerHTML=arr.map(x=>`<tr><td><b>${e(x.SicilNo)}</b></td><td>${e(x.Marka)} ${e(x.Model)}</td><td>${e(x.ModelSeriNo||x.SeriNo)}</td><td>${e(x.Hat)}</td><td><code>${e(x.QRKod)}</code></td><td>${st(x.Durum)}</td><td><button class="btn ghost" onclick='editAp(${JSON.stringify(JSON.stringify(x))})'>Düzenle</button></td></tr>`).join('')||empty(7)}
-function editAp(raw){const x=JSON.parse(raw);resetWizard();Object.entries(x).forEach(([k,v])=>{if(wizardForm.elements[k])wizardForm.elements[k].value=v??''});page('new')}
+function terminalCardsForAplikator(aplikatorId){
+  const rows=S.term.filter(x=>String(x.AplikatorId)===String(aplikatorId));
+  const groups=new Map();
+
+  rows.forEach(x=>{
+    const key=[
+      x.TerminalKodu||'',
+      x.TerminalMarka||'',
+      x.TerminalAilesi||'',
+      x.PDFURL||''
+    ].join('¦');
+
+    if(!groups.has(key)){
+      groups.set(key,{
+        TerminalKodu:x.TerminalKodu||'',
+        TerminalMarka:x.TerminalMarka||'',
+        TerminalAilesi:x.TerminalAilesi||'',
+        PDFURL:x.PDFURL||'',
+        degerler:{}
+      });
+    }
+
+    const kesit=String(x.KabloKesiti||'').replace(',','.').trim();
+    if(!kesit)return;
+
+    groups.get(key).degerler[kesit]={
+      CH:x.CH||'',
+      CH_Tol:x.CH_Tol||'',
+      CW:x.CW||'',
+      CW_Tol:x.CW_Tol||'',
+      IH:x.IH||'',
+      IH_Tol:x.IH_Tol||'',
+      IW:x.IW||'',
+      IW_Tol:x.IW_Tol||''
+    };
+  });
+
+  return [...groups.values()];
+}
+
+function partRowsForAplikator(aplikatorId){
+  const links=S.pu.filter(x=>String(x.AplikatorId)===String(aplikatorId));
+
+  return links.map(link=>{
+    const part=S.parts.find(x=>String(x.ParcaId)===String(link.ParcaId))||{};
+    const life=S.life.find(x=>
+      String(x.AplikatorId)===String(aplikatorId) &&
+      String(x.ParcaId)===String(link.ParcaId)
+    )||{};
+    const stock=S.stock.find(x=>String(x.ParcaId)===String(link.ParcaId))||{};
+
+    return {
+      StokKodu:part.StokKodu||stock.StokKodu||'',
+      ParcaKodu:part.ParcaKodu||'',
+      ParcaAdi:part.ParcaAdi||'',
+      Uretici:part.Uretici||'',
+      MaksimumOmur:life.MaksimumOmur||part.VarsayilanMaksOmur||'',
+      MevcutSayac:life.MevcutSayac||'',
+      MevcutMiktar:stock.MevcutMiktar||'',
+      MinimumStok:stock.MinimumStok||'',
+      RafKonumu:stock.RafKonumu||'',
+      Fiyat:stock.Fiyat||part.Fiyat||'',
+      ParaBirimi:stock.ParaBirimi||part.ParaBirimi||'TRY',
+      Tedarikci:stock.Tedarikci||'',
+      Aciklama:link.Aciklama||part.Aciklama||''
+    };
+  });
+}
+
+function editAp(raw){
+  const x=JSON.parse(raw);
+
+  // Düzenleme açılırken sadece bir kez temizlenir.
+  // Adımlar arasında ilerlerken reset yapılmaz.
+  wizardForm.reset();
+  presRows.innerHTML='';
+  terminalRows.innerHTML='';
+  partRows.innerHTML='';
+
+  Object.entries(x).forEach(([k,v])=>{
+    const el=wizardForm.elements[k];
+    if(el)el.value=v??'';
+  });
+
+  const presler=S.pres.filter(p=>String(p.AplikatorId)===String(x.AplikatorId));
+  if(presler.length)presler.forEach(addPresRow);
+  else addPresRow();
+
+  const terminalKartlari=terminalCardsForAplikator(x.AplikatorId);
+  if(terminalKartlari.length)terminalKartlari.forEach(addTerminalCard);
+  else addTerminalCard();
+
+  const parcalar=partRowsForAplikator(x.AplikatorId);
+  if(parcalar.length)parcalar.forEach(addPartRow);
+  else addPartRow();
+
+  const ilkKesit=S.cuts.find(c=>String(c.AplikatorId)===String(x.AplikatorId));
+  wTerminal.value=ilkKesit?.TerminalKodu||'';
+  wKesit.value=ilkKesit?.KabloKesiti||'';
+  wPdf.value=ilkKesit?.PDFURL||'';
+
+  currentStep=0;
+  showStep();
+
+  const title=document.querySelector('#p-new .page-head h2');
+  const subtitle=document.querySelector('#p-new .page-head p');
+  if(title)title.textContent='Aplikatör Sicili Düzenle';
+  if(subtitle)subtitle.textContent=(x.SicilNo||'')+' numaralı sicilin tüm aşamaları yüklendi.';
+
+  page('new');
+  notify('Sicilin 5 aşamasındaki mevcut değerler yüklendi.','ok');
+}
 function addPresRow(v={}){presRows.insertAdjacentHTML('beforeend',`<div class="repeat-row"><div class="field"><label>Pres Kodu</label><input data-k="PresKodu" value="${ea(v.PresKodu||'')}"></div><div class="field"><label>Marka</label><input data-k="PresMarka" value="${ea(v.PresMarka||'')}"></div><div class="field"><label>Model</label><input data-k="PresModel" value="${ea(v.PresModel||'')}"></div><div class="field"><label>Uyum</label><select data-k="UyumDurumu"><option>UYGUN</option><option>KOŞULLU</option><option>UYGUNSUZ</option></select></div><div class="field"><label>Açıklama</label><input data-k="Aciklama"></div><button type="button" class="btn danger" onclick="this.parentElement.remove()">Sil</button></div>`)}
 const TBE_KESITLER=['0.22','0.35','0.50','0.75','1.00','1.50','2.00','2.50','3.00','4.00','6.00','10.00','16.00'];
 const TBE_OLCULER=[['CH','C/H'],['CW','C/W'],['IH','I/H'],['IW','I/W']];
@@ -176,7 +287,24 @@ function buildReview(){
     ['Yedek Parça',collectRows('partRows').length+' kayıt']
   ].map(x=>`<div class="review-box"><b>${x[0]}</b>${e(x[1]||'—')}</div>`).join('')
 }
-function resetWizard(){wizardForm.reset();presRows.innerHTML='';terminalRows.innerHTML='';partRows.innerHTML='';addPresRow();addTerminalCard();addPartRow();currentStep=0;showStep()}
+function resetWizard(){
+  wizardForm.reset();
+  presRows.innerHTML='';
+  terminalRows.innerHTML='';
+  partRows.innerHTML='';
+  addPresRow();
+  addTerminalCard();
+  addPartRow();
+  wTerminal.value='';
+  wKesit.value='';
+  wPdf.value='';
+  currentStep=0;
+  showStep();
+  const title=document.querySelector('#p-new .page-head h2');
+  const subtitle=document.querySelector('#p-new .page-head p');
+  if(title)title.textContent='Yeni Aplikatör Kaydı';
+  if(subtitle)subtitle.textContent='Bakım modülündeki gibi aşamalı kayıt';
+}
 wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const payload={aplikator:Object.fromEntries(new FormData(wizardForm)),presler:collectRows('presRows'),terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
 function bindForm(id,action,dlg){document.getElementById(id).onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{await api(action,Object.fromEntries(new FormData(ev.target)));dlg.close();ev.target.reset();await load();notify('Kayıt tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}}}
 bindForm('kesitForm','tbeKesitKaydet',kesitDlg);bindForm('bakimForm','tbeBakimKaydet',bakimDlg);bindForm('stokForm','tbeStokHareketKaydet',stokDlg);bindForm('aksiyonForm','tbeAksiyonKaydet',aksiyonDlg);
