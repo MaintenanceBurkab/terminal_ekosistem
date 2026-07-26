@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#1a1a1a">
-<title>BURKAB A.Ş. — Terminal Basım Ekosistemi v2.2.1</title>
+<title>BURKAB A.Ş. — Terminal Basım Ekosistemi v2.2.2</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -25,6 +25,44 @@
 .part-row .remove-cell{display:flex;justify-content:flex-end}
 @media(max-width:900px){.part-row{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.part-row{grid-template-columns:1fr}}
+
+
+.stok-search-layout{
+  display:grid;
+  grid-template-columns:minmax(340px,38%) minmax(0,62%);
+  gap:14px;
+  align-items:start;
+}
+.top-search-section{
+  border-top:3px solid #f5c400;
+  border-bottom:3px solid #f5c400;
+  margin:0;
+}
+.stock-list-section{margin:0;min-width:0}
+.top-search-section .section-body{
+  display:grid;
+  gap:10px;
+}
+.search-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  margin-top:2px;
+}
+.compact-search-results{
+  max-height:420px;
+  overflow:auto;
+}
+.compact-search-results table{
+  min-width:560px;
+}
+@media(max-width:1000px){
+  .stok-search-layout{
+    grid-template-columns:1fr;
+  }
+}
 
 </style>
 </head>
@@ -80,7 +118,78 @@
 <section id="p-aplikator" class="page"><div class="page-head"><div><h2>Aplikatör Sicili</h2><p>Dijital ekipman pasaportu ve QR kimliği</p></div><button class="btn primary" onclick="newAplikator()">+ Aplikatör</button></div><div class="section"><div class="section-head"><span><i class="fas fa-list"></i> APLİKATÖR LİSTESİ</span></div><div class="section-body"><div class="toolbar"><input id="apSearch" placeholder="Sicil, marka, model, seri ara..." oninput="renderAplikator()"><button class="btn dark" onclick="load()">Yenile</button></div><div class="table-wrap"><table><thead><tr><th>Sicil</th><th>Marka</th><th>Model / Seri No</th><th>Hat</th><th>QR</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="apBody"></tbody></table></div></div></div></section>
 <section id="p-pres" class="page"><div class="page-head"><div><h2>Pres Uyumlulukları</h2><p>Aplikatör–pres eşleşmeleri</p></div></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Pres Kodu</th><th>Marka</th><th>Model</th><th>Uyum</th><th>Aktif</th></tr></thead><tbody id="presBody"></tbody></table></div></div></section>
 <section id="p-omur" class="page"><div class="page-head"><div><h2>Parça Ömür Sayaçları</h2><p>Baskı bazlı kullanım, uyarı ve kilit</p></div></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Parça</th><th>Mevcut</th><th>Maksimum</th><th>Kalan</th><th>%</th><th>Durum</th></tr></thead><tbody id="omurBody"></tbody></table></div></div></section>
-<section id="p-stok" class="page"><div class="page-head"><div><h2>Yedek Parçalar</h2><p>Parça/terminal arama ve kritik stok takibi</p></div><button class="btn primary" onclick="openModal('stokDlg')">Stok Hareketi</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Stok Kodu</th><th>Parça</th><th>Raf</th><th>Mevcut</th><th>Minimum</th><th>Tedarikçi</th><th>Durum</th></tr></thead><tbody id="stokBody"></tbody></table></div></div><div class="section top-search-section" style="border-top:3px solid #f5c400;border-bottom:3px solid #f5c400;margin-bottom:14px;"><div class="section-head"><span><i class="fas fa-magnifying-glass"></i> PARÇA / TERMİNAL ARAMA</span></div><div class="section-body"><div class="grid3"><div class="field"><label>Stok Kodu</label><input id="parcaAraStok" placeholder="Örn. 6C-2.5-2.8-12" oninput="parcaAplikatorAra()"></div><div class="field"><label>Parça Kodu</label><input id="parcaAraKod" placeholder="Parça kodunu girin" oninput="parcaAplikatorAra()"></div><div class="field"><label>Terminal Kodu</label><input id="parcaAraTerminal" placeholder="Terminal kodunu girin" oninput="parcaAplikatorAra()"></div></div><div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:12px;flex-wrap:wrap"><small id="parcaAraOzet" class="muted">Arama için en az bir kriter girin.</small><button type="button" class="btn ghost" onclick="parcaAramaTemizle()"><i class="fas fa-eraser"></i> Temizle</button></div></div><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Marka / Model-Seri</th><th>Stok Kodu</th><th>Parça Kodu</th><th>Parça Adı</th><th>Terminal Kodu</th><th>Durum</th></tr></thead><tbody id="ortakBody"></tbody></table></div></div></section>
+<section id="p-stok" class="page">
+  <div class="page-head">
+    <div>
+      <h2>Yedek Parçalar</h2>
+      <p>Parça/terminal arama ve kritik stok takibi</p>
+    </div>
+    <button class="btn primary" onclick="openModal('stokDlg')">Stok Hareketi</button>
+  </div>
+
+  <div class="stok-search-layout">
+    <div class="section top-search-section">
+      <div class="section-head">
+        <span><i class="fas fa-magnifying-glass"></i> PARÇA / TERMİNAL ARAMA</span>
+      </div>
+      <div class="section-body">
+        <div class="field">
+          <label>Stok Kodu</label>
+          <input id="parcaAraStok" placeholder="Örn. 6C-2.5-2.8-12" oninput="parcaAplikatorAra()">
+        </div>
+        <div class="field">
+          <label>Parça Kodu</label>
+          <input id="parcaAraKod" placeholder="Parça kodunu girin" oninput="parcaAplikatorAra()">
+        </div>
+        <div class="field">
+          <label>Terminal Kodu</label>
+          <input id="parcaAraTerminal" placeholder="Terminal kodunu girin" oninput="parcaAplikatorAra()">
+        </div>
+        <div class="search-actions">
+          <small id="parcaAraOzet" class="muted">Arama için en az bir kriter girin.</small>
+          <button type="button" class="btn ghost" onclick="parcaAramaTemizle()">
+            <i class="fas fa-eraser"></i> Temizle
+          </button>
+        </div>
+      </div>
+      <div class="table-wrap compact-search-results">
+        <table>
+          <thead>
+            <tr>
+              <th>Aplikatör</th>
+              <th>Parça Kodu</th>
+              <th>Terminal</th>
+              <th>Durum</th>
+            </tr>
+          </thead>
+          <tbody id="ortakBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section stock-list-section">
+      <div class="section-head">
+        <span><i class="fas fa-boxes-stacked"></i> KRİTİK STOK LİSTESİ</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Stok Kodu</th>
+              <th>Parça</th>
+              <th>Raf</th>
+              <th>Mevcut</th>
+              <th>Minimum</th>
+              <th>Tedarikçi</th>
+              <th>Durum</th>
+            </tr>
+          </thead>
+          <tbody id="stokBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
 <section id="p-kesit" class="page"><div class="page-head"><div><h2>Terminal Kesit PDF Arşivi</h2><p>Proje, iş emri, lot ve terminal bazlı kanıt</p></div><button class="btn primary" onclick="openModal('kesitDlg')">+ PDF</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Tarih</th><th>Aplikatör</th><th>Terminal</th><th>Proje / İş Emri</th><th>Lot</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody id="kesitBody"></tbody></table></div></div></section>
 <section id="p-bakim" class="page"><div class="page-head"><div><h2>Bakım ve Revizyon Geçmişi</h2><p>Bu modülün kendi bağımsız kayıtları</p></div><button class="btn primary" onclick="openModal('bakimDlg')">+ Kayıt</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Tarih</th><th>Aplikatör</th><th>Tür</th><th>Durum</th><th>Yapılan İşlem</th><th>Duruş</th><th>Maliyet</th></tr></thead><tbody id="bakimBody"></tbody></table></div></div></section>
 <section id="p-aksiyon" class="page"><div class="page-head"><div><h2>CAPA / Aksiyonlar</h2><p>IATF 16949 izlenebilir aksiyon kaydı</p></div><button class="btn primary" onclick="openModal('aksiyonDlg')">+ Aksiyon</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Konu</th><th>Sorumlu</th><th>Hedef</th><th>Durum</th><th>Açıklama</th></tr></thead><tbody id="aksiyonBody"></tbody></table></div></div></section>
@@ -98,7 +207,7 @@ const menu=[['dashboard','fa-chart-column','Genel Durum'],['new','fa-plus','Yeni
 function token(){return localStorage.getItem('burkab_tbe_token')||localStorage.getItem('burkab_auth_token')||''}
 function api(action,p={}){p={...p,auth:S.user||{}};const t=token();if(t){p.authToken=t;p.token=t}return new Promise((resolve,reject)=>{const cb='tbe_'+Date.now()+'_'+Math.random().toString(36).slice(2),sc=document.createElement('script');let done=false;const finish=()=>{setTimeout(()=>{try{delete window[cb]}catch(_){};sc.remove()},1500)};window[cb]=r=>{if(done)return;done=true;finish();r&&r.ok!==false?resolve(r):reject(new Error(r?.error||r?.message||'Sunucu hatası'))};sc.onerror=()=>{if(done)return;done=true;finish();reject(new Error('Bağlantı kurulamadı'))};sc.src=CFG.GS_URL+'?action='+encodeURIComponent(action)+'&payload='+encodeURIComponent(JSON.stringify(p))+'&callback='+encodeURIComponent(cb)+'&_ts='+Date.now();document.body.appendChild(sc);setTimeout(()=>{if(done)return;done=true;finish();reject(new Error(action+' isteği zaman aşımına uğradı'))},45000)})}
 loginForm.onsubmit=async e=>{e.preventDefault();loginError.textContent='';const b=e.submitter;b.disabled=true;b.textContent='Giriş yapılıyor…';try{const r=await api('login',{username:username.value.trim(),password:password.value,module:'TERMINAL_BASIM'}),u=r.user||r.data?.user||r.data,t=r.token||r.authToken||r.data?.token||r.data?.authToken;if(!u||!t)throw new Error('Kullanıcı veya güvenlik anahtarı alınamadı.');S.user=u;localStorage.setItem('burkab_tbe_user',JSON.stringify(u));localStorage.setItem('burkab_tbe_token',t);show()}catch(x){loginError.textContent=x.message}finally{b.disabled=false;b.textContent='Giriş Yap'}};
-function show(){login.classList.add('hidden');app.classList.remove('hidden');who.textContent='Kullanıcı: '+(S.user.name||S.user.adSoyad||S.user.username);nav.innerHTML='<div class="side-title"><i class="fas fa-microchip"></i> TERMİNAL BASIM</div>'+menu.map((m,i)=>`<button class="nav ${i===0?'active':''}" data-p="${m[0]}" onclick="${m[0]==='new'?'newAplikator()':`page('${m[0]}')`}"><i class="fas ${m[1]}"></i>${m[2]}</button>`).join('')+'<div class="version">BURKAB A.Ş.<br>v2.2.1</div>';load()}
+function show(){login.classList.add('hidden');app.classList.remove('hidden');who.textContent='Kullanıcı: '+(S.user.name||S.user.adSoyad||S.user.username);nav.innerHTML='<div class="side-title"><i class="fas fa-microchip"></i> TERMİNAL BASIM</div>'+menu.map((m,i)=>`<button class="nav ${i===0?'active':''}" data-p="${m[0]}" onclick="${m[0]==='new'?'newAplikator()':`page('${m[0]}')`}"><i class="fas ${m[1]}"></i>${m[2]}</button>`).join('')+'<div class="version">BURKAB A.Ş.<br>v2.2.2</div>';load()}
 function logout(){localStorage.removeItem('burkab_tbe_user');localStorage.removeItem('burkab_tbe_token');S.user=null;location.reload()}
 function page(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.p===p));if(p==='new')window.scrollTo(0,0)}
 function newAplikator(){
@@ -120,7 +229,7 @@ function parcaAplikatorAra(){
   if(!body)return;
 
   if(!stokQ && !parcaQ && !terminalQ){
-    body.innerHTML='<tr><td colspan="7" class="empty">Stok kodu, parça kodu veya terminal kodu girerek arama yapın.</td></tr>';
+    body.innerHTML='<tr><td colspan="4" class="empty">Stok kodu, parça kodu veya terminal kodu girerek arama yapın.</td></tr>';
     if(ozet)ozet.textContent='Arama için en az bir kriter girin.';
     return;
   }
@@ -164,7 +273,7 @@ function parcaAplikatorAra(){
     });
   });
 
-  ortakBody.innerHTML=sonuc.map(x=>`<tr><td><b>${e(x.ap.SicilNo)}</b></td><td>${e((x.ap.Marka||'')+' '+(x.ap.ModelSeriNo||x.ap.Model||''))}</td><td>${e(x.stok||'—')}</td><td>${e(x.parcaKodu||'—')}</td><td>${e(x.parcaAdi||'—')}</td><td>${e(x.terminal||'—')}</td><td>${st(x.durum)}</td></tr>`).join('')||empty(7);
+  ortakBody.innerHTML=sonuc.map(x=>`<tr><td><b>${e(x.ap.SicilNo)}</b><br><small>${e((x.ap.Marka||'')+' '+(x.ap.ModelSeriNo||x.ap.Model||''))}</small></td><td>${e(x.parcaKodu||x.stok||'—')}<br><small>${e(x.parcaAdi||'')}</small></td><td>${e(x.terminal||'—')}</td><td>${st(x.durum)}</td></tr>`).join('')||empty(4);
   if(ozet)ozet.textContent=sonuc.length+' eşleşen kayıt bulundu.';
 }
 
