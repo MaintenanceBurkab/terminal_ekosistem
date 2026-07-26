@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#1a1a1a">
-<title>BURKAB A.Ş. — Terminal Basım Ekosistemi v2.0.1</title>
+<title>BURKAB A.Ş. — Terminal Basım Ekosistemi v2.1.0</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -49,6 +49,18 @@
 <div class="wizard-panel" data-step="1"><div class="grid3"><div class="field"><label>Aplikatör Tipi</label><select name="Tip"><option value="">Seçiniz</option><option>PNOMATIK</option><option>MEKANIK</option><option>HIDROLIK</option></select></div><div class="field"><label>Besleme Yönü</label><select name="BeslemeYonu"><option value="">Seçiniz</option><option>YAN</option><option>ARKA</option><option>ON</option></select></div><div class="field"><label>Sayaç</label><select name="SayacVarMi"><option value="YOK">Yok</option><option value="VAR">Var</option></select></div></div><div class="section" style="box-shadow:none"><div class="section-head"><span>Pres Uyumlulukları</span><button type="button" class="btn primary" onclick="addPresRow()">+ Satır</button></div><div class="section-body repeat-list" id="presRows"></div></div></div>
 <div class="wizard-panel" data-step="2">
 <div class="section" style="box-shadow:none">
+  <div class="section-head"><span>Seal Bilgileri</span><button type="button" class="btn primary" id="addSealBtn" onclick="addSealRow()">+ Seal Ekle</button></div>
+  <div class="section-body">
+    <div class="grid2">
+      <div class="field"><label>Seal Var mı?</label><select name="SealVarMi" id="sealVarMi" onchange="toggleSealSection()"><option value="YOK">Yok</option><option value="VAR">Var</option></select></div>
+      <div class="field"><label>Bilgilendirme</label><input value="Seal alanları zorunlu değildir; daha sonra tamamlanabilir." disabled></div>
+    </div>
+    <div id="sealArea" style="display:none;margin-top:14px">
+      <div class="repeat-list" id="sealRows"></div>
+    </div>
+  </div>
+</div>
+<div class="section" style="box-shadow:none">
   <div class="section-head"><span>Terminal / Kablo Kesiti Krimp Değerleri</span><button type="button" class="btn primary" onclick="addTerminalCard()">+ Terminal</button></div>
   <div class="section-body" id="terminalRows"></div>
 </div>
@@ -81,18 +93,44 @@
 <div id="toast" class="toast"></div>
 <script>
 const CFG={GS_URL:'https://script.google.com/macros/s/AKfycbwRPDHyAfhz0CI4CeyT6w2VbDkwRXegB1CIK1hJld7p8oDHtQmcFHdqwRS-MJGdII-3/exec'};
-const S={user:null,d:{},a:[],pres:[],term:[],parts:[],pu:[],life:[],stock:[],cuts:[],maint:[],actions:[]};let currentStep=0;
+const S={user:null,d:{},a:[],pres:[],term:[],seals:[],parts:[],pu:[],life:[],stock:[],cuts:[],maint:[],actions:[]};let currentStep=0;
 const menu=[['dashboard','fa-chart-column','Genel Durum'],['new','fa-plus','Yeni Aplikatör'],['aplikator','fa-id-card','Aplikatör Sicili'],['pres','fa-gears','Pres Uyumluluk'],['omur','fa-gauge-high','Parça Ömürleri'],['stok','fa-boxes-stacked','Yedek Parçalar'],['kesit','fa-file-pdf','Kesit PDF'],['bakim','fa-wrench','Bakım / Revizyon'],['aksiyon','fa-list-check','CAPA / Aksiyon']];
 function token(){return localStorage.getItem('burkab_tbe_token')||localStorage.getItem('burkab_auth_token')||''}
 function api(action,p={}){p={...p,auth:S.user||{}};const t=token();if(t){p.authToken=t;p.token=t}return new Promise((resolve,reject)=>{const cb='tbe_'+Date.now()+'_'+Math.random().toString(36).slice(2),sc=document.createElement('script');let done=false;const finish=()=>{setTimeout(()=>{try{delete window[cb]}catch(_){};sc.remove()},1500)};window[cb]=r=>{if(done)return;done=true;finish();r&&r.ok!==false?resolve(r):reject(new Error(r?.error||r?.message||'Sunucu hatası'))};sc.onerror=()=>{if(done)return;done=true;finish();reject(new Error('Bağlantı kurulamadı'))};sc.src=CFG.GS_URL+'?action='+encodeURIComponent(action)+'&payload='+encodeURIComponent(JSON.stringify(p))+'&callback='+encodeURIComponent(cb)+'&_ts='+Date.now();document.body.appendChild(sc);setTimeout(()=>{if(done)return;done=true;finish();reject(new Error(action+' isteği zaman aşımına uğradı'))},45000)})}
 loginForm.onsubmit=async e=>{e.preventDefault();loginError.textContent='';const b=e.submitter;b.disabled=true;b.textContent='Giriş yapılıyor…';try{const r=await api('login',{username:username.value.trim(),password:password.value,module:'TERMINAL_BASIM'}),u=r.user||r.data?.user||r.data,t=r.token||r.authToken||r.data?.token||r.data?.authToken;if(!u||!t)throw new Error('Kullanıcı veya güvenlik anahtarı alınamadı.');S.user=u;localStorage.setItem('burkab_tbe_user',JSON.stringify(u));localStorage.setItem('burkab_tbe_token',t);show()}catch(x){loginError.textContent=x.message}finally{b.disabled=false;b.textContent='Giriş Yap'}};
-function show(){login.classList.add('hidden');app.classList.remove('hidden');who.textContent='Kullanıcı: '+(S.user.name||S.user.adSoyad||S.user.username);nav.innerHTML='<div class="side-title"><i class="fas fa-microchip"></i> TERMİNAL BASIM</div>'+menu.map((m,i)=>`<button class="nav ${i===0?'active':''}" data-p="${m[0]}" onclick="page('${m[0]}')"><i class="fas ${m[1]}"></i>${m[2]}</button>`).join('')+'<div class="version">BURKAB A.Ş.<br>v2.0.1</div>';load()}
+function show(){login.classList.add('hidden');app.classList.remove('hidden');who.textContent='Kullanıcı: '+(S.user.name||S.user.adSoyad||S.user.username);nav.innerHTML='<div class="side-title"><i class="fas fa-microchip"></i> TERMİNAL BASIM</div>'+menu.map((m,i)=>`<button class="nav ${i===0?'active':''}" data-p="${m[0]}" onclick="page('${m[0]}')"><i class="fas ${m[1]}"></i>${m[2]}</button>`).join('')+'<div class="version">BURKAB A.Ş.<br>v2.1.0</div>';load()}
 function logout(){localStorage.removeItem('burkab_tbe_user');localStorage.removeItem('burkab_tbe_token');S.user=null;location.reload()}
 function page(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.p===p));if(p==='new')window.scrollTo(0,0)}
-async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
+async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
 function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.stock.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${partName(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${num(x.MevcutMiktar)}</td><td>${num(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);ortakBody.innerHTML=S.pu.map(x=>`<tr><td>${e((S.parts.find(p=>String(p.ParcaId)===String(x.ParcaId))||{}).ParcaKodu)}</td><td>${partName(x.ParcaId)}</td><td>${apName(x.AplikatorId)}</td><td>${apModel(x.AplikatorId)}</td><td>${e(x.Pozisyon)}</td></tr>`).join('')||empty(5);kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(6);fillSelects()}
 function renderCards(){const d=S.d;cards.innerHTML=[['Toplam Aplikatör',d.toplamAplikator],['Aktif',d.aktif],['Kritik Ömür',d.kritikOmur],['Kritik Stok',d.kritikStok],['Bakımda',d.bakimda],['Karantinada',d.karantinada],['Açık Bakım',d.acikBakim],['Açık Aksiyon',d.acikAksiyon],['Kesit PDF',d.kesitPDF]].map(x=>`<div class="card"><small>${x[0]}</small><div class="value">${x[1]||0}</div></div>`).join('');const n=(d.kritikOmur||0)+(d.kritikStok||0)+(d.karantinada||0);criticalBanner.classList.toggle('show',n>0);criticalBanner.innerHTML=n?`<i class="fas fa-triangle-exclamation"></i> ${n} kritik kayıt bulunuyor. Ömür, stok ve karantina durumlarını kontrol edin.`:''}
 function renderAplikator(){const q=tbeN(apSearch?.value||'');const arr=S.a.filter(x=>!q||tbeN([x.SicilNo,x.Marka,x.Model,x.ModelSeriNo||x.SeriNo,x.Hat].join(' ')).includes(q));apBody.innerHTML=arr.map(x=>`<tr><td><b>${e(x.SicilNo)}</b></td><td>${e(x.Marka)} ${e(x.Model)}</td><td>${e(x.ModelSeriNo||x.SeriNo)}</td><td>${e(x.Hat)}</td><td><code>${e(x.QRKod)}</code></td><td>${st(x.Durum)}</td><td><button class="btn ghost" onclick='editAp(${JSON.stringify(JSON.stringify(x))})'>Düzenle</button></td></tr>`).join('')||empty(7)}
+function sealRowsForAplikator(aplikatorId){
+  return S.seals.filter(x=>String(x.AplikatorId)===String(aplikatorId));
+}
+
+function toggleSealSection(){
+  const isVar=sealVarMi.value==='VAR';
+  sealArea.style.display=isVar?'block':'none';
+  addSealBtn.disabled=!isVar;
+  if(isVar && !sealRows.children.length)addSealRow();
+}
+
+function addSealRow(v={}){
+  sealRows.insertAdjacentHTML('beforeend',`<div class="repeat-row seal-row">
+    <div class="field"><label>Seal Stok Kodu</label><input data-k="SealStokKodu" value="${ea(v.SealStokKodu||'')}"></div>
+    <div class="field"><label>Seal Kodu</label><input data-k="SealKodu" value="${ea(v.SealKodu||'')}"></div>
+    <div class="field"><label>Renk</label><input data-k="Renk" value="${ea(v.Renk||'')}"></div>
+    <div class="field"><label>Seal Aplikatör No</label><input data-k="SealAplikatorNo" value="${ea(v.SealAplikatorNo||'')}"></div>
+    <input type="hidden" data-k="SealAplikatorID" value="${ea(v.SealAplikatorID||'')}">
+    <div class="field"><label>Durum</label><select data-k="Durum"><option value="AKTIF">Aktif</option><option value="PASIF">Pasif</option></select></div>
+    <div class="field"><label>Açıklama</label><input data-k="Aciklama" value="${ea(v.Aciklama||'')}"></div>
+    <div class="remove-cell"><button type="button" class="btn danger" onclick="this.closest('.seal-row').remove()">Sil</button></div>
+  </div>`);
+  const last=sealRows.lastElementChild;
+  if(last && v.Durum)last.querySelector('[data-k="Durum"]').value=v.Durum;
+}
+
 function terminalCardsForAplikator(aplikatorId){
   const rows=S.term.filter(x=>String(x.AplikatorId)===String(aplikatorId));
   const groups=new Map();
@@ -169,6 +207,7 @@ function editAp(raw){
   // Adımlar arasında ilerlerken reset yapılmaz.
   wizardForm.reset();
   presRows.innerHTML='';
+  sealRows.innerHTML='';
   terminalRows.innerHTML='';
   partRows.innerHTML='';
 
@@ -180,6 +219,15 @@ function editAp(raw){
   const presler=S.pres.filter(p=>String(p.AplikatorId)===String(x.AplikatorId));
   if(presler.length)presler.forEach(addPresRow);
   else addPresRow();
+
+  const seals=sealRowsForAplikator(x.AplikatorId);
+  if(seals.length){
+    wizardForm.elements.SealVarMi.value='VAR';
+    seals.forEach(addSealRow);
+  }else{
+    wizardForm.elements.SealVarMi.value=x.SealVarMi||'YOK';
+  }
+  toggleSealSection();
 
   const terminalKartlari=terminalCardsForAplikator(x.AplikatorId);
   if(terminalKartlari.length)terminalKartlari.forEach(addTerminalCard);
@@ -283,6 +331,7 @@ function buildReview(){
     ['Durum',d.Durum],
     ['Sayaç',d.SayacVarMi],
     ['Pres Uyumluluk',collectRows('presRows').length+' kayıt'],
+    ['Seal',d.SealVarMi==='VAR' ? collectRows('sealRows').length+' kayıt' : 'Yok'],
     ['Krimp Kesit Kaydı',collectTerminalRows().length+' kayıt'],
     ['Yedek Parça',collectRows('partRows').length+' kayıt']
   ].map(x=>`<div class="review-box"><b>${x[0]}</b>${e(x[1]||'—')}</div>`).join('')
@@ -290,11 +339,14 @@ function buildReview(){
 function resetWizard(){
   wizardForm.reset();
   presRows.innerHTML='';
+  sealRows.innerHTML='';
   terminalRows.innerHTML='';
   partRows.innerHTML='';
   addPresRow();
   addTerminalCard();
   addPartRow();
+  wizardForm.elements.SealVarMi.value='YOK';
+  toggleSealSection();
   wTerminal.value='';
   wKesit.value='';
   wPdf.value='';
@@ -305,7 +357,7 @@ function resetWizard(){
   if(title)title.textContent='Yeni Aplikatör Kaydı';
   if(subtitle)subtitle.textContent='Bakım modülündeki gibi aşamalı kayıt';
 }
-wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const payload={aplikator:Object.fromEntries(new FormData(wizardForm)),presler:collectRows('presRows'),terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
+wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const payload={aplikator:Object.fromEntries(new FormData(wizardForm)),presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
 function bindForm(id,action,dlg){document.getElementById(id).onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{await api(action,Object.fromEntries(new FormData(ev.target)));dlg.close();ev.target.reset();await load();notify('Kayıt tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}}}
 bindForm('kesitForm','tbeKesitKaydet',kesitDlg);bindForm('bakimForm','tbeBakimKaydet',bakimDlg);bindForm('stokForm','tbeStokHareketKaydet',stokDlg);bindForm('aksiyonForm','tbeAksiyonKaydet',aksiyonDlg);
 function openModal(id){document.getElementById(id).showModal()}
