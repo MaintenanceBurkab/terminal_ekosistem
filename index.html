@@ -34,6 +34,7 @@
 .stok-fast-search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px #f5c40025}
 .stok-fast-search i{color:#777}.stok-fast-search input{border:0;outline:0;width:100%;padding:13px 4px;background:transparent}
 .stok-filter-buttons{display:flex;gap:6px;flex-wrap:wrap}.stok-filter{padding:9px 12px}.stok-filter.active{background:var(--dark);color:#fff}
+.stok-mold-filter{display:flex;align-items:center;gap:7px;min-width:220px}.stok-mold-filter select{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;min-width:210px;font-weight:700}.stok-mold-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 .stok-kolay-table{min-width:1000px}.stok-kolay-table td{vertical-align:middle}
 .stok-stock-main{font-weight:900;font-size:14px}.stok-stock-sub{color:var(--muted);font-size:12px;margin-top:3px}
 .stok-qty{font-size:17px;font-weight:900}.stok-qty small{font-size:11px;color:#777;font-weight:700}
@@ -43,7 +44,7 @@
 .stok-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stok-detail-box{padding:12px;border:1px solid var(--line);border-radius:9px;background:#fbfaf6}.stok-detail-box small{display:block;color:var(--muted);font-weight:700;margin-bottom:4px}.stok-detail-box b{font-size:17px}
 .stok-detail-hero{padding:14px;border:1px solid var(--line);border-radius:10px;background:#fbfaf6;margin-bottom:12px}.stok-detail-hero h3{margin:0 0 4px}.stok-detail-hero p{margin:0;color:var(--muted)}
 @media(max-width:1000px){.stok-mini-cards{grid-template-columns:1fr 1fr}.stok-compat-search{grid-template-columns:1fr 1fr}}
-@media(max-width:650px){.stok-mini-cards{grid-template-columns:1fr 1fr}.stok-compat-search{grid-template-columns:1fr}.stok-filter-buttons{width:100%}.stok-filter{flex:1}}
+@media(max-width:650px){.stok-mini-cards{grid-template-columns:1fr 1fr}.stok-compat-search{grid-template-columns:1fr}.stok-filter-buttons{width:100%}.stok-filter{flex:1}.stok-mold-filter{width:100%}.stok-mold-filter select{width:100%}}
 
 
 
@@ -144,7 +145,10 @@
       <h2>Yedek Parça Merkezi</h2>
       <p>Parçayı tek ekrandan bul, stok seviyesini gör ve giriş/çıkışı tek tıkla yap.</p>
     </div>
-    <button class="btn primary" onclick="openModal('stokDlg')"><i class="fas fa-right-left"></i> Stok Hareketi</button>
+    <div class="stok-mold-actions">
+      <button class="btn ghost" type="button" onclick="kalipEkleStokMenusu()"><i class="fas fa-plus"></i> Kalıp Ekle</button>
+      <button class="btn primary" onclick="openModal('stokDlg')"><i class="fas fa-right-left"></i> Stok Hareketi</button>
+    </div>
   </div>
 
   <div id="stokOzetCards" class="cards stok-mini-cards"></div>
@@ -159,6 +163,12 @@
         <div class="stok-fast-search">
           <i class="fas fa-magnifying-glass"></i>
           <input id="stokHizliAra" placeholder="Stok kodu, parça kodu, parça adı, terminal veya tedarikçi ara…" oninput="renderStokKolay()">
+        </div>
+        <div class="stok-mold-filter">
+          <i class="fas fa-shapes"></i>
+          <select id="stokKalipFilter" onchange="setStokKalipFilter(this.value)" title="Kalıba göre süz">
+            <option value="TUMU">Tüm Kalıplar</option>
+          </select>
         </div>
         <div class="stok-filter-buttons">
           <button type="button" class="btn dark stok-filter active" data-filter="TUMU" onclick="setStokFilter('TUMU')">Tümü</button>
@@ -176,6 +186,7 @@
               <th>Mevcut / Min.</th>
               <th>Raf</th>
               <th>Tedarikçi</th>
+              <th>Kalıp</th>
               <th>Uygulama</th>
               <th>Durum</th>
               <th style="min-width:230px">Hızlı İşlem</th>
@@ -237,9 +248,40 @@ function newAplikator(){
   notify('Yeni kayıt modu açıldı.','info');
 }
 async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
-function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);renderStokKolay();parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(6);fillSelects()}
+function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokKalipFiltreDoldur();renderStokKolay();parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(6);fillSelects()}
 
 let stokFilter='TUMU';
+let stokKalipFilter='TUMU';
+let stoktanKalipEkle=false;
+function stokKaliplar(x){
+  const ids=S.pu.filter(u=>String(u.ParcaId)===String(x.ParcaId)).map(u=>String(u.AplikatorId));
+  return [...new Set(ids)].map(id=>S.a.find(a=>String(a.AplikatorId)===id)).filter(Boolean);
+}
+function stokKalipMetni(x){
+  const arr=stokKaliplar(x);
+  return arr.map(a=>a.SicilNo||a.AplikatorId).filter(Boolean).join(', ');
+}
+function stokKalipFiltreDoldur(){
+  const el=document.getElementById('stokKalipFilter');
+  if(!el)return;
+  const onceki=stokKalipFilter;
+  const kaliplar=[...(S.a||[])].filter(a=>String(a.Durum||'AKTIF').toUpperCase()!=='HURDA');
+  el.innerHTML='<option value="TUMU">Tüm Kalıplar</option>'+kaliplar.map(a=>`<option value="${ea(a.AplikatorId)}">${e(a.SicilNo||a.AplikatorId)} — ${e((a.Marka||'')+' '+(a.ModelSeriNo||a.Model||''))}</option>`).join('');
+  if(kaliplar.some(a=>String(a.AplikatorId)===String(onceki)))el.value=onceki;else{stokKalipFilter='TUMU';el.value='TUMU';}
+}
+function setStokKalipFilter(id){stokKalipFilter=String(id||'TUMU');renderStokKolay();}
+function kalipEkleStokMenusu(){
+  stoktanKalipEkle=true;
+  newAplikator();
+  setTimeout(()=>{
+    const title=document.querySelector('#p-new .page-head h2');
+    const subtitle=document.querySelector('#p-new .page-head p');
+    if(title)title.textContent='Yeni Kalıp / Aplikatör Kaydı';
+    if(subtitle)subtitle.textContent='Yedek Parça Merkezi içinden yeni kalıp ekleme';
+    const f=wizardForm?.elements?.SicilNo;
+    if(f)f.focus();
+  },50);
+}
 function stokPart(x){return S.parts.find(y=>String(y.ParcaId)===String(x.ParcaId))||{};}
 function stokDurum(x){
   const q=Number(x.MevcutMiktar||0), m=Number(x.MinimumStok||0);
@@ -275,7 +317,8 @@ function renderStokKolay(){
   const q=tbeN(document.getElementById('stokHizliAra')?.value||'');
   let arr=(S.stock||[]).filter(x=>{
     const d=stokDurum(x);
-    return (stokFilter==='TUMU'||d===stokFilter) && (!q||stokAramaMetni(x).includes(q));
+    const kalipOk=stokKalipFilter==='TUMU'||stokKaliplar(x).some(a=>String(a.AplikatorId)===String(stokKalipFilter));
+    return (stokFilter==='TUMU'||d===stokFilter) && kalipOk && (!q||stokAramaMetni(x).includes(q));
   });
   arr.sort((a,b)=>{const order={KRITIK:0,DUSUK:1,NORMAL:2};return order[stokDurum(a)]-order[stokDurum(b)] || String(a.StokKodu||'').localeCompare(String(b.StokKodu||''),'tr');});
   const o=document.getElementById('stokListeOzet'); if(o)o.textContent=`${arr.length} kayıt gösteriliyor`;
@@ -287,6 +330,7 @@ function renderStokKolay(){
       <td><div class="stok-qty ${qtyClass}">${num(x.MevcutMiktar)} <small>/ min ${num(x.MinimumStok)}</small></div></td>
       <td>${e(x.RafKonumu||'—')}</td>
       <td>${e(x.Tedarikci||'—')}</td>
+      <td>${e(stokKalipMetni(x)||'—')}</td>
       <td>${apCount} aplikatör</td>
       <td>${st(d)}</td>
       <td><div class="stok-actions">
@@ -296,7 +340,7 @@ function renderStokKolay(){
         <button class="btn dark" type="button" onclick='stokDetayAc(${JSON.stringify(String(x.StokId||''))})'>Kart</button>
       </div></td>
     </tr>`;
-  }).join('')||empty(7);
+  }).join('')||empty(8);
 }
 async function stokHizliHareket(stokId,tur,quickMiktar){
   const x=S.stock.find(y=>String(y.StokId)===String(stokId)); if(!x)return;
@@ -322,6 +366,7 @@ function stokDetayAc(stokId){
   const x=S.stock.find(y=>String(y.StokId)===String(stokId)); if(!x)return;
   const p=stokPart(x), d=stokDurum(x);
   const apps=S.pu.filter(u=>String(u.ParcaId)===String(x.ParcaId)).map(u=>apName(u.AplikatorId));
+  const kaliplar=stokKalipMetni(x);
   const terms=S.term.filter(t=>S.pu.some(u=>String(u.ParcaId)===String(x.ParcaId)&&String(u.AplikatorId)===String(t.AplikatorId))).map(t=>t.TerminalKodu).filter(Boolean);
   const qtyClass=d==='KRITIK'?'critical':d==='DUSUK'?'low':'normal';
   stokDetayBody.innerHTML=`<div class="stok-detail-hero"><h3>${e(x.StokKodu||'—')}</h3><p>${e(p.ParcaKodu||'')} ${p.ParcaAdi?'— '+e(p.ParcaAdi):''}</p></div>
@@ -333,7 +378,7 @@ function stokDetayAc(stokId){
     <div class="stok-detail-box"><small>Birim Fiyat</small><b>${num(x.Fiyat)} ${e(x.ParaBirimi||'TRY')}</b></div>
     <div class="stok-detail-box"><small>Durum</small><b>${e(stokDurumLabel(d))}</b></div>
   </div>
-  <div class="section" style="box-shadow:none;margin-top:12px"><div class="section-body"><b>Bağlı Aplikatörler</b><p>${apps.length?apps.map(e).join(', '):'Bağlantı yok.'}</p><b>İlgili Terminaller</b><p>${terms.length?terms.map(e).join(', '):'Bağlantı yok.'}</p></div></div>
+  <div class="section" style="box-shadow:none;margin-top:12px"><div class="section-body"><b>Kalıp / Aplikatör</b><p>${e(kaliplar||'Bağlantı yok.')}</p><b>İlgili Terminaller</b><p>${terms.length?terms.map(e).join(', '):'Bağlantı yok.'}</p></div></div>
   <div class="modal-actions"><button class="btn primary" onclick="stokDetayDlg.close();stokHizliHareket(${JSON.stringify(String(x.StokId||''))},'GIRIS')">+ Stok Girişi</button><button class="btn danger" onclick="stokDetayDlg.close();stokHizliHareket(${JSON.stringify(String(x.StokId||''))},'CIKIS')">− Stok Çıkışı</button><button class="btn ghost" onclick="stokDetayDlg.close()">Kapat</button></div>`;
   stokDetayDlg.showModal();
 }
@@ -654,7 +699,7 @@ function resetWizard(){
   if(title)title.textContent='Yeni Aplikatör Kaydı';
   if(subtitle)subtitle.textContent='Bakım modülündeki gibi aşamalı kayıt';
 }
-wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
+wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();if(stoktanKalipEkle){stoktanKalipEkle=false;page('stok')}else page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
 function bindForm(id,action,dlg){document.getElementById(id).onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{await api(action,Object.fromEntries(new FormData(ev.target)));dlg.close();ev.target.reset();await load();notify('Kayıt tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}}}
 bindForm('kesitForm','tbeKesitKaydet',kesitDlg);bindForm('bakimForm','tbeBakimKaydet',bakimDlg);bindForm('stokForm','tbeStokHareketKaydet',stokDlg);bindForm('aksiyonForm','tbeAksiyonKaydet',aksiyonDlg);
 function openModal(id){document.getElementById(id).showModal()}
