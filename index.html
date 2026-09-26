@@ -25,27 +25,6 @@
 .part-row .remove-cell{display:flex;justify-content:flex-end}
 @media(max-width:900px){.part-row{grid-template-columns:1fr 1fr}}
 @media(max-width:650px){.part-row{grid-template-columns:1fr}}
-/* Yedek parça merkezi - kolay kullanım */
-.stok-mini-cards{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:14px}
-.stok-mini-cards .card{padding:13px 15px}.stok-mini-cards .value{font-size:25px}
-.stok-main-section{margin-top:0}
-.stok-fastbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
-.stok-fast-search{display:flex;align-items:center;gap:9px;flex:1;min-width:280px;border:2px solid var(--line);border-radius:10px;background:#fff;padding:0 13px}
-.stok-fast-search:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px #f5c40025}
-.stok-fast-search i{color:#777}.stok-fast-search input{border:0;outline:0;width:100%;padding:13px 4px;background:transparent}
-.stok-filter-buttons{display:flex;gap:6px;flex-wrap:wrap}.stok-filter{padding:9px 12px}.stok-filter.active{background:var(--dark);color:#fff}
-.stok-mold-filter{display:flex;align-items:center;gap:7px;min-width:220px}.stok-mold-filter select{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;min-width:210px;font-weight:700}.stok-mold-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-.stok-kolay-table{min-width:1000px}.stok-kolay-table td{vertical-align:middle}
-.stok-stock-main{font-weight:900;font-size:14px}.stok-stock-sub{color:var(--muted);font-size:12px;margin-top:3px}
-.stok-qty{font-size:17px;font-weight:900}.stok-qty small{font-size:11px;color:#777;font-weight:700}
-.stok-qty.critical{color:var(--bad)}.stok-qty.low{color:var(--warn)}.stok-qty.normal{color:var(--ok)}
-.stok-actions{display:flex;gap:6px;flex-wrap:wrap}.stok-actions .btn{padding:8px 10px;font-size:12px}
-.stok-compat-section{margin-top:14px}.stok-compat-search{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin-bottom:12px}.stok-compat-search input{padding:10px 12px;border:1px solid var(--line);border-radius:8px}
-.stok-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stok-detail-box{padding:12px;border:1px solid var(--line);border-radius:9px;background:#fbfaf6}.stok-detail-box small{display:block;color:var(--muted);font-weight:700;margin-bottom:4px}.stok-detail-box b{font-size:17px}
-.stok-detail-hero{padding:14px;border:1px solid var(--line);border-radius:10px;background:#fbfaf6;margin-bottom:12px}.stok-detail-hero h3{margin:0 0 4px}.stok-detail-hero p{margin:0;color:var(--muted)}
-@media(max-width:1000px){.stok-mini-cards{grid-template-columns:1fr 1fr}.stok-compat-search{grid-template-columns:1fr 1fr}}
-@media(max-width:650px){.stok-mini-cards{grid-template-columns:1fr 1fr}.stok-compat-search{grid-template-columns:1fr}.stok-filter-buttons{width:100%}.stok-filter{flex:1}.stok-mold-filter{width:100%}.stok-mold-filter select{width:100%}}
-
 
 
 .stok-search-layout{
@@ -79,11 +58,41 @@
 .compact-search-results table{
   min-width:560px;
 }
+.ap-terminal-list{display:flex;flex-wrap:wrap;gap:4px;max-width:360px}
+.ap-terminal-chip{display:inline-flex;align-items:center;padding:4px 7px;border-radius:999px;background:#fff7cc;border:1px solid #f5c400;font-size:11px;font-weight:800;color:#4a3a00;white-space:nowrap}
+.terminal-filter-summary{margin-top:8px;padding:9px 12px;border-left:3px solid #f5c400;background:#fffaf0;border-radius:7px;font-size:13px;font-weight:700;color:#333}
+.terminal-filter-summary b{color:#111}
 @media(max-width:1000px){
   .stok-search-layout{
     grid-template-columns:1fr;
   }
 }
+
+
+/* APLİKATÖR PASAPORTU */
+.passport-dialog{width:min(1180px,calc(100% - 20px));max-height:92vh}
+.passport-body{padding:18px;background:var(--cream);max-height:calc(92vh - 62px);overflow:auto}
+.passport-hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(250px,.6fr);gap:14px;margin-bottom:14px}
+.passport-title{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.passport-title h2{margin:0 0 5px;font-size:28px}.passport-title p{margin:4px 0;color:var(--muted)}
+.passport-ready{border-radius:14px;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:center;min-height:130px}
+.passport-ready.ready{background:linear-gradient(135deg,#117a48,#16804d)}
+.passport-ready.blocked{background:linear-gradient(135deg,#a91f1f,#c62828)}
+.passport-ready.warning{background:linear-gradient(135deg,#9a6700,#b27a00)}
+.passport-ready .big{font-size:22px;font-weight:900}.passport-ready small{margin-top:6px;opacity:.95}
+.passport-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.passport-card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.passport-card-head{background:linear-gradient(90deg,var(--dark),var(--dark2));color:#fff;padding:11px 14px;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.passport-card-body{padding:13px}.passport-card.full{grid-column:1/-1}
+.passport-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.passport-info div{padding:9px;border:1px solid #eee7da;border-radius:8px;background:#fbfaf6}.passport-info small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase}.passport-info b{display:block;margin-top:3px}
+.passport-checks{display:grid;gap:7px}.passport-check{display:grid;grid-template-columns:28px minmax(150px,1fr) auto;gap:8px;align-items:center;padding:9px 10px;border:1px solid #eee7da;border-radius:9px}.passport-check .icon{font-size:17px;text-align:center}.passport-check.ok{background:#f2fbf6}.passport-check.warn{background:#fffaf0}.passport-check.fail{background:#fff4f4}.passport-check .reason{color:var(--muted);font-size:12px;text-align:right}
+.passport-pills{display:flex;flex-wrap:wrap;gap:6px}.passport-pill{padding:6px 9px;border-radius:999px;background:#fff7cc;border:1px solid #f5c400;font-size:11px;font-weight:800}.passport-pill.ok{background:#d7f2e2;border-color:#a9dfc0;color:#12633b}.passport-pill.bad{background:#ffd7d7;border-color:#f0aaaa;color:#8e1111}
+.life-list{display:grid;gap:7px}.life-row{display:grid;grid-template-columns:minmax(130px,1fr) 70px 90px 80px;gap:8px;align-items:center;padding:8px;border-bottom:1px solid #eee9df}.life-row:last-child{border-bottom:0}.life-bar{height:8px;background:#eee;border-radius:99px;overflow:hidden}.life-bar span{display:block;height:100%;background:var(--gold);border-radius:99px}.life-bar span.bad{background:var(--bad)}.life-bar span.warn{background:#c88a00}
+.passport-table{width:100%;min-width:0}.passport-table th,.passport-table td{padding:8px;font-size:12px}.passport-count{font-size:12px;color:var(--muted)}
+.passport-empty{padding:18px;text-align:center;color:#777;background:#fbfaf6;border-radius:8px}
+.passport-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+@media(max-width:850px){.passport-hero,.passport-grid{grid-template-columns:1fr}.passport-info{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.passport-info{grid-template-columns:1fr}.passport-check{grid-template-columns:26px 1fr}.passport-check .reason{grid-column:2;text-align:left}.life-row{grid-template-columns:1fr 65px}}
 
 </style>
 </head>
@@ -136,84 +145,76 @@
 <div class="wizard-panel" data-step="4"><div id="review" class="review"></div><div class="qr-box"><div><i class="fas fa-qrcode" style="font-size:55px"></i><p>QR kimliği kayıt sırasında otomatik oluşturulur.</p></div></div></div>
 <div class="wizard-actions"><button type="button" id="prevBtn" class="btn ghost" onclick="moveStep(-1)" disabled><i class="fas fa-arrow-left"></i> Geri</button><div><button type="button" class="btn ghost" onclick="resetWizard()">Temizle</button> <button type="button" id="nextBtn" class="btn primary" onclick="moveStep(1)">İleri <i class="fas fa-arrow-right"></i></button><button type="submit" id="saveBtn" class="btn primary hidden"><i class="fas fa-save"></i> Kaydet</button></div></div>
 </form></div></section>
-<section id="p-aplikator" class="page"><div class="page-head"><div><h2>Aplikatör Sicili</h2><p>Dijital ekipman pasaportu ve QR kimliği</p></div><button class="btn primary" onclick="newAplikator()">+ Aplikatör</button></div><div class="section"><div class="section-head"><span><i class="fas fa-list"></i> APLİKATÖR LİSTESİ</span></div><div class="section-body"><div class="toolbar"><input id="apSearch" placeholder="Sicil, marka, model, seri ara..." oninput="renderAplikator()"><button class="btn dark" onclick="load()">Yenile</button></div><div class="table-wrap"><table><thead><tr><th>Sicil</th><th>Marka</th><th>Model / Seri No</th><th>Hat</th><th>QR</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="apBody"></tbody></table></div></div></div></section>
+<section id="p-aplikator" class="page"><div class="page-head"><div><h2>Aplikatör Sicili</h2><p>Dijital ekipman pasaportu ve QR kimliği</p></div><button class="btn primary" onclick="newAplikator()">+ Aplikatör</button></div><div class="section"><div class="section-head"><span><i class="fas fa-list"></i> APLİKATÖR LİSTESİ</span></div><div class="section-body"><div class="toolbar"><input id="apSearch" placeholder="Sicil, marka, model, seri veya terminal ara..." oninput="renderAplikator()"><select id="apTerminalFilter" onchange="renderAplikator()" style="min-width:230px"><option value="">Tüm Terminaller</option></select><button class="btn ghost" type="button" onclick="clearAplikatorFilters()">Filtreyi Temizle</button><button class="btn dark" onclick="load()">Yenile</button></div><div id="apTerminalSummary" class="terminal-filter-summary">Terminal filtresi: <b>Tüm Terminaller</b></div><div class="table-wrap"><table><thead><tr><th>Sicil</th><th>Marka</th><th>Model / Seri No</th><th>Hat</th><th>Kalıpta Basılan Terminal</th><th>QR</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="apBody"></tbody></table></div></div></div></section>
 <section id="p-pres" class="page"><div class="page-head"><div><h2>Pres Uyumlulukları</h2><p>Aplikatör–pres eşleşmeleri</p></div></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Pres Kodu</th><th>Marka</th><th>Model</th><th>Uyum</th><th>Aktif</th></tr></thead><tbody id="presBody"></tbody></table></div></div></section>
 <section id="p-omur" class="page"><div class="page-head"><div><h2>Parça Ömür Sayaçları</h2><p>Baskı bazlı kullanım, uyarı ve kilit</p></div></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Parça</th><th>Mevcut</th><th>Maksimum</th><th>Kalan</th><th>%</th><th>Durum</th></tr></thead><tbody id="omurBody"></tbody></table></div></div></section>
 <section id="p-stok" class="page">
   <div class="page-head">
     <div>
-      <h2>Yedek Parça Merkezi</h2>
-      <p>Parçayı tek ekrandan bul, stok seviyesini gör ve giriş/çıkışı tek tıkla yap.</p>
+      <h2>Yedek Parçalar</h2>
+      <p>Parça/terminal arama ve kritik stok takibi</p>
     </div>
-    <div class="stok-mold-actions">
-      <button class="btn ghost" type="button" onclick="kalipEkleStokMenusu()"><i class="fas fa-plus"></i> Kalıp Ekle</button>
-      <button class="btn primary" onclick="openModal('stokDlg')"><i class="fas fa-right-left"></i> Stok Hareketi</button>
-    </div>
+    <button class="btn primary" onclick="openModal('stokDlg')">Stok Hareketi</button>
   </div>
 
-  <div id="stokOzetCards" class="cards stok-mini-cards"></div>
-
-  <div class="section stok-main-section">
-    <div class="section-head">
-      <span><i class="fas fa-boxes-stacked"></i> STOK KARTLARI</span>
-      <span id="stokListeOzet" style="font-size:12px;color:#ddd">—</span>
-    </div>
-    <div class="section-body">
-      <div class="stok-fastbar">
-        <div class="stok-fast-search">
-          <i class="fas fa-magnifying-glass"></i>
-          <input id="stokHizliAra" placeholder="Stok kodu, parça kodu, parça adı, terminal veya tedarikçi ara…" oninput="renderStokKolay()">
-        </div>
-        <div class="stok-mold-filter">
-          <i class="fas fa-shapes"></i>
-          <select id="stokKalipFilter" onchange="setStokKalipFilter(this.value)" title="Kalıba göre süz">
-            <option value="TUMU">Tüm Kalıplar</option>
-          </select>
-        </div>
-        <div class="stok-filter-buttons">
-          <button type="button" class="btn dark stok-filter active" data-filter="TUMU" onclick="setStokFilter('TUMU')">Tümü</button>
-          <button type="button" class="btn ghost stok-filter" data-filter="KRITIK" onclick="setStokFilter('KRITIK')">🔴 Kritik</button>
-          <button type="button" class="btn ghost stok-filter" data-filter="DUSUK" onclick="setStokFilter('DUSUK')">🟠 Düşük</button>
-          <button type="button" class="btn ghost stok-filter" data-filter="NORMAL" onclick="setStokFilter('NORMAL')">🟢 Normal</button>
-        </div>
+  <div class="stok-search-layout">
+    <div class="section top-search-section">
+      <div class="section-head">
+        <span><i class="fas fa-magnifying-glass"></i> PARÇA / TERMİNAL ARAMA</span>
       </div>
-
-      <div class="table-wrap">
-        <table class="stok-kolay-table">
-          <thead>
-            <tr>
-              <th>Stok / Parça</th>
-              <th>Mevcut / Min.</th>
-              <th>Raf</th>
-              <th>Tedarikçi</th>
-              <th>Kalıp</th>
-              <th>Uygulama</th>
-              <th>Durum</th>
-              <th style="min-width:230px">Hızlı İşlem</th>
-            </tr>
-          </thead>
-          <tbody id="stokBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="section stok-compat-section">
-    <div class="section-head">
-      <span><i class="fas fa-link"></i> PARÇA ↔ APLİKATÖR ↔ TERMİNAL</span>
-      <small id="parcaAraOzet">Parça arayın.</small>
-    </div>
-    <div class="section-body">
-      <div class="stok-compat-search">
-        <input id="parcaAraStok" placeholder="Stok kodu" oninput="parcaAplikatorAra()">
-        <input id="parcaAraKod" placeholder="Parça kodu / adı" oninput="parcaAplikatorAra()">
-        <input id="parcaAraTerminal" placeholder="Terminal kodu" oninput="parcaAplikatorAra()">
-        <button type="button" class="btn ghost" onclick="parcaAramaTemizle()"><i class="fas fa-eraser"></i> Temizle</button>
+      <div class="section-body">
+        <div class="field">
+          <label>Stok Kodu</label>
+          <input id="parcaAraStok" placeholder="Örn. 6C-2.5-2.8-12" oninput="parcaAplikatorAra()">
+        </div>
+        <div class="field">
+          <label>Parça Kodu</label>
+          <input id="parcaAraKod" placeholder="Parça kodunu girin" oninput="parcaAplikatorAra()">
+        </div>
+        <div class="field">
+          <label>Terminal Kodu</label>
+          <input id="parcaAraTerminal" placeholder="Terminal kodunu girin" oninput="parcaAplikatorAra()">
+        </div>
+        <div class="search-actions">
+          <small id="parcaAraOzet" class="muted">Arama için en az bir kriter girin.</small>
+          <button type="button" class="btn ghost" onclick="parcaAramaTemizle()">
+            <i class="fas fa-eraser"></i> Temizle
+          </button>
+        </div>
       </div>
       <div class="table-wrap compact-search-results">
         <table>
-          <thead><tr><th>Aplikatör</th><th>Parça</th><th>Terminal</th><th>Durum</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Aplikatör</th>
+              <th>Parça Kodu</th>
+              <th>Terminal</th>
+              <th>Durum</th>
+            </tr>
+          </thead>
           <tbody id="ortakBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section stock-list-section">
+      <div class="section-head">
+        <span><i class="fas fa-boxes-stacked"></i> KRİTİK STOK LİSTESİ</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Stok Kodu</th>
+              <th>Parça</th>
+              <th>Raf</th>
+              <th>Mevcut</th>
+              <th>Minimum</th>
+              <th>Tedarikçi</th>
+              <th>Durum</th>
+            </tr>
+          </thead>
+          <tbody id="stokBody"></tbody>
         </table>
       </div>
     </div>
@@ -228,7 +229,7 @@
 <dialog id="bakimDlg"><div class="modal-head"><b>Bakım / Revizyon Kaydı</b><button class="btn ghost" onclick="bakimDlg.close()">✕</button></div><form id="bakimForm" class="modal-body"><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>İşlem Türü</label><select name="IslemTuru"><option>PLANLI BAKIM</option><option>PLANSIZ BAKIM</option><option>ARIZA</option><option>REVIZYON</option><option>TEMIZLIK</option></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field full"><label>Arıza / Konu</label><input name="ArizaTanimi"></div><div class="field full"><label>Yapılan İşlem</label><textarea name="YapilanIslem"></textarea></div><div class="field"><label>Duruş (dk)</label><input name="DurdurmaDakika" type="number" min="0"></div><div class="field"><label>Maliyet (₺)</label><input name="Maliyet" type="number" min="0" step="0.01"></div><div class="field"><label>Onaylayan</label><input name="Onaylayan"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="bakimDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="stokDlg"><div class="modal-head"><b>Stok Hareketi</b><button class="btn ghost" onclick="stokDlg.close()">✕</button></div><form id="stokForm" class="modal-body"><div class="grid2"><div class="field"><label>Stok Kaydı *</label><select name="StokId" id="stokSelect" required></select></div><div class="field"><label>Hareket Türü</label><select name="HareketTuru"><option>GIRIS</option><option>CIKIS</option></select></div><div class="field"><label>Miktar *</label><input name="Miktar" type="number" min="0.01" step="0.01" required></div><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="stokDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="aksiyonDlg"><div class="modal-head"><b>CAPA / Aksiyon</b><button class="btn ghost" onclick="aksiyonDlg.close()">✕</button></div><form id="aksiyonForm" class="modal-body"><div class="grid2"><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field full"><label>Konu *</label><input name="Konu" required></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div><div class="field"><label>Sorumlu</label><input name="Sorumlu"></div><div class="field"><label>Hedef Tarih</label><input name="HedefTarih" type="date"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="aksiyonDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
-<dialog id="stokDetayDlg"><div class="modal-head"><b><i class="fas fa-box"></i> Yedek Parça Kartı</b><button class="btn ghost" onclick="stokDetayDlg.close()">✕</button></div><div class="modal-body" id="stokDetayBody"></div></dialog>
+<dialog id="passportDlg" class="passport-dialog"><div class="modal-head"><b><i class="fas fa-id-card"></i> APLİKATÖR PASAPORTU</b><button class="btn ghost" type="button" onclick="document.getElementById('passportDlg').close()">✕</button></div><div id="passportBody" class="passport-body"></div></dialog>
 <div id="toast" class="toast"></div>
 <script>
 const CFG={GS_URL:'https://script.google.com/macros/s/AKfycbzzj7TxQREn8Cz8DyqhrymhVK6bP4Pfbj039CJxXHcZGW6884fQsKiY8-6B2denRt1D/exec'};
@@ -248,140 +249,8 @@ function newAplikator(){
   notify('Yeni kayıt modu açıldı.','info');
 }
 async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
-function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokKalipFiltreDoldur();renderStokKolay();parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(6);fillSelects()}
+function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.stock.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${partName(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${num(x.MevcutMiktar)}</td><td>${num(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(6);fillSelects()}
 
-let stokFilter='TUMU';
-let stokKalipFilter='TUMU';
-let stoktanKalipEkle=false;
-function stokKaliplar(x){
-  const ids=S.pu.filter(u=>String(u.ParcaId)===String(x.ParcaId)).map(u=>String(u.AplikatorId));
-  return [...new Set(ids)].map(id=>S.a.find(a=>String(a.AplikatorId)===id)).filter(Boolean);
-}
-function stokKalipMetni(x){
-  const arr=stokKaliplar(x);
-  return arr.map(a=>a.SicilNo||a.AplikatorId).filter(Boolean).join(', ');
-}
-function stokKalipFiltreDoldur(){
-  const el=document.getElementById('stokKalipFilter');
-  if(!el)return;
-  const onceki=stokKalipFilter;
-  const kaliplar=[...(S.a||[])].filter(a=>String(a.Durum||'AKTIF').toUpperCase()!=='HURDA');
-  el.innerHTML='<option value="TUMU">Tüm Kalıplar</option>'+kaliplar.map(a=>`<option value="${ea(a.AplikatorId)}">${e(a.SicilNo||a.AplikatorId)} — ${e((a.Marka||'')+' '+(a.ModelSeriNo||a.Model||''))}</option>`).join('');
-  if(kaliplar.some(a=>String(a.AplikatorId)===String(onceki)))el.value=onceki;else{stokKalipFilter='TUMU';el.value='TUMU';}
-}
-function setStokKalipFilter(id){stokKalipFilter=String(id||'TUMU');renderStokKolay();}
-function kalipEkleStokMenusu(){
-  stoktanKalipEkle=true;
-  newAplikator();
-  setTimeout(()=>{
-    const title=document.querySelector('#p-new .page-head h2');
-    const subtitle=document.querySelector('#p-new .page-head p');
-    if(title)title.textContent='Yeni Kalıp / Aplikatör Kaydı';
-    if(subtitle)subtitle.textContent='Yedek Parça Merkezi içinden yeni kalıp ekleme';
-    const f=wizardForm?.elements?.SicilNo;
-    if(f)f.focus();
-  },50);
-}
-function stokPart(x){return S.parts.find(y=>String(y.ParcaId)===String(x.ParcaId))||{};}
-function stokDurum(x){
-  const q=Number(x.MevcutMiktar||0), m=Number(x.MinimumStok||0);
-  if(q<=m)return 'KRITIK';
-  if(m>0 && q<=m*1.5)return 'DUSUK';
-  return 'NORMAL';
-}
-function stokDurumLabel(d){return d==='KRITIK'?'KRİTİK':d==='DUSUK'?'DÜŞÜK':'NORMAL'}
-function setStokFilter(f){
-  stokFilter=f;
-  document.querySelectorAll('.stok-filter').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));
-  renderStokKolay();
-}
-function stokAramaMetni(x){
-  const p=stokPart(x);
-  const ap=S.pu.filter(u=>String(u.ParcaId)===String(x.ParcaId)).map(u=>apName(u.AplikatorId)).join(' ');
-  const term=S.term.filter(t=>S.pu.some(u=>String(u.ParcaId)===String(x.ParcaId)&&String(u.AplikatorId)===String(t.AplikatorId))).map(t=>t.TerminalKodu).join(' ');
-  return tbeN([x.StokKodu,p.ParcaKodu,p.ParcaAdi,p.Uretici,x.Tedarikci,x.RafKonumu,ap,term].join(' '));
-}
-function renderStokOzet(){
-  const arr=S.stock||[];
-  const kritik=arr.filter(x=>stokDurum(x)==='KRITIK').length;
-  const dusuk=arr.filter(x=>stokDurum(x)==='DUSUK').length;
-  const normal=arr.filter(x=>stokDurum(x)==='NORMAL').length;
-  const toplam=arr.reduce((a,x)=>a+Number(x.MevcutMiktar||0),0);
-  const el=document.getElementById('stokOzetCards');
-  if(!el)return;
-  el.innerHTML=[['Toplam Stok Kartı',arr.length],['🔴 Kritik',kritik],['🟠 Düşük',dusuk],['Toplam Mevcut',num(toplam)]].map(x=>`<div class="card"><small>${x[0]}</small><div class="value">${x[1]||0}</div></div>`).join('');
-}
-function renderStokKolay(){
-  const body=document.getElementById('stokBody'); if(!body)return;
-  renderStokOzet();
-  const q=tbeN(document.getElementById('stokHizliAra')?.value||'');
-  let arr=(S.stock||[]).filter(x=>{
-    const d=stokDurum(x);
-    const kalipOk=stokKalipFilter==='TUMU'||stokKaliplar(x).some(a=>String(a.AplikatorId)===String(stokKalipFilter));
-    return (stokFilter==='TUMU'||d===stokFilter) && kalipOk && (!q||stokAramaMetni(x).includes(q));
-  });
-  arr.sort((a,b)=>{const order={KRITIK:0,DUSUK:1,NORMAL:2};return order[stokDurum(a)]-order[stokDurum(b)] || String(a.StokKodu||'').localeCompare(String(b.StokKodu||''),'tr');});
-  const o=document.getElementById('stokListeOzet'); if(o)o.textContent=`${arr.length} kayıt gösteriliyor`;
-  body.innerHTML=arr.map(x=>{
-    const p=stokPart(x), d=stokDurum(x), apCount=S.pu.filter(u=>String(u.ParcaId)===String(x.ParcaId)).length;
-    const qtyClass=d==='KRITIK'?'critical':d==='DUSUK'?'low':'normal';
-    return `<tr>
-      <td><div class="stok-stock-main">${e(x.StokKodu||'—')}</div><div class="stok-stock-sub">${e(p.ParcaKodu||'')} ${p.ParcaAdi?'— '+e(p.ParcaAdi):''}</div></td>
-      <td><div class="stok-qty ${qtyClass}">${num(x.MevcutMiktar)} <small>/ min ${num(x.MinimumStok)}</small></div></td>
-      <td>${e(x.RafKonumu||'—')}</td>
-      <td>${e(x.Tedarikci||'—')}</td>
-      <td>${e(stokKalipMetni(x)||'—')}</td>
-      <td>${apCount} aplikatör</td>
-      <td>${st(d)}</td>
-      <td><div class="stok-actions">
-        <button class="btn primary" type="button" onclick='stokHizliHareket(${JSON.stringify(String(x.StokId||''))},"GIRIS",1)'>+1</button>
-        <button class="btn danger" type="button" onclick='stokHizliHareket(${JSON.stringify(String(x.StokId||''))},"CIKIS",1)'>−1</button>
-        <button class="btn ghost" type="button" onclick='stokHareketAc(${JSON.stringify(String(x.StokId||''))})'>Hareket</button>
-        <button class="btn dark" type="button" onclick='stokDetayAc(${JSON.stringify(String(x.StokId||''))})'>Kart</button>
-      </div></td>
-    </tr>`;
-  }).join('')||empty(8);
-}
-async function stokHizliHareket(stokId,tur,quickMiktar){
-  const x=S.stock.find(y=>String(y.StokId)===String(stokId)); if(!x)return;
-  let n=Number(quickMiktar);
-  if(!Number.isFinite(n)||n<=0){
-    const miktar=prompt(`${x.StokKodu} için ${tur==='GIRIS'?'giriş':'çıkış'} miktarı`, '1');
-    if(miktar===null)return;
-    n=Number(String(miktar).replace(',','.'));
-  }
-  if(!Number.isFinite(n)||n<=0){notify('Geçerli bir miktar girin.','bad');return;}
-  if(tur==='CIKIS'&&n>Number(x.MevcutMiktar||0)){notify('Çıkış miktarı mevcut stoktan fazla olamaz.','bad');return;}
-  try{
-    await api('tbeStokHareketKaydet',{StokId:x.StokId,HareketTuru:tur,Miktar:n,AplikatorId:'',Aciklama:`Yedek Parça Merkezi hızlı ${tur==='GIRIS'?'giriş':'çıkış'}`});
-    notify(`${x.StokKodu}: ${n} ${tur==='GIRIS'?'adet giriş':'adet çıkış'} kaydedildi.`,'ok');
-    await load();
-  }catch(err){notify('Stok hareketi kaydedilemedi: '+err.message,'bad')}
-}
-function stokHareketAc(stokId,tur='CIKIS'){
-  openModal('stokDlg');
-  setTimeout(()=>{if(stokSelect)stokSelect.value=stokId;const el=document.querySelector('#stokForm [name="HareketTuru"]');if(el)el.value=tur;},0);
-}
-function stokDetayAc(stokId){
-  const x=S.stock.find(y=>String(y.StokId)===String(stokId)); if(!x)return;
-  const p=stokPart(x), d=stokDurum(x);
-  const apps=S.pu.filter(u=>String(u.ParcaId)===String(x.ParcaId)).map(u=>apName(u.AplikatorId));
-  const kaliplar=stokKalipMetni(x);
-  const terms=S.term.filter(t=>S.pu.some(u=>String(u.ParcaId)===String(x.ParcaId)&&String(u.AplikatorId)===String(t.AplikatorId))).map(t=>t.TerminalKodu).filter(Boolean);
-  const qtyClass=d==='KRITIK'?'critical':d==='DUSUK'?'low':'normal';
-  stokDetayBody.innerHTML=`<div class="stok-detail-hero"><h3>${e(x.StokKodu||'—')}</h3><p>${e(p.ParcaKodu||'')} ${p.ParcaAdi?'— '+e(p.ParcaAdi):''}</p></div>
-  <div class="stok-detail-grid">
-    <div class="stok-detail-box"><small>Mevcut</small><b class="stok-qty ${qtyClass}">${num(x.MevcutMiktar)}</b></div>
-    <div class="stok-detail-box"><small>Minimum</small><b>${num(x.MinimumStok)}</b></div>
-    <div class="stok-detail-box"><small>Raf</small><b>${e(x.RafKonumu||'—')}</b></div>
-    <div class="stok-detail-box"><small>Tedarikçi</small><b>${e(x.Tedarikci||'—')}</b></div>
-    <div class="stok-detail-box"><small>Birim Fiyat</small><b>${num(x.Fiyat)} ${e(x.ParaBirimi||'TRY')}</b></div>
-    <div class="stok-detail-box"><small>Durum</small><b>${e(stokDurumLabel(d))}</b></div>
-  </div>
-  <div class="section" style="box-shadow:none;margin-top:12px"><div class="section-body"><b>Kalıp / Aplikatör</b><p>${e(kaliplar||'Bağlantı yok.')}</p><b>İlgili Terminaller</b><p>${terms.length?terms.map(e).join(', '):'Bağlantı yok.'}</p></div></div>
-  <div class="modal-actions"><button class="btn primary" onclick="stokDetayDlg.close();stokHizliHareket(${JSON.stringify(String(x.StokId||''))},'GIRIS')">+ Stok Girişi</button><button class="btn danger" onclick="stokDetayDlg.close();stokHizliHareket(${JSON.stringify(String(x.StokId||''))},'CIKIS')">− Stok Çıkışı</button><button class="btn ghost" onclick="stokDetayDlg.close()">Kapat</button></div>`;
-  stokDetayDlg.showModal();
-}
 function parcaAplikatorAra(){
   const stokQ=tbeN(document.getElementById('parcaAraStok')?.value||'');
   const parcaQ=tbeN(document.getElementById('parcaAraKod')?.value||'');
@@ -408,7 +277,7 @@ function parcaAplikatorAra(){
 
     const eslesenParcalar=bagliParcalar.filter(p=>{
       const stokUyar=!stokQ || tbeN(p.StokKodu).includes(stokQ);
-      const parcaUyar=!parcaQ || tbeN([p.ParcaKodu,p.ParcaAdi,p.StokKodu].join(' ')).includes(parcaQ);
+      const parcaUyar=!parcaQ || tbeN(p.ParcaKodu).includes(parcaQ);
       return stokUyar && parcaUyar;
     });
 
@@ -446,7 +315,52 @@ function parcaAramaTemizle(){
 }
 
 function renderCards(){const d=S.d;cards.innerHTML=[['Toplam Aplikatör',d.toplamAplikator],['Aktif',d.aktif],['Kritik Ömür',d.kritikOmur],['Kritik Stok',d.kritikStok],['Bakımda',d.bakimda],['Karantinada',d.karantinada],['Açık Bakım',d.acikBakim],['Açık Aksiyon',d.acikAksiyon],['Kesit PDF',d.kesitPDF]].map(x=>`<div class="card"><small>${x[0]}</small><div class="value">${x[1]||0}</div></div>`).join('');const n=(d.kritikOmur||0)+(d.kritikStok||0)+(d.karantinada||0);criticalBanner.classList.toggle('show',n>0);criticalBanner.innerHTML=n?`<i class="fas fa-triangle-exclamation"></i> ${n} kritik kayıt bulunuyor. Ömür, stok ve karantina durumlarını kontrol edin.`:''}
-function renderAplikator(){const q=tbeN(apSearch?.value||'');const arr=S.a.filter(x=>!q||tbeN([x.SicilNo,x.Marka,x.Model,x.ModelSeriNo||x.SeriNo,x.Hat].join(' ')).includes(q));apBody.innerHTML=arr.map(x=>`<tr><td><b>${e(x.SicilNo)}</b></td><td>${e(x.Marka)} ${e(x.Model)}</td><td>${e(x.ModelSeriNo||x.SeriNo)}</td><td>${e(x.Hat)}</td><td><code>${e(x.QRKod)}</code></td><td>${st(x.Durum)}</td><td><button class="btn ghost" onclick='editAp(${JSON.stringify(JSON.stringify(x))})'>Düzenle</button></td></tr>`).join('')||empty(7)}
+function terminalListForAplikator(aplikatorId){
+  const seen=new Set();
+  return S.term.filter(t=>String(t.AplikatorId)===String(aplikatorId)).map(t=>String(t.TerminalKodu||'').trim()).filter(Boolean).filter(t=>{const k=tbeN(t);if(seen.has(k))return false;seen.add(k);return true;});
+}
+function terminalFilterOptions(){
+  const sel=document.getElementById('apTerminalFilter');
+  if(!sel)return;
+  const current=sel.value||'';
+  const seen=new Map();
+  S.term.forEach(t=>{const raw=String(t.TerminalKodu||'').trim();if(!raw)return;const key=tbeN(raw);if(!seen.has(key))seen.set(key,raw);});
+  const opts=[...seen.entries()].sort((a,b)=>a[1].localeCompare(b[1],'tr')).map(([k,v])=>`<option value="${ea(k)}">${e(v)}</option>`).join('');
+  sel.innerHTML='<option value="">Tüm Terminaller</option>'+opts;
+  if([...sel.options].some(o=>o.value===current))sel.value=current;
+}
+function clearAplikatorFilters(){
+  if(apSearch)apSearch.value='';
+  const sel=document.getElementById('apTerminalFilter');
+  if(sel)sel.value='';
+  renderAplikator();
+}
+function renderAplikator(){
+  terminalFilterOptions();
+  const q=tbeN(apSearch?.value||'');
+  const terminalQ=tbeN(document.getElementById('apTerminalFilter')?.value||'');
+  const arr=S.a.filter(x=>{
+    const terminals=terminalListForAplikator(x.AplikatorId);
+    const text=[x.SicilNo,x.Marka,x.Model,x.ModelSeriNo||x.SeriNo,x.Hat,terminals.join(' ')].join(' ');
+    return (!q||tbeN(text).includes(q)) && (!terminalQ||terminals.some(t=>tbeN(t)===terminalQ));
+  });
+  const summary=document.getElementById('apTerminalSummary');
+  if(summary){
+    if(terminalQ){
+      const label=(document.getElementById('apTerminalFilter')?.selectedOptions?.[0]?.textContent||terminalQ);
+      summary.innerHTML=`Seçili terminal: <b>${e(label)}</b> — bu terminali basabilen <b>${arr.length}</b> aplikatör/kalıp bulunuyor.`;
+    }else{
+      const uniqueTerminals=new Set();
+      S.term.forEach(t=>{const k=tbeN(t.TerminalKodu||'');if(k)uniqueTerminals.add(k);});
+      summary.innerHTML=`Toplam <b>${S.a.length}</b> aplikatör/kalıp — <b>${uniqueTerminals.size}</b> farklı terminal tanımı.`;
+    }
+  }
+  apBody.innerHTML=arr.map(x=>{
+    const terminals=terminalListForAplikator(x.AplikatorId);
+    const terminalHtml=terminals.length?`<div class="ap-terminal-list">${terminals.map(t=>`<span class="ap-terminal-chip">${e(t)}</span>`).join('')}</div>`:'—';
+    return `<tr><td><button class="btn ghost" type="button" onclick='openPassport(${JSON.stringify(JSON.stringify(x))})'><b>${e(x.SicilNo)}</b></button></td><td>${e(x.Marka)} ${e(x.Model)}</td><td>${e(x.ModelSeriNo||x.SeriNo)}</td><td>${e(x.Hat)}</td><td>${terminalHtml}</td><td><code>${e(x.QRKod)}</code></td><td>${st(x.Durum)}</td><td><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn primary" type="button" onclick='openPassport(${JSON.stringify(JSON.stringify(x))})'><i class="fas fa-id-card"></i> Pasaport</button><button class="btn ghost" onclick='editAp(${JSON.stringify(JSON.stringify(x))})'>Düzenle</button></div></td></tr>`;
+  }).join('')||empty(8);
+}
 function sealRowsForAplikator(aplikatorId){
   return S.seals.filter(x=>String(x.AplikatorId)===String(aplikatorId));
 }
@@ -540,6 +454,98 @@ function partRowsForAplikator(aplikatorId){
       Aciklama:link.Aciklama||part.Aciklama||''
     };
   });
+}
+
+function openPassport(raw){
+  const x=typeof raw==='string'?JSON.parse(raw):raw;
+  const html=buildPassport(x);
+  const body=document.getElementById('passportBody');
+  if(body)body.innerHTML=html;
+  document.getElementById('passportDlg').showModal();
+}
+function passportActive(v){
+  const n=tbeN(v);
+  return !(n==='PASIF'||n==='HAYIR'||n==='0'||n==='FALSE'||n==='KULLANIM_DISI'||n==='HURDA');
+}
+function passportNum(v){
+  const n=Number(String(v??'').replace(',','.'));
+  return Number.isFinite(n)?n:null;
+}
+function passportLife(apId){
+  const links=S.pu.filter(x=>String(x.AplikatorId)===String(apId));
+  return links.map(link=>{
+    const part=S.parts.find(x=>String(x.ParcaId)===String(link.ParcaId))||{};
+    const life=S.life.find(x=>String(x.AplikatorId)===String(apId)&&String(x.ParcaId)===String(link.ParcaId))||{};
+    const stock=S.stock.find(x=>String(x.ParcaId)===String(link.ParcaId))||{};
+    let pct=passportNum(life.KullanimYuzdesi);
+    const max=passportNum(life.MaksimumOmur??part.VarsayilanMaksOmur);
+    const cur=passportNum(life.MevcutSayac);
+    if(pct===null && max!==null && max>0 && cur!==null)pct=(cur/max)*100;
+    const kalan=passportNum(life.KalanOmur);
+    return {part,life,stock,link,pct,kalan,max,cur,name:part.ParcaAdi||part.ParcaKodu||part.StokKodu||link.ParcaId||'Parça'};
+  });
+}
+function passportChecks(x){
+  const apStatus=tbeN(x.Durum||'');
+  const terminals=S.term.filter(t=>String(t.AplikatorId)===String(x.AplikatorId)&&passportActive(t.Aktif??t.KayitDurumu));
+  const presses=S.pres.filter(p=>String(p.AplikatorId)===String(x.AplikatorId)&&passportActive(p.Aktif??p.KayitDurumu));
+  const uygunPresses=presses.filter(p=>tbeN(p.UyumDurumu)==='UYGUN');
+  const kosulluPresses=presses.filter(p=>tbeN(p.UyumDurumu)==='KOSULLU');
+  const parts=passportLife(x.AplikatorId);
+  const maint=S.maint.filter(m=>String(m.AplikatorId)===String(x.AplikatorId));
+  const openMaint=maint.filter(m=>['ACIK','ISLEMDE'].includes(tbeN(m.Durum))).length;
+  const actions=S.actions.filter(a=>String(a.AplikatorId)===String(x.AplikatorId));
+  const openActions=actions.filter(a=>['ACIK','ISLEMDE'].includes(tbeN(a.Durum)));
+  const criticalActions=openActions.filter(a=>tbeN(a.Oncelik||a.Ontcelik||'')==='KRITIK');
+  const lifeFail=parts.filter(p=>(p.pct!==null&&p.pct>=90)||(p.kalan!==null&&p.kalan<=0));
+  const lifeWarn=parts.filter(p=>p.pct!==null&&p.pct>=80&&p.pct<90);
+  const stockFail=parts.filter(p=>p.stock && passportNum(p.stock.MevcutMiktar)!==null && passportNum(p.stock.MevcutMiktar)<=0);
+  const stockWarn=parts.filter(p=>p.stock && passportNum(p.stock.MevcutMiktar)!==null && passportNum(p.stock.MinimumStok)!==null && passportNum(p.stock.MevcutMiktar)<=passportNum(p.stock.MinimumStok) && !stockFail.includes(p));
+  const checks=[
+    {label:'Aplikatör durumu',state:apStatus==='AKTIF'?'ok':'fail',reason:apStatus==='AKTIF'?'AKTİF':'Durum: '+(x.Durum||'BELİRSİZ')},
+    {label:'Terminal uyumluluğu',state:terminals.length?'ok':'warn',reason:terminals.length?terminals.length+' aktif terminal':'Uyumlu terminal kaydı yok'},
+    {label:'Pres uyumluluğu',state:uygunPresses.length?'ok':kosulluPresses.length?'warn':'warn',reason:uygunPresses.length?uygunPresses.length+' uygun pres':kosulluPresses.length?kosulluPresses.length+' koşullu pres':'Uygun pres kaydı yok'},
+    {label:'Kritik parça ömrü',state:lifeFail.length?'fail':lifeWarn.length?'warn':parts.length?'ok':'warn',reason:lifeFail.length?lifeFail.length+' parça kritik ömürde':lifeWarn.length?lifeWarn.length+' parça %80 üzeri':parts.length?'Parça ömürleri uygun':'Parça/ömür verisi yok'},
+    {label:'Kritik stok',state:stockFail.length?'fail':stockWarn.length?'warn':parts.length?'ok':'warn',reason:stockFail.length?stockFail.length+' parça stokta yok':stockWarn.length?stockWarn.length+' parça minimum seviyede':parts.length?'Stok uygun':'Stok verisi yok'},
+    {label:'Bakım durumu',state:openMaint?'fail':maint.length?'ok':'warn',reason:openMaint?openMaint+' açık bakım/revizyon':maint.length?'Bakım kaydı mevcut':'Bakım geçmişi yok'},
+    {label:'Açık aksiyon',state:criticalActions.length?'fail':openActions.length?'warn':'ok',reason:criticalActions.length?criticalActions.length+' KRİTİK aksiyon açık':openActions.length?openActions.length+' açık aksiyon':'Açık aksiyon yok'}
+  ];
+  return {checks,terminals,presses,parts,maint,actions,openActions,criticalActions,lifeFail,lifeWarn,stockFail,stockWarn};
+}
+function passportStatusText(state){return state==='ok'?'UYGUN':state==='warn'?'UYARI':'ENGEL';}
+function passportIcon(state){return state==='ok'?'✓':state==='warn'?'⚠':'✕';}
+function buildPassport(x){
+  const r=passportChecks(x);
+  const fails=r.checks.filter(c=>c.state==='fail');
+  const warns=r.checks.filter(c=>c.state==='warn');
+  const ready=fails.length===0;
+  const readyClass=ready?(warns.length?'warning':'ready'):'blocked';
+  const readyTitle=ready?'ÜRETİME HAZIR':'ÜRETİME HAZIR DEĞİL';
+  const readyReason=ready?(warns.length?warns.length+' uyarı var; üretime çıkış engellenmiyor.':'Tüm zorunlu kontroller uygun.'):(fails[0]?.reason||'Kritik kontrol başarısız.');
+  const terminalPills=r.terminals.map(t=>`<span class="passport-pill ok">${e(t.TerminalKodu||'—')}</span>`).join('')||'<div class="passport-empty">Uyumlu terminal kaydı yok.</div>';
+  const pressPills=r.presses.map(p=>`<span class="passport-pill ok">${e(p.PresKodu||'—')} · ${e(p.PresMarka||'')} ${e(p.PresModel||'')}</span>`).join('')||'<div class="passport-empty">Uygun pres kaydı yok.</div>';
+  const partRows=r.parts.map(p=>{
+    const pct=p.pct===null?'':Math.max(0,Math.min(100,p.pct));
+    const cls=p.pct>=90?'bad':p.pct>=80?'warn':'';
+    const stock=p.stock?passportNum(p.stock.MevcutMiktar):null;
+    const min=p.stock?passportNum(p.stock.MinimumStok):null;
+    const stockText=stock===null?'—':`${num(stock)}${min!==null?' / min '+num(min):''}`;
+    return `<div class="life-row"><div><b>${e(p.name)}</b><br><small>${e(p.part.ParcaKodu||p.part.StokKodu||'')}</small></div><div>${p.pct===null?'—':'%'+num(p.pct.toFixed(0))}</div><div class="life-bar"><span class="${cls}" style="width:${pct||0}%"></span></div><div>${e(stockText)}</div></div>`;
+  }).join('')||'<div class="passport-empty">Bu aplikatöre bağlı parça/ömür kaydı bulunmuyor.</div>';
+  const maintRows=r.maint.slice().sort((a,b)=>new Date(b.Baslangic||b.SonGuncelleme||0)-new Date(a.Baslangic||a.SonGuncelleme||0)).slice(0,8).map(m=>`<tr><td>${dt(m.Baslangic||m.SonGuncelleme)}</td><td>${e(m.IslemTuru||'—')}</td><td>${st(m.Durum||'—')}</td><td>${e(m.YapilanIslem||m.ArizaTanimi||'—')}</td><td>${num(m.DurdurmaDakika)} dk</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Bakım kaydı yok.</td></tr>';
+  const actionRows=r.actions.filter(a=>['ACIK','ISLEMDE'].includes(tbeN(a.Durum))).map(a=>`<tr><td>${e(a.Konu||'—')}</td><td>${e(a.Sorumlu||'—')}</td><td>${e(a.HedefTarih||'—')}</td><td>${st(a.Durum||'—')}</td><td>${e(a.Oncelik||'—')}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Açık aksiyon yok.</td></tr>';
+  const cutRows=S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).slice().sort((a,b)=>new Date(b.KayitZamani||0)-new Date(a.KayitZamani||0)).slice(0,8).map(c=>`<tr><td>${dt(c.KayitZamani)}</td><td>${e(c.TerminalKodu||'—')}</td><td>${e(c.KabloKesiti||'—')}</td><td>${st(c.KontrolSonucu||'—')}</td><td>${c.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(c.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Kesit PDF kaydı yok.</td></tr>';
+  const checkHtml=r.checks.map(c=>`<div class="passport-check ${c.state}"><span class="icon">${passportIcon(c.state)}</span><b>${e(c.label)}</b><span class="reason">${e(c.reason)} · ${passportStatusText(c.state)}</span></div>`).join('');
+  return `<div class="passport-hero"><div class="passport-title"><h2>${e(x.SicilNo||'Aplikatör')}</h2><p>${e((x.Marka||'')+' '+(x.ModelSeriNo||x.Model||''))}</p><p><b>Hat:</b> ${e(x.Hat||'—')} &nbsp; <b>Lokasyon:</b> ${e(x.Lokasyon||'—')}</p><p><b>QR:</b> <code>${e(x.QRKod||'—')}</code></p></div><div class="passport-ready ${readyClass}"><span class="big">${ready?'🟢':'🔴'} ${readyTitle}</span><small>${e(readyReason)}</small><small>Kontrol: ${dt(new Date())} · ${e(S.user?.name||S.user?.adSoyad||S.user?.username||'Kullanıcı')}</small></div></div>
+  <div class="passport-card full"><div class="passport-card-head"><span><i class="fas fa-list-check"></i> ÜRETİME HAZIRLIK KONTROLÜ</span><span>${fails.length?'🔴 '+fails.length+' engel':warns.length?'🟡 '+warns.length+' uyarı':'🟢 Uygun'}</span></div><div class="passport-card-body passport-checks">${checkHtml}</div></div>
+  <div class="passport-grid">
+    <div class="passport-card"><div class="passport-card-head"><span>🔩 BASABİLDİĞİ TERMİNALLER</span><span>${r.terminals.length}</span></div><div class="passport-card-body"><div class="passport-pills">${terminalPills}</div></div></div>
+    <div class="passport-card"><div class="passport-card-head"><span>🛠 PRES UYUMLULUĞU</span><span>${r.presses.length}</span></div><div class="passport-card-body"><div class="passport-pills">${pressPills}</div></div></div>
+    <div class="passport-card full"><div class="passport-card-head"><span>⚙️ PARÇA ÖMÜR / STOK DURUMU</span><span>${r.parts.length} parça</span></div><div class="passport-card-body"><div class="life-list"><div class="life-row"><b>Parça</b><b>Ömür</b><b>Ömür Barı</b><b>Stok / Min.</b></div>${partRows}</div></div></div>
+    <div class="passport-card"><div class="passport-card-head"><span>📄 KESİT PDF ARŞİVİ</span><span>${S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Terminal</th><th>Kesit</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody>${cutRows}</tbody></table></div></div></div>
+    <div class="passport-card"><div class="passport-card-head"><span>📌 AÇIK AKSİYONLAR</span><span>${r.openActions.length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Konu</th><th>Sorumlu</th><th>Hedef</th><th>Durum</th><th>Öncelik</th></tr></thead><tbody>${actionRows}</tbody></table></div></div></div>
+    <div class="passport-card full"><div class="passport-card-head"><span>🔧 BAKIM / REVİZYON GEÇMİŞİ</span><span>${r.maint.length} kayıt</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Tür</th><th>Durum</th><th>İşlem</th><th>Duruş</th></tr></thead><tbody>${maintRows}</tbody></table></div></div></div>
+  </div><div class="passport-actions"><button type="button" class="btn ghost" onclick="document.getElementById('passportDlg').close()">Kapat</button><button type="button" class="btn primary" onclick='document.getElementById("passportDlg").close();editAp(${JSON.stringify(JSON.stringify(x))})'><i class="fas fa-pen"></i> Aplikatörü Düzenle</button></div>`;
 }
 
 function editAp(raw){
@@ -699,7 +705,7 @@ function resetWizard(){
   if(title)title.textContent='Yeni Aplikatör Kaydı';
   if(subtitle)subtitle.textContent='Bakım modülündeki gibi aşamalı kayıt';
 }
-wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();if(stoktanKalipEkle){stoktanKalipEkle=false;page('stok')}else page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
+wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
 function bindForm(id,action,dlg){document.getElementById(id).onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{await api(action,Object.fromEntries(new FormData(ev.target)));dlg.close();ev.target.reset();await load();notify('Kayıt tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}}}
 bindForm('kesitForm','tbeKesitKaydet',kesitDlg);bindForm('bakimForm','tbeBakimKaydet',bakimDlg);bindForm('stokForm','tbeStokHareketKaydet',stokDlg);bindForm('aksiyonForm','tbeAksiyonKaydet',aksiyonDlg);
 function openModal(id){document.getElementById(id).showModal()}
