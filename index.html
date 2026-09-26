@@ -95,47 +95,7 @@
 @media(max-width:600px){.passport-info{grid-template-columns:1fr}.passport-check{grid-template-columns:26px 1fr}.passport-check .reason{grid-column:2;text-align:left}.life-row{grid-template-columns:1fr 65px}}
 
 
-/* TBE YEDEK PARÇA — KOLAY STOK GİRİŞ/ÇIKIŞ */
-.quick-stock-wrap{margin-top:14px}
-.quick-stock-toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:end}
-.quick-stock-toolbar .field{min-width:180px;flex:1;margin:0}
-.quick-stock-toolbar input,.quick-stock-toolbar select{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%}
-.quick-stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.quick-stock-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;border-top:4px solid var(--gold);box-shadow:0 4px 14px #0000000b}
-.quick-stock-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-.quick-stock-code{font-weight:900;font-family:'IBM Plex Mono',monospace}
-.quick-stock-name{font-weight:800;margin-top:3px}
-.quick-stock-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}
-.quick-stock-meta div{background:#fbfaf6;border:1px solid #eee7da;border-radius:8px;padding:8px;text-align:center}
-.quick-stock-meta b{display:block;font-size:20px}
-.quick-stock-meta small{color:var(--muted);font-size:10px;font-weight:800}
-.quick-stock-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
-.quick-stock-actions button{min-height:42px}
-.quick-plus{background:#16804d;color:#fff}
-.quick-minus{background:#c62828;color:#fff}
-.quick-move{background:#1a1a1a;color:#ffd700}
-.quick-stock-empty{padding:25px;text-align:center;color:#777}
-@media(max-width:1000px){.quick-stock-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:650px){.quick-stock-grid{grid-template-columns:1fr}}
-
-/* ═══════════════════════════════════════════════════════════════
-   YEDEK PARÇA STOK & KRİTİK YEDEK PARÇA — v5.6
-   ═══════════════════════════════════════════════════════════════ */
-.yp-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;background:#fff;border:1px solid #d0dae8;border-radius:10px;padding:14px;margin-bottom:14px;box-shadow:0 1px 6px rgba(0,0,0,.06)}
-.yp-toolbar .field{min-width:150px;flex:1}.yp-btn{border:none;border-radius:7px;padding:10px 15px;font:700 12px 'IBM Plex Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:.15s}.yp-btn.primary{background:#f5c400;color:#1a1a1a}.yp-btn.primary:hover{background:#ffd700}.yp-btn.dark{background:#1a1a1a;color:#ffd700}.yp-btn.green{background:#00875a;color:#fff}.yp-btn.red{background:#d32f2f;color:#fff}.yp-btn.outline{background:#fff;border:1.5px solid #c8d4e3;color:#555}
-.yp-kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}@media(max-width:900px){.yp-kpi-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:560px){.yp-kpi-grid{grid-template-columns:repeat(2,1fr)}}
-.yp-kpi{background:#fff;border:1px solid #d0dae8;border-radius:9px;padding:13px;text-align:center;border-top:4px solid var(--c,#f5c400)}.yp-kpi b{display:block;font:800 24px 'IBM Plex Mono',monospace;color:var(--c,#1a1a1a)}.yp-kpi span{font-size:10px;font-weight:700;color:#777;letter-spacing:.7px;text-transform:uppercase}
-.yp-stock-card{background:#fff;border:1px solid #d0dae8;border-radius:10px;padding:14px;border-left:5px solid var(--c,#00875a);box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.yp-stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}.yp-stock-head{display:flex;justify-content:space-between;gap:8px;align-items:start}.yp-code{font:800 14px 'IBM Plex Mono',monospace}.yp-name{font-size:13px;color:#555;margin-top:3px}.yp-badge{display:inline-block;padding:3px 9px;border-radius:4px;font-size:10px;font-weight:800}.yp-ok{background:#e3f7ee;color:#00875a}.yp-warn{background:#fff3e0;color:#e65100}.yp-critical{background:#fde8e8;color:#d32f2f}.yp-zero{background:#1a1a1a;color:#ffd700}.yp-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px}.yp-meta div{background:#f7f5f0;border-radius:6px;padding:7px;text-align:center}.yp-meta b{display:block;font:800 16px 'IBM Plex Mono',monospace}.yp-meta span{font-size:9px;color:#777;font-weight:700;text-transform:uppercase}.yp-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.yp-actions button{padding:6px 9px;font-size:11px}
-.yp-critical-row{background:#fff;border:1px solid #e0ddd5;border-radius:10px;padding:14px;border-left:6px solid var(--c,#d32f2f);margin-bottom:10px}.yp-critical-top{display:flex;justify-content:space-between;gap:10px;align-items:start;flex-wrap:wrap}.yp-risk-score{font:900 22px 'IBM Plex Mono',monospace;color:var(--c,#d32f2f)}.yp-progress{height:8px;background:#e8e6df;border-radius:5px;overflow:hidden;margin-top:8px}.yp-progress>i{display:block;height:100%;background:var(--c,#d32f2f);width:var(--w,0%)}
-.yp-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:1200;display:none;align-items:center;justify-content:center;padding:16px}.yp-modal-overlay.open{display:flex}.yp-modal{background:#fff;width:720px;max-width:100%;max-height:92vh;overflow:auto;border-radius:12px;box-shadow:0 22px 70px rgba(0,0,0,.4)}.yp-modal-head{position:sticky;top:0;z-index:2;background:linear-gradient(90deg,#1a1a1a,#333);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}.yp-modal-head strong{color:#ffd700;letter-spacing:.5px}.yp-modal-body{padding:18px}.yp-modal-foot{padding:13px 18px;border-top:1px solid #ddd;display:flex;justify-content:flex-end;gap:8px}
-.yp-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:580px){.yp-form-grid{grid-template-columns:1fr}}.yp-full{grid-column:1/-1}
-.yp-alert-tab{animation:ypTabPulse 1.25s infinite}@keyframes ypTabPulse{0%,100%{background:transparent}50%{background:rgba(211,47,47,.28);color:#fff;border-bottom-color:#d32f2f}}
-.yp-stock-info{font-size:10px;font-weight:700;margin-top:3px;color:#666}.yp-stock-info.bad{color:#d32f2f}.yp-select{min-width:180px}
-
-
-.yp-integrated-section{margin-top:16px}.yp-integrated-section>.section-body{padding-top:12px}
-
+.tbe-stock-kpis{margin-bottom:14px}.tbe-stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.tbe-part-card{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 5px 18px #0000000b}.tbe-part-card-head{padding:13px 14px;background:#fbfaf6;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.tbe-part-card-head h3{margin:0;font-size:16px}.tbe-part-card-head small{display:block;color:var(--muted);margin-top:3px}.tbe-part-body{padding:14px}.tbe-stock-number{font-size:30px;font-weight:900;line-height:1}.tbe-stock-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:12px 0}.tbe-stock-meta div{padding:8px;border:1px solid #eee7da;border-radius:8px;background:#fbfaf6}.tbe-stock-meta small{display:block;color:var(--muted);font-size:10px;font-weight:800}.tbe-part-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.tbe-mini{padding:7px 10px!important}.tbe-part-card.critical{border-color:#e7a3a3}.tbe-part-card.low{border-color:#e5c86b}.tbe-terminal-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.tbe-terminal-chip{font-size:10px;padding:4px 7px;border-radius:999px;background:#fff7cc;border:1px solid #f5c400;font-weight:800}.tbe-part-empty{padding:40px;text-align:center;color:#777;border:1px dashed #cfc7b8;border-radius:12px;grid-column:1/-1}.tbe-part-modal{width:min(900px,calc(100% - 24px))}.tbe-part-modal .modal-body{max-height:80vh;overflow:auto}@media(max-width:1100px){.tbe-stock-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.tbe-stock-grid{grid-template-columns:1fr}.tbe-stock-meta{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -192,159 +152,23 @@
 <section id="p-omur" class="page"><div class="page-head"><div><h2>Parça Ömür Sayaçları</h2><p>Baskı bazlı kullanım, uyarı ve kilit</p></div></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Parça</th><th>Mevcut</th><th>Maksimum</th><th>Kalan</th><th>%</th><th>Durum</th></tr></thead><tbody id="omurBody"></tbody></table></div></div></section>
 <section id="p-stok" class="page">
   <div class="page-head">
-    <div>
-      <h2>Yedek Parçalar</h2>
-      <p>Parça/terminal arama ve kritik stok takibi</p>
-    </div>
-    <button class="btn primary" onclick="openModal('stokDlg')">Stok Hareketi</button>
-  </div>
-
-  <div class="stok-search-layout">
-    <div class="section top-search-section">
-      <div class="section-head">
-        <span><i class="fas fa-magnifying-glass"></i> PARÇA / TERMİNAL ARAMA</span>
-      </div>
-      <div class="section-body">
-        <div class="field">
-          <label>Stok Kodu</label>
-          <input id="parcaAraStok" placeholder="Örn. 6C-2.5-2.8-12" oninput="parcaAplikatorAra()">
-        </div>
-        <div class="field">
-          <label>Parça Kodu</label>
-          <input id="parcaAraKod" placeholder="Parça kodunu girin" oninput="parcaAplikatorAra()">
-        </div>
-        <div class="field">
-          <label>Terminal Kodu</label>
-          <input id="parcaAraTerminal" placeholder="Terminal kodunu girin" oninput="parcaAplikatorAra()">
-        </div>
-        <div class="search-actions">
-          <small id="parcaAraOzet" class="muted">Arama için en az bir kriter girin.</small>
-          <button type="button" class="btn ghost" onclick="parcaAramaTemizle()">
-            <i class="fas fa-eraser"></i> Temizle
-          </button>
-        </div>
-      </div>
-      <div class="table-wrap compact-search-results">
-        <table>
-          <thead>
-            <tr>
-              <th>Aplikatör</th>
-              <th>Parça Kodu</th>
-              <th>Terminal</th>
-              <th>Durum</th>
-            </tr>
-          </thead>
-          <tbody id="ortakBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section stock-list-section">
-      <div class="section-head">
-        <span><i class="fas fa-boxes-stacked"></i> KRİTİK STOK LİSTESİ</span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Stok Kodu</th>
-              <th>Parça</th>
-              <th>Raf</th>
-              <th>Mevcut</th>
-              <th>Minimum</th>
-              <th>Tedarikçi</th>
-              <th>Durum</th>
-            </tr>
-          </thead>
-          <tbody id="stokBody"></tbody>
-        </table>
-      </div>
+    <div><h2>Yedek Parça Merkezi</h2><p>TBE'ye ait parçaları kolayca ekle, düzenle, stoğa giriş/çıkış yap ve aplikatör bağlantılarını gör.</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost" onclick="load()"><i class="fas fa-rotate"></i> Yenile</button>
+      <button class="btn primary" onclick="tbeParcaModalAc()"><i class="fas fa-plus"></i> Yeni Parça</button>
     </div>
   </div>
-
-
-
-<!-- ── YEDEK PARÇA STOK TAB ── -->
-<div class="section yp-integrated-section">
-  <div class="yp-toolbar">
-    <div class="field"><label>ARA</label><input id="ypArama" placeholder="Kod, parça, makine, raf..." oninput="renderYedekStok()"></div>
-    <div class="field"><label>KATEGORİ</label><select id="ypKategoriFiltre" onchange="renderYedekStok()"><option value="">TÜM KATEGORİLER</option></select></div>
-    <div class="field"><label>DURUM</label><select id="ypDurumFiltre" onchange="renderYedekStok()"><option value="">TÜMÜ</option><option value="NORMAL">NORMAL</option><option value="UYARI">UYARI</option><option value="KRITIK">KRİTİK</option><option value="STOK_YOK">STOK YOK</option></select></div>
-    <button class="yp-btn outline" onclick="ypVerileriYukle(true)">↻ YENİLE</button>
-    <button class="yp-btn primary" onclick="ypParcaModalAc()">＋ YENİ PARÇA</button>
-    <button class="yp-btn dark" onclick="ypHareketModalAc()">⇄ STOK HAREKETİ</button>
-    <button class="yp-btn outline" onclick="ypHareketGecmisiAc()">📋 HAREKET GEÇMİŞİ</button>
+  <div class="cards tbe-stock-kpis" id="tbeStockKpis"></div>
+  <div class="section">
+    <div class="section-head"><span><i class="fas fa-boxes-stacked"></i> TBE YEDEK PARÇA STOKLARI</span><span id="tbeStockCount" class="badge">0 kayıt</span></div>
+    <div class="section-body">
+      <div class="toolbar">
+        <input id="tbeStockSearch" placeholder="Stok kodu, parça kodu, parça adı, üretici ara..." oninput="tbeStockRender()" style="flex:1;min-width:260px">
+        <select id="tbeStockFilter" onchange="tbeStockRender()"><option value="ALL">Tümü</option><option value="KRITIK">Kritik stok</option><option value="DUSUK">Minimum seviyede</option><option value="NORMAL">Normal</option><option value="PASIF">Pasif</option></select>
+      </div>
+      <div id="tbeStockCards" class="tbe-stock-grid"></div>
+    </div>
   </div>
-  <div class="yp-kpi-grid" id="ypKpiGrid"></div>
-  <div class="section"><div class="section-head"><div class="dot"></div>YEDEK PARÇA ENVANTERİ</div><div class="section-body"><div class="yp-stock-grid" id="ypStokListe"><div class="empty">Veriler yükleniyor...</div></div></div></div>
-</div>
-
-<!-- ── KRİTİK YEDEK PARÇA TAB ── -->
-<div class="section yp-integrated-section">
-  <div class="yp-toolbar">
-    <div class="field"><label>ARA</label><input id="ypKritikArama" placeholder="Kod, parça veya makine..." oninput="renderKritikParcalar()"></div>
-    <div class="field"><label>ÖNCELİK</label><select id="ypKritikFiltre" onchange="renderKritikParcalar()"><option value="">TÜM KRİTİKLER</option><option value="STOK_YOK">STOK YOK</option><option value="KRITIK">KRİTİK</option><option value="UYARI">UYARI</option></select></div>
-    <button class="yp-btn outline" onclick="ypVerileriYukle(true)">↻ YENİLE</button>
-    <button class="yp-btn red" onclick="ypTopluSiparisModalAc()">🛒 KRİTİKLER İÇİN SİPARİŞ</button>
-  </div>
-  <div class="yp-kpi-grid" id="ypKritikKpi"></div>
-  <div class="section"><div class="section-head"><div class="dot"></div>KRİTİK PARÇA RİSK LİSTESİ</div><div class="section-body" id="ypKritikListe"><div class="empty">Veriler yükleniyor...</div></div></div>
-</div>
-
-<!-- YEDEK PARÇA MODAL -->
-<div class="yp-modal-overlay" id="ypParcaModal"><div class="yp-modal">
-  <div class="yp-modal-head"><strong>🔩 YEDEK PARÇA KARTI</strong><button class="plan-modal-kapat" onclick="ypModalKapat('ypParcaModal')">✕</button></div>
-  <div class="yp-modal-body"><input type="hidden" id="yp-id"><div class="yp-form-grid">
-    <div class="field"><label>STOK KODU *</label><input id="yp-kod" oninput="this.value=this.value.toUpperCase()"></div><div class="field"><label>PARÇA ADI *</label><input id="yp-ad" oninput="this.value=this.value.toUpperCase()"></div>
-    <div class="field"><label>KATEGORİ</label><input id="yp-kategori" oninput="this.value=this.value.toUpperCase()" placeholder="SENSÖR, BIÇAK, KAYIŞ..."></div><div class="field"><label>RAF / KONUM</label><input id="yp-raf" oninput="this.value=this.value.toUpperCase()"></div>
-    <div class="field"><label>İLGİLİ MAKİNE / GRUP</label><input id="yp-makine" oninput="this.value=this.value.toUpperCase()"></div><div class="field"><label>BİRİM</label><select id="yp-birim"><option>ADET</option><option>METRE</option><option>KG</option><option>SET</option><option>PAKET</option></select></div>
-    <div class="field"><label>MEVCUT STOK</label><input type="number" min="0" step="0.01" id="yp-mevcut" value="0"></div><div class="field"><label>REZERVE STOK</label><input type="number" min="0" step="0.01" id="yp-rezerve" value="0"></div>
-    <div class="field"><label>MİNİMUM STOK *</label><input type="number" min="0" step="0.01" id="yp-min" value="1"></div><div class="field"><label>MAKSİMUM STOK</label><input type="number" min="0" step="0.01" id="yp-max" value="5"></div>
-    <div class="field"><label>BİRİM FİYAT</label><input type="number" min="0" step="0.01" id="yp-fiyat" value="0"></div><div class="field"><label>PARA BİRİMİ</label><select id="yp-para"><option>₺</option><option>$</option><option>€</option></select></div>
-    <div class="field"><label>TEDARİKÇİ</label><input id="yp-tedarikci" oninput="this.value=this.value.toUpperCase()"></div><div class="field"><label>TERMİN (GÜN)</label><input type="number" min="0" id="yp-termin" value="0"></div>
-    <div class="field"><label>MAKİNE KRİTİKLİĞİ (1-5)</label><input type="number" min="1" max="5" id="yp-makineKritik" value="3"></div><div class="field"><label>ALTERNATİF PARÇA</label><select id="yp-alternatif"><option value="EVET">EVET</option><option value="HAYIR">HAYIR</option></select></div>
-    <div class="field yp-full"><label>NOT</label><textarea id="yp-not" rows="2" oninput="this.value=this.value.toUpperCase()"></textarea></div>
-  </div></div>
-  <div class="yp-modal-foot"><button class="yp-btn outline" onclick="ypModalKapat('ypParcaModal')">VAZGEÇ</button><button class="yp-btn primary" onclick="ypParcaKaydet()">💾 KAYDET</button></div>
-</div></div>
-
-<!-- STOK HAREKET MODAL -->
-<div class="yp-modal-overlay" id="ypHareketModal"><div class="yp-modal" style="max-width:580px">
-  <div class="yp-modal-head"><strong>⇄ STOK HAREKETİ</strong><button class="plan-modal-kapat" onclick="ypModalKapat('ypHareketModal')">✕</button></div>
-  <div class="yp-modal-body"><div class="yp-form-grid">
-    <div class="field yp-full"><label>PARÇA *</label><select id="yph-kod"></select></div><div class="field"><label>HAREKET *</label><select id="yph-tip"><option value="GIRIS">STOK GİRİŞ</option><option value="CIKIS">STOK ÇIKIŞ</option><option value="SAYIM">SAYIM DÜZELTMESİ</option><option value="HURDA">HURDA</option><option value="IADE">İADE</option><option value="REZERVE">REZERVE ET</option><option value="REZERVE_IPTAL">REZERVE İPTAL</option></select></div><div class="field"><label>MİKTAR *</label><input type="number" min="0.01" step="0.01" id="yph-miktar" value="1"></div>
-    <div class="field"><label>BELGE / FORM NO</label><input id="yph-belge" oninput="this.value=this.value.toUpperCase()"></div><div class="field"><label>BİRİM FİYAT</label><input type="number" min="0" step="0.01" id="yph-fiyat"></div><div class="field yp-full"><label>AÇIKLAMA *</label><textarea id="yph-aciklama" rows="2" oninput="this.value=this.value.toUpperCase()"></textarea></div>
-  </div></div>
-  <div class="yp-modal-foot"><button class="yp-btn outline" onclick="ypModalKapat('ypHareketModal')">VAZGEÇ</button><button class="yp-btn green" onclick="ypHareketKaydet()">✓ HAREKETİ KAYDET</button></div>
-</div></div>
-
-<!-- STOK HAREKET GEÇMİŞİ MODAL -->
-<div class="yp-modal-overlay" id="ypHareketGecmisiModal"><div class="yp-modal" style="max-width:1500px;width:96vw">
-  <div class="yp-modal-head"><strong>📋 STOK HAREKET GEÇMİŞİ / İZLENEBİLİRLİK</strong><button class="plan-modal-kapat" onclick="ypModalKapat('ypHareketGecmisiModal')">✕</button></div>
-  <div class="yp-hareket-toolbar">
-    <div class="field wide"><label>PARÇA / STOK KODU</label><select id="yphg-kod"><option value="">TÜM PARÇALAR</option></select></div>
-    <div class="field"><label>HAREKET</label><select id="yphg-tip"><option value="">TÜMÜ</option><option value="GIRIS">GİRİŞ</option><option value="CIKIS">ÇIKIŞ</option><option value="SAYIM">SAYIM</option><option value="HURDA">HURDA</option><option value="IADE">İADE</option><option value="REZERVE">REZERVE</option><option value="REZERVE_IPTAL">REZERVE İPTAL</option></select></div>
-    <div class="field"><label>BAŞLANGIÇ</label><input type="date" id="yphg-bas"></div><div class="field"><label>BİTİŞ</label><input type="date" id="yphg-bit"></div>
-    <div class="field wide"><label>FORM / BELGE / AÇIKLAMA</label><input id="yphg-ara" placeholder="Form no, belge no veya açıklama..."></div>
-    <button class="yp-btn dark" onclick="renderYpHareketGecmisi()">🔎 FİLTRELE</button>
-    <button class="yp-btn outline" onclick="ypHareketGecmisiTemizle()">TEMİZLE</button>
-  </div>
-  <div class="yp-hareket-summary" id="yphg-summary"></div>
-  <div class="yp-hareket-table-wrap" id="yphg-table"></div>
-  <div class="yp-hareket-foot"><span class="yp-hareket-count" id="yphg-count"></span><div style="display:flex;gap:8px"><button class="yp-btn outline" onclick="ypHareketGecmisiYazdir()">🖨 YAZDIR</button><button class="yp-btn primary" onclick="ypHareketGecmisiPDF()">📄 PDF RAPORU</button></div></div>
-</div></div>
-
-<!-- PDF/YAZDIRMA KOPYASI -->
-<div id="ypHareketRaporPrint" style="display:none"></div>
-
-<!-- SİPARİŞ MODAL -->
-<div class="yp-modal-overlay" id="ypSiparisModal"><div class="yp-modal" style="max-width:620px">
-  <div class="yp-modal-head"><strong>🛒 YEDEK PARÇA SİPARİŞ TALEBİ</strong><button class="plan-modal-kapat" onclick="ypModalKapat('ypSiparisModal')">✕</button></div>
-  <div class="yp-modal-body"><div class="yp-form-grid"><div class="field yp-full"><label>PARÇA *</label><select id="yps-kod"></select></div><div class="field"><label>SİPARİŞ MİKTARI *</label><input type="number" min="1" id="yps-miktar" value="1"></div><div class="field"><label>HEDEF TARİH</label><input type="date" id="yps-tarih"></div><div class="field"><label>ÖNCELİK</label><select id="yps-oncelik"><option>ACİL</option><option>YÜKSEK</option><option>NORMAL</option></select></div><div class="field"><label>TEDARİKÇİ</label><input id="yps-tedarikci" oninput="this.value=this.value.toUpperCase()"></div><div class="field yp-full"><label>NOT</label><textarea id="yps-not" rows="2" oninput="this.value=this.value.toUpperCase()"></textarea></div></div></div>
-  <div class="yp-modal-foot"><button class="yp-btn outline" onclick="ypModalKapat('ypSiparisModal')">VAZGEÇ</button><button class="yp-btn primary" onclick="ypSiparisKaydet()">📨 TALEBİ OLUŞTUR</button></div>
-</div></div>
-
-
 </section>
 <section id="p-kesit" class="page"><div class="page-head"><div><h2>Terminal Kesit PDF Arşivi</h2><p>Proje, iş emri, lot ve terminal bazlı kanıt</p></div><button class="btn primary" onclick="openModal('kesitDlg')">+ PDF</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Tarih</th><th>Aplikatör</th><th>Terminal</th><th>Proje / İş Emri</th><th>Lot</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody id="kesitBody"></tbody></table></div></div></section>
 <section id="p-bakim" class="page"><div class="page-head"><div><h2>Bakım ve Revizyon Geçmişi</h2><p>Bu modülün kendi bağımsız kayıtları</p></div><button class="btn primary" onclick="openModal('bakimDlg')">+ Kayıt</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Tarih</th><th>Aplikatör</th><th>Tür</th><th>Durum</th><th>Yapılan İşlem</th><th>Duruş</th><th>Maliyet</th></tr></thead><tbody id="bakimBody"></tbody></table></div></div></section>
@@ -355,7 +179,9 @@
 <dialog id="bakimDlg"><div class="modal-head"><b>Bakım / Revizyon Kaydı</b><button class="btn ghost" onclick="bakimDlg.close()">✕</button></div><form id="bakimForm" class="modal-body"><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>İşlem Türü</label><select name="IslemTuru"><option>PLANLI BAKIM</option><option>PLANSIZ BAKIM</option><option>ARIZA</option><option>REVIZYON</option><option>TEMIZLIK</option></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field full"><label>Arıza / Konu</label><input name="ArizaTanimi"></div><div class="field full"><label>Yapılan İşlem</label><textarea name="YapilanIslem"></textarea></div><div class="field"><label>Duruş (dk)</label><input name="DurdurmaDakika" type="number" min="0"></div><div class="field"><label>Maliyet (₺)</label><input name="Maliyet" type="number" min="0" step="0.01"></div><div class="field"><label>Onaylayan</label><input name="Onaylayan"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="bakimDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="stokDlg"><div class="modal-head"><b>Stok Hareketi</b><button class="btn ghost" onclick="stokDlg.close()">✕</button></div><form id="stokForm" class="modal-body"><div class="grid2"><div class="field"><label>Stok Kaydı *</label><select name="StokId" id="stokSelect" required></select></div><div class="field"><label>Hareket Türü</label><select name="HareketTuru"><option>GIRIS</option><option>CIKIS</option></select></div><div class="field"><label>Miktar *</label><input name="Miktar" type="number" min="0.01" step="0.01" required></div><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="stokDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="aksiyonDlg"><div class="modal-head"><b>CAPA / Aksiyon</b><button class="btn ghost" onclick="aksiyonDlg.close()">✕</button></div><form id="aksiyonForm" class="modal-body"><div class="grid2"><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field"><label>Öncelik</label><select name="Oncelik"><option value="NORMAL">NORMAL</option><option value="YUKSEK">YÜKSEK</option><option value="KRITIK">KRİTİK</option><option value="DUSUK">DÜŞÜK</option></select></div><div class="field full"><label>Konu *</label><input name="Konu" required></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div><div class="field"><label>Sorumlu</label><input name="Sorumlu"></div><div class="field"><label>Hedef Tarih</label><input name="HedefTarih" type="date"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="aksiyonDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
-<dialog id="passportHistoryDlg" class="passport-dialog"><div class="modal-head"><b><i class="fas fa-clock-rotate-left"></i> ÜRETİME HAZIRLIK KONTROL GEÇMİŞİ</b><button class="btn ghost" type="button" onclick="document.getElementById('passportHistoryDlg').close()">✕</button></div><div id="passportHistoryBody" class="passport-body"></div></dialog><dialog id="passportDlg" class="passport-dialog"><div class="modal-head"><b><i class="fas fa-id-card"></i> APLİKATÖR PASAPORTU</b><button class="btn ghost" type="button" onclick="document.getElementById('passportDlg').close()">✕</button></div><div id="passportBody" class="passport-body"></div></dialog>
+<dialog id="tbeParcaDlg" class="tbe-part-modal"><div class="modal-head"><b><i class="fas fa-box"></i> TBE YEDEK PARÇA KARTI</b><button class="btn ghost" type="button" onclick="tbeParcaDlg.close()">✕</button></div><form id="tbeParcaForm" class="modal-body"><input type="hidden" name="ParcaId"><div class="grid3"><div class="field"><label>Stok Kodu *</label><input name="StokKodu" required></div><div class="field"><label>Parça Kodu *</label><input name="ParcaKodu" required></div><div class="field"><label>Parça Adı *</label><input name="ParcaAdi" required></div><div class="field"><label>Üretici</label><input name="Uretici"></div><div class="field"><label>Parça Tipi</label><input name="ParcaTipi" placeholder="Örn. Bıçak, kalıp, yay"></div><div class="field"><label>Maks. Ömür</label><input name="VarsayilanMaksOmur" type="number" min="0"></div><div class="field"><label>Birim</label><select name="Birim"><option>AD</option><option>TAKIM</option><option>SET</option><option>MT</option></select></div><div class="field"><label>Mevcut Stok</label><input name="MevcutMiktar" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>Minimum Stok</label><input name="MinimumStok" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>Raf Konumu</label><input name="RafKonumu"></div><div class="field"><label>Fiyat</label><input name="Fiyat" type="number" min="0" step="0.01"></div><div class="field"><label>Para Birimi</label><select name="ParaBirimi"><option>TRY</option><option>EUR</option><option>USD</option></select></div><div class="field"><label>Tedarikçi</label><input name="Tedarikci"></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama" rows="2"></textarea></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="tbeParcaDlg.close()">İptal</button><button class="btn primary"><i class="fas fa-save"></i> Kaydet</button></div></form></dialog>
+<dialog id="tbeHareketDlg"><div class="modal-head"><b><i class="fas fa-right-left"></i> TBE STOK HAREKETİ</b><button class="btn ghost" type="button" onclick="tbeHareketDlg.close()">✕</button></div><form id="tbeHareketForm" class="modal-body"><input type="hidden" name="StokId"><input type="hidden" name="StokKodu"><input type="hidden" name="ParcaId"><div class="grid2"><div class="field"><label>Parça</label><input id="tbeHareketParca" disabled></div><div class="field"><label>Hareket Türü</label><select name="HareketTuru"><option>GIRIS</option><option>CIKIS</option></select></div><div class="field"><label>Miktar *</label><input name="Miktar" type="number" min="0.01" step="0.01" value="1" required></div><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field full"><label>Açıklama</label><input name="Aciklama" placeholder="Neden / kullanım bilgisi"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="tbeHareketDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
+<dialog id="passportDlg" class="passport-dialog"><div class="modal-head"><b><i class="fas fa-id-card"></i> APLİKATÖR PASAPORTU</b><button class="btn ghost" type="button" onclick="document.getElementById('passportDlg').close()">✕</button></div><div id="passportBody" class="passport-body"></div></dialog>
 <div id="toast" class="toast"></div>
 <script>
 const CFG={GS_URL:'https://script.google.com/macros/s/AKfycbzzj7TxQREn8Cz8DyqhrymhVK6bP4Pfbj039CJxXHcZGW6884fQsKiY8-6B2denRt1D/exec'};
@@ -374,66 +200,8 @@ function newAplikator(){
   page('new');
   notify('Yeni kayıt modu açıldı.','info');
 }
-async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render(); if(typeof ypVerileriYukle==='function') ypVerileriYukle(true);}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
-function render(){renderCards();renderAplikator();renderQuickStock(); if(typeof ypYuklendi!=='undefined' && ypYuklendi){renderYedekStok();renderKritikParcalar();}presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.stock.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${partName(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${num(x.MevcutMiktar)}</td><td>${num(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${st(x.Oncelik||'NORMAL')}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(7);fillSelects()}
-
-function quickStockStatus(x){
-  const n=Number(x.MevcutMiktar||0), min=Number(x.MinimumStok||0);
-  if(n<=0)return 'STOK YOK';
-  if(n<=min)return 'KRITIK';
-  return 'NORMAL';
-}
-function renderQuickStock(){
-  const box=document.getElementById('quickStockGrid');
-  if(!box)return;
-  const q=tbeN(document.getElementById('quickStockSearch')?.value||'');
-  const f=tbeN(document.getElementById('quickStockFilter')?.value||'');
-  const list=S.stock.filter(x=>{
-    const p=S.parts.find(y=>String(y.ParcaId)===String(x.ParcaId))||{};
-    const text=[x.StokKodu,p.StokKodu,p.ParcaKodu,p.ParcaAdi,x.RafKonumu,x.Tedarikci].join(' ');
-    const durum=tbeN(quickStockStatus(x));
-    return (!q||tbeN(text).includes(q))&&(!f||durum===f);
-  });
-  box.innerHTML=list.map(x=>{
-    const p=S.parts.find(y=>String(y.ParcaId)===String(x.ParcaId))||{};
-    const durum=quickStockStatus(x);
-    const cls=durum==='STOK YOK'?'KRITIK':durum;
-    return `<div class="quick-stock-card">
-      <div class="quick-stock-head">
-        <div><div class="quick-stock-code">${e(x.StokKodu||p.StokKodu||'—')}</div><div class="quick-stock-name">${e(p.ParcaAdi||p.ParcaKodu||'Parça')}</div></div>
-        ${st(cls)}
-      </div>
-      <div class="quick-stock-meta">
-        <div><b>${num(x.MevcutMiktar)}</b><small>MEVCUT</small></div>
-        <div><b>${num(x.MinimumStok)}</b><small>MİNİMUM</small></div>
-        <div><b>${num(Math.max(0,Number(x.MevcutMiktar||0)-Number(x.MinimumStok||0)))}</b><small>ÜST SEVİYE</small></div>
-      </div>
-      <div style="font-size:11px;color:#666;margin-bottom:9px">📍 ${e(x.RafKonumu||'—')} · ${e(x.Tedarikci||'Tedarikçi yok')}</div>
-      <div class="quick-stock-actions">
-        <button type="button" class="btn quick-plus" onclick='quickStockMove(${JSON.stringify(String(x.StokId))},"GIRIS",1)'><i class="fas fa-plus"></i> 1 EKLE</button>
-        <button type="button" class="btn quick-minus" onclick='quickStockMove(${JSON.stringify(String(x.StokId))},"CIKIS",1)' ${Number(x.MevcutMiktar||0)<=0?'disabled':''}><i class="fas fa-minus"></i> 1 ÇIKAR</button>
-        <button type="button" class="btn quick-move" onclick='openQuickMovement(${JSON.stringify(String(x.StokId))})'><i class="fas fa-right-left"></i> MİKTAR</button>
-      </div>
-    </div>`;
-  }).join('')||'<div class="quick-stock-empty">Filtreye uygun yedek parça bulunamadı.</div>';
-}
-function clearQuickStock(){
-  const a=document.getElementById('quickStockSearch'),b=document.getElementById('quickStockFilter');
-  if(a)a.value=''; if(b)b.value=''; renderQuickStock();
-}
-async function quickStockMove(stokId,tur,miktar){
-  try{
-    await api('tbeStokHareketKaydet',{StokId:stokId,HareketTuru:tur,Miktar:miktar,Aciklama:tur==='GIRIS'?'Hızlı stok +1':'Hızlı stok -1'});
-    notify(tur==='GIRIS'?'Stok +1 eklendi.':'Stok -1 çıkarıldı.','ok');
-    await load();
-  }catch(err){notify('Stok hareketi yapılamadı: '+err.message,'bad');}
-}
-function openQuickMovement(stokId){
-  const sel=document.getElementById('stokSelect');
-  if(sel){sel.value=stokId;}
-  const dlg=document.getElementById('stokDlg');
-  if(dlg)dlg.showModal();
-}
+async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render();tbeStockRender()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
+function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.stock.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${partName(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${num(x.MevcutMiktar)}</td><td>${num(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${st(x.Oncelik||'NORMAL')}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(7);fillSelects()}
 
 function parcaAplikatorAra(){
   const stokQ=tbeN(document.getElementById('parcaAraStok')?.value||'');
@@ -648,7 +416,7 @@ async function openPassport(raw){
   if(dlg && !dlg.open)dlg.showModal();
   try{
     const server=await api('tbeUretimeHazirlikGetir',{AplikatorId:x.AplikatorId});
-    if(body && dlg && dlg.open)body.innerHTML=buildPassport(x,server.data||server);
+    if(body && dlg && dlg.open)body.innerHTML=buildPassport(x,server);
   }catch(err){
     console.warn('Server üretime hazırlık kontrolü alınamadı:',err);
   }
@@ -657,37 +425,11 @@ async function savePassportCheck(aplikatorId){
   const btn=document.getElementById('passportSaveCheckBtn');
   if(btn)btn.disabled=true;
   try{
-    const ap=S.a.find(x=>String(x.AplikatorId)===String(aplikatorId));
-    if(!ap)throw new Error('Aplikatör bulunamadı.');
-    const local=passportChecks(ap);
-    const fails=local.checks.filter(c=>c.state==='fail');
-    const warns=local.checks.filter(c=>c.state==='warn');
-    const sonuc=fails.length?'ÜRETİME HAZIR DEĞİL':'ÜRETİME HAZIR';
-    const checks={
-      aplikatorDurumu:local.checks.find(c=>c.label==='Aplikatör durumu')?.reason||'',
-      terminalUyumu:local.checks.find(c=>c.label==='Terminal uyumluluğu')?.reason||'',
-      presUyumu:local.checks.find(c=>c.label==='Pres uyumluluğu')?.reason||'',
-      parcaOmru:local.checks.find(c=>c.label==='Kritik parça ömrü')?.reason||'',
-      stokDurumu:local.checks.find(c=>c.label==='Kritik stok')?.reason||'',
-      bakimDurumu:local.checks.find(c=>c.label==='Bakım durumu')?.reason||'',
-      aksiyonDurumu:local.checks.find(c=>c.label==='Açık aksiyon')?.reason||''
-    };
-    const r=await api('tbeUretimeHazirlikKaydet',{
-      AplikatorId:ap.AplikatorId,
-      SicilNo:ap.SicilNo,
-      Sonuc:sonuc,
-      KritikEngelSayisi:fails.length,
-      UyariSayisi:warns.length,
-      kontroller:checks,
-      Aciklama:fails.length
-        ? 'Üretime hazırlık kontrolünde engel bulundu: '+fails.map(x=>x.label).join(', ')
-        : (warns.length?'Üretime hazırlık uygun; '+warns.length+' uyarı mevcut.':'Tüm kontroller uygun.'),
-      KontrolEden:S.user?.name||S.user?.adSoyad||S.user?.username||'Kullanıcı',
-      requestId:'UHK-'+ap.AplikatorId+'-'+Date.now()
-    });
+    const r=await api('tbeUretimeHazirlikKaydet',{AplikatorId:aplikatorId,requestId:'UHK-'+aplikatorId+'-'+Date.now()});
     notify('Üretime hazırlık kontrolü kayıt altına alındı.','ok');
     const body=document.getElementById('passportBody');
-    if(body)body.innerHTML=buildPassport(ap,local);
+    const ap=S.a.find(x=>String(x.AplikatorId)===String(aplikatorId));
+    if(body&&ap)body.innerHTML=buildPassport(ap,r.sonuc||null);
   }catch(err){
     notify('Kontrol kaydedilemedi: '+err.message,'bad');
   }finally{
@@ -777,36 +519,7 @@ function buildPassport(x,serverResult){
     <div class="passport-card"><div class="passport-card-head"><span>📄 KESİT PDF ARŞİVİ</span><span>${S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Terminal</th><th>Kesit</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody>${cutRows}</tbody></table></div></div></div>
     <div class="passport-card"><div class="passport-card-head"><span>📌 AÇIK AKSİYONLAR</span><span>${r.openActions.length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Konu</th><th>Sorumlu</th><th>Hedef</th><th>Durum</th><th>Öncelik</th></tr></thead><tbody>${actionRows}</tbody></table></div></div></div>
     <div class="passport-card full"><div class="passport-card-head"><span>🔧 BAKIM / REVİZYON GEÇMİŞİ</span><span>${r.maint.length} kayıt</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Tür</th><th>Durum</th><th>İşlem</th><th>Duruş</th></tr></thead><tbody>${maintRows}</tbody></table></div></div></div>
-  </div><div class="passport-actions"><button type="button" class="btn ghost" onclick="document.getElementById('passportDlg').close()">Kapat</button><button id="passportSaveCheckBtn" type="button" class="btn dark" onclick='savePassportCheck(${JSON.stringify(x.AplikatorId)})'><i class="fas fa-clipboard-check"></i> Kontrolü Kaydet</button><button type="button" class="btn ghost" onclick='showPassportHistory(${JSON.stringify(x.AplikatorId)})'><i class="fas fa-clock-rotate-left"></i> Kontrol Geçmişi</button><button type="button" class="btn primary" onclick='document.getElementById("passportDlg").close();editAp(${JSON.stringify(JSON.stringify(x))})'><i class="fas fa-pen"></i> Aplikatörü Düzenle</button></div>`;
-}
-
-async function showPassportHistory(aplikatorId){
-  const dlg=document.getElementById('passportHistoryDlg');
-  const body=document.getElementById('passportHistoryBody');
-  if(!dlg||!body)return;
-  body.innerHTML='<div class="passport-empty">Kontrol geçmişi yükleniyor…</div>';
-  dlg.showModal();
-  try{
-    const r=await api('tbeUretimeHazirlikGecmis',{AplikatorId:aplikatorId});
-    const rows=r.data||[];
-    if(!rows.length){
-      body.innerHTML='<div class="passport-empty">Bu aplikatör için kayıtlı üretime hazırlık kontrolü bulunmuyor.</div>';
-      return;
-    }
-    body.innerHTML=`<div class="table-wrap"><table class="passport-table">
-      <thead><tr><th>Tarih</th><th>Sonuç</th><th>Engel</th><th>Uyarı</th><th>Kontrol Eden</th><th>Açıklama</th></tr></thead>
-      <tbody>${rows.map(x=>`<tr>
-        <td>${e(x.KontrolZamani||'—')}</td>
-        <td>${st(x.Sonuc||'—')}</td>
-        <td>${e(x.KritikEngelSayisi||0)}</td>
-        <td>${e(x.UyariSayisi||0)}</td>
-        <td>${e(x.KontrolEden||'—')}</td>
-        <td>${e(x.Aciklama||'—')}</td>
-      </tr>`).join('')}</tbody>
-    </table></div>`;
-  }catch(err){
-    body.innerHTML='<div class="passport-empty">Geçmiş yüklenemedi: '+e(err.message)+'</div>';
-  }
+  </div><div class="passport-actions"><button type="button" class="btn ghost" onclick="document.getElementById('passportDlg').close()">Kapat</button><button id="passportSaveCheckBtn" type="button" class="btn dark" onclick='savePassportCheck(${JSON.stringify(x.AplikatorId)})'><i class="fas fa-clipboard-check"></i> Kontrolü Kaydet</button><button type="button" class="btn primary" onclick='document.getElementById("passportDlg").close();editAp(${JSON.stringify(JSON.stringify(x))})'><i class="fas fa-pen"></i> Aplikatörü Düzenle</button></div>`;
 }
 
 function editAp(raw){
@@ -972,202 +685,15 @@ bindForm('kesitForm','tbeKesitKaydet',kesitDlg);bindForm('bakimForm','tbeBakimKa
 function openModal(id){document.getElementById(id).showModal()}
 function fillSelects(){const ops='<option value="">Seçiniz</option>'+S.a.map(x=>`<option value="${ea(x.AplikatorId)}">${e(x.SicilNo)} — ${e(x.Marka)} ${e(x.Model)}</option>`).join('');document.querySelectorAll('.ap-select').forEach(x=>x.innerHTML=ops);stokSelect.innerHTML='<option value="">Seçiniz</option>'+S.stock.map(x=>`<option value="${ea(x.StokId)}">${e(x.StokKodu)} — ${partName(x.ParcaId)}</option>`).join('')}
 function apName(id){const x=S.a.find(y=>String(y.AplikatorId)===String(id));return x?e(x.SicilNo):e(id||'—')}function apModel(id){const x=S.a.find(y=>String(y.AplikatorId)===String(id));return x?e((x.Marka||'')+' '+(x.ModelSeriNo||x.Model||'')):'—'}function partName(id){const x=S.parts.find(y=>String(y.ParcaId)===String(id));return x?e((x.ParcaKodu||'')+' — '+(x.ParcaAdi||'')):e(id||'—')}function notify(m,t='ok'){toast.textContent=m;toast.className='toast '+t+' show';clearTimeout(notify.t);notify.t=setTimeout(()=>toast.classList.remove('show'),3500)}function e(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function ea(v){return e(v)}function num(v){return Number(v||0).toLocaleString('tr-TR')}function dt(v){if(!v)return'—';const d=new Date(v);return isNaN(d)?e(v):d.toLocaleString('tr-TR')}function st(v){v=tbeN(v||'BELIRSIZ').replace(/\s/g,'_');return`<span class="status ${ea(v)}">${e(v)}</span>`}function empty(c){return`<tr><td colspan="${c}" class="empty">Kayıt yok.</td></tr>`}function tbeN(v){return String(v||'').trim().toLocaleUpperCase('tr-TR').replace(/İ/g,'I').replace(/Ş/g,'S').replace(/Ğ/g,'G').replace(/Ü/g,'U').replace(/Ö/g,'O').replace(/Ç/g,'C')}
+function tbeStockData(){return S.stock.map(stk=>{const p=S.parts.find(x=>String(x.ParcaId)===String(stk.ParcaId))||{};const links=S.pu.filter(x=>String(x.ParcaId)===String(stk.ParcaId));const terms=[...new Set(links.map(l=>S.term.filter(t=>String(t.AplikatorId)===String(l.AplikatorId)).map(t=>t.TerminalKodu).filter(Boolean)).flat())];const mevcut=Number(stk.MevcutMiktar||0),min=Number(stk.MinimumStok||0);const aktif=tbeN(p.Aktif??stk.Aktif??'EVET')!=='HAYIR'&&tbeN(stk.KayitDurumu||'AKTIF')!=='PASIF';const durum=!aktif?'PASIF':mevcut<=0?'KRITIK':mevcut<=min?'DUSUK':'NORMAL';return {stk,p,links,terms,mevcut,min,aktif,durum};})}
+function tbeStockRender(){const root=document.getElementById('tbeStockCards');if(!root)return;const q=tbeN(document.getElementById('tbeStockSearch')?.value||'');const f=document.getElementById('tbeStockFilter')?.value||'ALL';const all=tbeStockData();const arr=all.filter(x=>{const text=[x.stk.StokKodu,x.p.ParcaKodu,x.p.ParcaAdi,x.p.Uretici,x.stk.Tedarikci,x.stk.RafKonumu].join(' ');return (!q||tbeN(text).includes(q))&&(f==='ALL'||x.durum===f);});const k=all.filter(x=>x.aktif);const krit=k.filter(x=>x.durum==='KRITIK').length,dusuk=k.filter(x=>x.durum==='DUSUK').length,qty=k.reduce((a,x)=>a+x.mevcut,0);const kpi=document.getElementById('tbeStockKpis');if(kpi)kpi.innerHTML=[['Aktif Parça',k.length],['Kritik Stok',krit],['Minimum Seviyede',dusuk],['Toplam Miktar',num(qty)]].map(x=>`<div class="card"><small>${x[0]}</small><div class="value">${x[1]}</div></div>`).join('');const count=document.getElementById('tbeStockCount');if(count)count.textContent=arr.length+' kayıt';if(!arr.length){root.innerHTML='<div class="tbe-part-empty"><i class="fas fa-box-open" style="font-size:32px"></i><br><br>Bu filtreye uygun TBE yedek parça bulunamadı.<br><button class="btn primary" style="margin-top:12px" onclick="tbeParcaModalAc()">+ İlk Parçayı Ekle</button></div>';return}root.innerHTML=arr.map(x=>{const cls=x.durum==='KRITIK'?'critical':x.durum==='DUSUK'?'low':'';const terminals=x.terms.slice(0,8).map(t=>`<span class="tbe-terminal-chip">${e(t)}</span>`).join('');return `<div class="tbe-part-card ${cls}"><div class="tbe-part-card-head"><div><h3>${e(x.p.ParcaAdi||x.p.ParcaKodu||x.stk.StokKodu)}</h3><small><b>${e(x.p.ParcaKodu||'—')}</b> · Stok: ${e(x.stk.StokKodu||'—')}</small></div>${st(x.durum)}</div><div class="tbe-part-body"><div style="display:flex;justify-content:space-between;align-items:end"><div><small>MEVCUT STOK</small><div class="tbe-stock-number">${num(x.mevcut)} <small>${e(x.p.Birim||'AD')}</small></div></div><div style="text-align:right"><small>MIN.</small><div style="font-weight:900">${num(x.min)}</div></div></div><div class="tbe-stock-meta"><div><small>Raf</small><b>${e(x.stk.RafKonumu||'—')}</b></div><div><small>Tedarikçi</small><b>${e(x.stk.Tedarikci||'—')}</b></div><div><small>Üretici</small><b>${e(x.p.Uretici||'—')}</b></div><div><small>Fiyat</small><b>${num(x.stk.Fiyat||x.p.Fiyat||0)} ${e(x.stk.ParaBirimi||x.p.ParaBirimi||'TRY')}</b></div></div>${terminals?`<small><b>Bağlı Terminaller</b></small><div class="tbe-terminal-chips">${terminals}</div>`:''}<div class="tbe-part-actions"><button class="btn primary tbe-mini" onclick='tbeStokHareketAc(${JSON.stringify(x.stk.StokId)})'><i class="fas fa-right-left"></i> Hareket</button><button class="btn ghost tbe-mini" onclick='tbeQuickStock(${JSON.stringify(x.stk.StokId)},${JSON.stringify('GIRIS')})'>+1</button><button class="btn ghost tbe-mini" onclick='tbeQuickStock(${JSON.stringify(x.stk.StokId)},${JSON.stringify('CIKIS')})'>−1</button><button class="btn ghost tbe-mini" onclick='tbeParcaDuzenle(${JSON.stringify(x.p.ParcaId)})'><i class="fas fa-pen"></i></button></div></div></div>`}).join('')}
+function tbeParcaModalAc(){const f=document.getElementById('tbeParcaForm');if(!f)return;f.reset();f.elements.ParcaId.value='';f.elements.MevcutMiktar.value='0';f.elements.MinimumStok.value='0';tbeParcaDlg.showModal()}
+function tbeParcaDuzenle(id){const p=S.parts.find(x=>String(x.ParcaId)===String(id));const stx=S.stock.find(x=>String(x.ParcaId)===String(id))||{};if(!p)return;const f=document.getElementById('tbeParcaForm');f.reset();Object.keys(p).forEach(k=>{if(f.elements[k])f.elements[k].value=p[k]??''});['StokKodu','RafKonumu','MevcutMiktar','MinimumStok','Tedarikci','Fiyat','ParaBirimi'].forEach(k=>{if(f.elements[k])f.elements[k].value=stx[k]??f.elements[k].value});f.elements.ParcaId.value=p.ParcaId;tbeParcaDlg.showModal()}
+async function tbeParcaKaydetForm(ev){ev.preventDefault();const b=ev.submitter;b.disabled=true;try{const d=Object.fromEntries(new FormData(ev.target));await api('tbeYedekParcaKaydet',d);tbeParcaDlg.close();await load();page('stok');notify('TBE yedek parça kaydedildi.','ok')}catch(x){notify('Parça kaydedilemedi: '+x.message,'bad')}finally{b.disabled=false}}
+function tbeStokHareketAc(stokId){const x=tbeStockData().find(a=>String(a.stk.StokId)===String(stokId));if(!x)return;const f=document.getElementById('tbeHareketForm');f.reset();f.elements.StokId.value=x.stk.StokId;f.elements.StokKodu.value=x.stk.StokKodu;f.elements.ParcaId.value=x.stk.ParcaId;f.elements.AplikatorId.value='';document.getElementById('tbeHareketParca').value=(x.p.ParcaKodu||'')+' — '+(x.p.ParcaAdi||'');tbeHareketDlg.showModal()}
+async function tbeHareketKaydetForm(ev){ev.preventDefault();const b=ev.submitter;b.disabled=true;try{const d=Object.fromEntries(new FormData(ev.target));await api('tbeStokHareketKaydet',d);tbeHareketDlg.close();await load();page('stok');notify('Stok hareketi kaydedildi.','ok')}catch(x){notify('Stok hareketi kaydedilemedi: '+x.message,'bad')}finally{b.disabled=false}}
+async function tbeQuickStock(stokId,tur){const x=tbeStockData().find(a=>String(a.stk.StokId)===String(stokId));if(!x)return;try{await api('tbeStokHareketKaydet',{StokId:x.stk.StokId,StokKodu:x.stk.StokKodu,ParcaId:x.stk.ParcaId,HareketTuru:tur,Miktar:1,Aciklama:'TBE hızlı stok '+(tur==='GIRIS'?'girişi':'çıkışı')});await load();page('stok');notify((tur==='GIRIS'?'+1 stok girişi':'−1 stok çıkışı')+' kaydedildi.','ok')}catch(err){notify('Stok güncellenemedi: '+err.message,'bad')}}
+document.getElementById('tbeParcaForm').onsubmit=tbeParcaKaydetForm;document.getElementById('tbeHareketForm').onsubmit=tbeHareketKaydetForm;
 resetWizard();(()=>{const u=localStorage.getItem('burkab_tbe_user'),t=token();if(u&&t){try{S.user=JSON.parse(u);show()}catch(_){logout()}}})();
-
-// ═══════════════════════════════════════════════════════════════
-// YEDEK PARÇA STOK & KRİTİK PARÇA — v5.6
-// ═══════════════════════════════════════════════════════════════
-let ypStoklar=[]; let ypHareketler=[]; let ypSiparisler=[]; let ypYuklendi=false;
-const ypN=v=>String(v??'').trim().toLocaleUpperCase('tr-TR');
-const ypNum=v=>Number(String(v??'0').replace(',','.'))||0;
-function ypKullanilabilir(p){return Math.max(0,ypNum(p.mevcutStok)-ypNum(p.rezerveStok));}
-function ypDurum(p){const k=ypKullanilabilir(p), min=ypNum(p.minimumStok);if(k<=0)return 'STOK_YOK';if(k<=min)return 'KRITIK';if(k<=min*1.5)return 'UYARI';return 'NORMAL';}
-function ypRenk(d){return d==='STOK_YOK'?'#1a1a1a':d==='KRITIK'?'#d32f2f':d==='UYARI'?'#e65100':'#00875a';}
-function ypEtiket(d){return d==='STOK_YOK'?'STOK YOK':d==='KRITIK'?'KRİTİK':d==='UYARI'?'UYARI':'NORMAL';}
-function ypRisk(p){const stok=ypDurum(p)==='STOK_YOK'?50:ypDurum(p)==='KRITIK'?35:ypDurum(p)==='UYARI'?15:0;const mk=Math.max(1,Math.min(5,ypNum(p.makineKritikligi)||3))*6;const term=Math.min(20,Math.ceil(ypNum(p.terminGun)/3));const alt=ypN(p.alternatifParca)==='HAYIR'?10:0;return Math.min(100,stok+mk+term+alt);}
-function ypEsc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-async function ypVerileriYukle(force=false){if(ypYuklendi&&!force){renderYedekStok();renderKritikParcalar();return;}try{document.body.style.cursor='wait';const r=await api('yedekParcaGetAll');if(!r?.ok)throw new Error(r?.error||'Yedek parça verisi alınamadı');ypStoklar=Array.isArray(r.stoklar)?r.stoklar:[];ypHareketler=Array.isArray(r.hareketler)?r.hareketler:[];ypSiparisler=Array.isArray(r.siparisler)?r.siparisler:[];ypYuklendi=true;ypKategoriDoldur();ypParcaSelectDoldur();renderYedekStok();renderKritikParcalar();ypFormParcaDatalist();}catch(e){console.warn(e);notify('⚠️ '+e.message,'bad');}finally{document.body.style.cursor='';}}
-function ypKategoriDoldur(){const el=document.getElementById('ypKategoriFiltre');if(!el)return;const sec=el.value;const cats=[...new Set(ypStoklar.map(x=>x.kategori).filter(Boolean))].sort();el.innerHTML='<option value="">TÜM KATEGORİLER</option>'+cats.map(x=>'<option>'+ypEsc(x)+'</option>').join('');el.value=sec;}
-function ypParcaSelectDoldur(){['yph-kod','yps-kod'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<option value="">— SEÇİNİZ —</option>'+ypStoklar.filter(p=>ypN(p.aktif)!=='HAYIR').map(p=>`<option value="${ypEsc(p.stokKodu)}">${ypEsc(p.stokKodu)} — ${ypEsc(p.parcaAdi)} (${ypKullanilabilir(p)} ${ypEsc(p.birim||'ADET')})</option>`).join('');});}
-function ypFormParcaDatalist(){let dl=document.getElementById('yedek-parca-list');if(!dl){dl=document.createElement('datalist');dl.id='yedek-parca-list';document.body.appendChild(dl);}dl.innerHTML=ypStoklar.map(p=>`<option value="${ypEsc(p.stokKodu)}">${ypEsc(p.parcaAdi)}</option>`).join('');}
-function ypKpiHtml(list) {
-  const total  = list.length;
-  const kritik = list.filter(p => ypDurum(p) === 'KRITIK').length;
-  const yok    = list.filter(p => ypDurum(p) === 'STOK_YOK').length;
-  const uyari  = list.filter(p => ypDurum(p) === 'UYARI').length;
-
-  // STOK DEĞERLERİ PARA BİRİMİNE GÖRE AYRI AYRI HESAPLANIR.
-  // Birimler birbirine çevrilmez.
-  const stokDegeri = {
-    '₺': 0,
-    '$': 0,
-    '€': 0
-  };
-
-  list.forEach(p => {
-    const para = String(p.paraBirimi || '₺').trim();
-    const deger = ypNum(p.mevcutStok) * ypNum(p.birimFiyat);
-
-    if (stokDegeri[para] !== undefined) {
-      stokDegeri[para] += deger;
-    } else {
-      // Tanımsız para birimi varsa varsayılan olarak TL kabul edilir.
-      stokDegeri['₺'] += deger;
-    }
-  });
-
-  const tl = stokDegeri['₺'].toLocaleString('tr-TR', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2
-  });
-
-  const usd = stokDegeri['$'].toLocaleString('tr-TR', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2
-  });
-
-  const eur = stokDegeri['€'].toLocaleString('tr-TR', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2
-  });
-
-  const sip = ypSiparisler.filter(
-    x => !['TAMAMLANDI', 'IPTAL'].includes(ypN(x.durum))
-  ).length;
-
-  return `
-    <div class="yp-kpi" style="--c:#1a1a1a">
-      <b>${total}</b>
-      <span>TOPLAM PARÇA</span>
-    </div>
-
-    <div class="yp-kpi" style="--c:#e65100">
-      <b>${uyari}</b>
-      <span>UYARI</span>
-    </div>
-
-    <div class="yp-kpi" style="--c:#d32f2f">
-      <b>${kritik}</b>
-      <span>KRİTİK</span>
-    </div>
-
-    <div class="yp-kpi" style="--c:#1a1a1a">
-      <b>${yok}</b>
-      <span>STOK YOK</span>
-    </div>
-
-    <div class="yp-kpi" style="--c:#00875a">
-      <b style="font-size:14px;line-height:1.8">
-        ₺ ${tl}<br>
-        $ ${usd}<br>
-        € ${eur}
-      </b>
-      <span>STOK DEĞERİ</span>
-    </div>
-
-    <div class="yp-kpi" style="--c:#0277bd">
-      <b>${sip}</b>
-      <span>AÇIK SİPARİŞ</span>
-    </div>
-  `;
-}
-function renderYedekStok(){const box=document.getElementById('ypStokListe');if(!box)return;if(!ypYuklendi){ypVerileriYukle();return;}const q=ypN(document.getElementById('ypArama')?.value),cat=ypN(document.getElementById('ypKategoriFiltre')?.value),dur=document.getElementById('ypDurumFiltre')?.value||'';let list=ypStoklar.filter(p=>ypN(p.aktif)!=='HAYIR').filter(p=>!q||ypN([p.stokKodu,p.parcaAdi,p.kategori,p.makineGrubu,p.rafKonumu].join(' ')).includes(q)).filter(p=>!cat||ypN(p.kategori)===cat).filter(p=>!dur||ypDurum(p)===dur);document.getElementById('ypKpiGrid').innerHTML=ypKpiHtml(ypStoklar.filter(p=>ypN(p.aktif)!=='HAYIR'));box.innerHTML=list.length?list.map(p=>{const d=ypDurum(p),c=ypRenk(d),k=ypKullanilabilir(p);return `<div class="yp-stock-card" style="--c:${c}"><div class="yp-stock-head"><div><div class="yp-code">${ypEsc(p.stokKodu)}</div><div class="yp-name">${ypEsc(p.parcaAdi)}</div></div><span class="yp-badge ${d==='NORMAL'?'yp-ok':d==='UYARI'?'yp-warn':d==='KRITIK'?'yp-critical':'yp-zero'}">${ypEtiket(d)}</span></div><div class="yp-meta"><div><b>${ypNum(p.mevcutStok)}</b><span>Mevcut</span></div><div><b>${ypNum(p.rezerveStok)}</b><span>Rezerve</span></div><div><b>${k}</b><span>Kullanılabilir</span></div></div><div style="font-size:11px;color:#666;margin-top:9px">📍 ${ypEsc(p.rafKonumu||'—')} · 🏭 ${ypEsc(p.makineGrubu||'TÜM MAKİNELER')} · Min: <b>${ypNum(p.minimumStok)}</b> · Max: <b>${ypNum(p.maksimumStok)}</b></div><div class="yp-actions"><button class="yp-btn outline" onclick="ypParcaModalAc('${ypEsc(p.stokKodu)}')">DÜZENLE</button><button class="yp-btn green" onclick="ypHareketModalAc('${ypEsc(p.stokKodu)}','GIRIS')">GİRİŞ</button><button class="yp-btn dark" onclick="ypHareketModalAc('${ypEsc(p.stokKodu)}','CIKIS')">ÇIKIŞ</button><button class="yp-btn primary" onclick="ypSiparisModalAc('${ypEsc(p.stokKodu)}')">SİPARİŞ</button></div></div>`;}).join(''):'<div class="empty">Filtreye uygun parça bulunamadı.</div>';ypBadgeGuncelle();}
-function renderKritikParcalar(){const box=document.getElementById('ypKritikListe');if(!box)return;if(!ypYuklendi){ypVerileriYukle();return;}const q=ypN(document.getElementById('ypKritikArama')?.value),f=document.getElementById('ypKritikFiltre')?.value||'';let list=ypStoklar.filter(p=>['UYARI','KRITIK','STOK_YOK'].includes(ypDurum(p))).filter(p=>!q||ypN([p.stokKodu,p.parcaAdi,p.makineGrubu].join(' ')).includes(q)).filter(p=>!f||ypDurum(p)===f).sort((a,b)=>ypRisk(b)-ypRisk(a));document.getElementById('ypKritikKpi').innerHTML=ypKpiHtml(ypStoklar);box.innerHTML=list.length?list.map(p=>{const d=ypDurum(p),c=ypRenk(d),risk=ypRisk(p),oneri=Math.max(1,ypNum(p.maksimumStok)-ypNum(p.mevcutStok));return `<div class="yp-critical-row" style="--c:${c}"><div class="yp-critical-top"><div><div class="yp-code">${ypEsc(p.stokKodu)} — ${ypEsc(p.parcaAdi)}</div><div style="font-size:12px;color:#666;margin-top:4px">Makine: <b>${ypEsc(p.makineGrubu||'—')}</b> · Kullanılabilir: <b>${ypKullanilabilir(p)}</b> · Min: <b>${ypNum(p.minimumStok)}</b> · Termin: <b>${ypNum(p.terminGun)} gün</b> · Alternatif: <b>${ypEsc(p.alternatifParca||'—')}</b></div></div><div style="text-align:right"><div class="yp-risk-score">${risk}</div><span class="yp-badge ${d==='UYARI'?'yp-warn':d==='KRITIK'?'yp-critical':'yp-zero'}">${ypEtiket(d)}</span></div></div><div class="yp-progress" style="--c:${c};--w:${risk}%"><i></i></div><div style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:9px;flex-wrap:wrap"><span style="font-size:12px;color:#555">Önerilen sipariş: <b>${oneri} ${ypEsc(p.birim||'ADET')}</b></span><button class="yp-btn primary" onclick="ypSiparisModalAc('${ypEsc(p.stokKodu)}',${oneri})">SİPARİŞ TALEBİ</button></div></div>`;}).join(''):'<div class="empty">Kritik veya uyarı seviyesinde parça yok. ✅</div>';ypBadgeGuncelle();}
-function ypBadgeGuncelle(){const n=ypStoklar.filter(p=>['KRITIK','STOK_YOK'].includes(ypDurum(p))).length;document.querySelectorAll('#kritikParcaBadge').forEach(b=>{b.textContent=n;b.style.display=n?'inline-flex':'none'});document.querySelectorAll('#kritikParcaTab').forEach(t=>t.classList.toggle('yp-alert-tab',n>0));}
-function ypModalKapat(id){document.getElementById(id)?.classList.remove('open');}
-function ypParcaModalAc(kod=''){const p=ypStoklar.find(x=>ypN(x.stokKodu)===ypN(kod))||{};const map={id:'id',kod:'stokKodu',ad:'parcaAdi',kategori:'kategori',raf:'rafKonumu',makine:'makineGrubu',birim:'birim',mevcut:'mevcutStok',rezerve:'rezerveStok',min:'minimumStok',max:'maksimumStok',fiyat:'birimFiyat',para:'paraBirimi',tedarikci:'tedarikci',termin:'terminGun',makineKritik:'makineKritikligi',alternatif:'alternatifParca',not:'not'};Object.entries(map).forEach(([id,k])=>{const el=document.getElementById('yp-'+id);if(el)el.value=p[k]??(id==='birim'?'ADET':id==='para'?'₺':id==='alternatif'?'EVET':['mevcut','rezerve','fiyat','termin'].includes(id)?0:id==='min'?1:id==='max'?5:id==='makineKritik'?3:'');});document.getElementById('ypParcaModal').classList.add('open');}
-async function ypParcaKaydet(){const g=id=>document.getElementById('yp-'+id)?.value?.trim()||'';const parca={id:g('id')||Date.now(),stokKodu:ypN(g('kod')),parcaAdi:ypN(g('ad')),kategori:ypN(g('kategori')),rafKonumu:ypN(g('raf')),makineGrubu:ypN(g('makine')),birim:g('birim'),mevcutStok:ypNum(g('mevcut')),rezerveStok:ypNum(g('rezerve')),minimumStok:ypNum(g('min')),maksimumStok:ypNum(g('max')),birimFiyat:ypNum(g('fiyat')),paraBirimi:g('para'),tedarikci:ypN(g('tedarikci')),terminGun:ypNum(g('termin')),makineKritikligi:ypNum(g('makineKritik')),alternatifParca:g('alternatif'),not:ypN(g('not')),aktif:'EVET'};if(!parca.stokKodu||!parca.parcaAdi){notify('❗ Stok kodu ve parça adı zorunludur.','bad');return;}if(parca.maksimumStok&&parca.minimumStok>parca.maksimumStok){notify('❗ Minimum stok maksimum stoktan büyük olamaz.','bad');return;}try{document.body.style.cursor='wait';const r=await api('yedekParcaSave',{parca});if(!r?.ok)throw new Error(r?.error||'Kayıt başarısız');ypModalKapat('ypParcaModal');ypYuklendi=false;await ypVerileriYukle(true);notify('✅ Yedek parça kartı kaydedildi.','ok');}catch(e){notify('⚠️ '+e.message,'bad')}finally{document.body.style.cursor='';}}
-// ══ STOK HAREKET GEÇMİŞİ / RAPORLAMA ══
-function ypHareketDeger(h, keys){for(const k of keys){if(h && h[k]!==undefined && h[k]!==null && String(h[k]).trim()!=='') return h[k];}return '';}
-function ypHareketTarih(h){return ypHareketDeger(h,['tarihSaat','tarih','createdAt','createdDate','timestamp','date','kayitTarihi']);}
-function ypHareketTarihMetin(h){const v=ypHareketTarih(h);if(!v)return '—';const d=new Date(v);if(!isNaN(d))return d.toLocaleString('tr-TR');return String(v);}
-function ypHareketGun(v){if(!v)return '';const d=new Date(v);if(!isNaN(d))return d.toISOString().slice(0,10);const m=String(v).match(/(\d{4})[-./](\d{1,2})[-./](\d{1,2})/);return m?`${m[1]}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`:'';}
-function ypHareketTip(h){return ypN(ypHareketDeger(h,['tip','hareketTipi','hareket','islem']));}
-function ypHareketKod(h){return ypHareketDeger(h,['stokKodu','stok_kodu','kod']);}
-function ypHareketMiktar(h){return ypNum(ypHareketDeger(h,['miktar','adet','quantity']));}
-function ypHareketBelge(h){return ypHareketDeger(h,['belgeNo','formNo','formNumarasi','belge','form']);}
-function ypHareketAciklama(h){return ypHareketDeger(h,['aciklama','not','description']);}
-function ypHareketKaynak(h){return ypHareketDeger(h,['kaynak','source','modul']);}
-function ypHareketMakine(h){return ypHareketDeger(h,['makine','makineKodu','machine']);}
-function ypHareketKullanici(h){return ypHareketDeger(h,['kullanici','kullaniciAdi','user','createdBy']);}
-function ypHareketSonrakiStok(h){return ypHareketDeger(h,['sonrakiStok','bakiye','yeniStok','stokSon']);}
-function ypHareketOncekiStok(h){return ypHareketDeger(h,['oncekiStok','eskiStok','stokOnce']);}
-function ypHareketEtiket(t){return ({GIRIS:'GİRİŞ',CIKIS:'ÇIKIŞ',SAYIM:'SAYIM',HURDA:'HURDA',IADE:'İADE',REZERVE:'REZERVE',REZERVE_IPTAL:'REZERVE İPTAL'})[t]||t||'—';}
-function ypHareketSinif(t){return t==='GIRIS'?'yp-hareket-giris':t==='CIKIS'?'yp-hareket-cikis':'yp-hareket-diger';}
-function ypHareketParcaAdi(kod){const p=ypStoklar.find(x=>ypN(x.stokKodu)===ypN(kod));return p?.parcaAdi||'—';}
-function ypHareketGecmisiAc(kod=''){
-  if(!ypYuklendi){ypVerileriYukle(true).then(()=>ypHareketGecmisiAc(kod));return;}
-  const sel=document.getElementById('yphg-kod');sel.innerHTML='<option value="">TÜM PARÇALAR</option>'+ypStoklar.filter(p=>ypN(p.aktif)!=='HAYIR').map(p=>`<option value="${ypEsc(p.stokKodu)}">${ypEsc(p.stokKodu)} — ${ypEsc(p.parcaAdi)}</option>`).join('');
-  sel.value=kod||'';document.getElementById('yphg-tip').value='';document.getElementById('yphg-bas').value='';document.getElementById('yphg-bit').value='';document.getElementById('yphg-ara').value='';
-  document.getElementById('ypHareketGecmisiModal').classList.add('open');renderYpHareketGecmisi();
-}
-function ypHareketGecmisiTemizle(){document.getElementById('yphg-kod').value='';document.getElementById('yphg-tip').value='';document.getElementById('yphg-bas').value='';document.getElementById('yphg-bit').value='';document.getElementById('yphg-ara').value='';renderYpHareketGecmisi();}
-function ypHareketFiltreli(){const kod=ypN(document.getElementById('yphg-kod')?.value),tip=ypN(document.getElementById('yphg-tip')?.value),bas=document.getElementById('yphg-bas')?.value||'',bit=document.getElementById('yphg-bit')?.value||'',ara=ypN(document.getElementById('yphg-ara')?.value);return ypHareketler.filter(h=>{const hk=ypN(ypHareketKod(h)),ht=ypHareketTip(h),gun=ypHareketGun(ypHareketTarih(h)),metin=ypN([ypHareketBelge(h),ypHareketAciklama(h),ypHareketKaynak(h),ypHareketMakine(h),ypHareketKullanici(h)].join(' '));return (!kod||hk===kod)&&(!tip||ht===tip)&&(!bas||!gun||gun>=bas)&&(!bit||!gun||gun<=bit)&&(!ara||metin.includes(ara));}).sort((a,b)=>{const da=new Date(ypHareketTarih(a)),db=new Date(ypHareketTarih(b));return db-da;});}
-function renderYpHareketGecmisi(){const list=ypHareketFiltreli();let giris=0,cikis=0;list.forEach(h=>{const m=ypHareketMiktar(h),t=ypHareketTip(h);if(t==='GIRIS'||t==='IADE')giris+=m;if(t==='CIKIS'||t==='HURDA')cikis+=m;});document.getElementById('yphg-summary').innerHTML=`<div class="yp-hareket-kpi"><b>${list.length}</b><span>Hareket kaydı</span></div><div class="yp-hareket-kpi"><b>${ypNum(giris)}</b><span>Toplam giriş / iade</span></div><div class="yp-hareket-kpi"><b>${ypNum(cikis)}</b><span>Toplam çıkış / hurda</span></div><div class="yp-hareket-kpi"><b>${ypNum(giris-cikis)}</b><span>Net hareket</span></div>`;document.getElementById('yphg-count').textContent=`${list.length} kayıt gösteriliyor · Toplam sistem hareket kaydı: ${ypHareketler.length}`;
- if(!list.length){document.getElementById('yphg-table').innerHTML='<div class="yp-hareket-empty">Seçilen kriterlere uygun stok hareketi bulunamadı.</div>';return;}
- document.getElementById('yphg-table').innerHTML=`<table class="yp-hareket-table"><thead><tr><th>TARİH / SAAT</th><th>STOK KODU</th><th>PARÇA</th><th>HAREKET</th><th>MİKTAR</th><th>ÖNCEKİ STOK</th><th>SONRAKİ STOK</th><th>FORM / BELGE NO</th><th>AÇIKLAMA</th><th>KAYNAK</th><th>MAKİNE</th><th>KULLANICI</th></tr></thead><tbody>${list.map(h=>`<tr><td>${ypEsc(ypHareketTarihMetin(h))}</td><td><b>${ypEsc(ypHareketKod(h)||'—')}</b></td><td>${ypEsc(ypHareketParcaAdi(ypHareketKod(h)))}</td><td class="${ypHareketSinif(ypHareketTip(h))}">${ypEsc(ypHareketEtiket(ypHareketTip(h)))}</td><td><b>${ypNum(ypHareketMiktar(h))}</b></td><td>${ypEsc(ypHareketOncekiStok(h)===''?'—':ypHareketOncekiStok(h))}</td><td>${ypEsc(ypHareketSonrakiStok(h)===''?'—':ypHareketSonrakiStok(h))}</td><td><b>${ypEsc(ypHareketBelge(h)||'—')}</b></td><td>${ypEsc(ypHareketAciklama(h)||'—')}</td><td>${ypEsc(ypHareketKaynak(h)||'—')}</td><td>${ypEsc(ypHareketMakine(h)||'—')}</td><td>${ypEsc(ypHareketKullanici(h)||'—')}</td></tr>`).join('')}</tbody></table>`;}
-function ypHareketGecmisiYazdir(){ypHareketGecmisiPDF(true);}
-function ypHareketGecmisiPDF(printOnly=false){
-  const list=ypHareketFiltreli();
-  const sec=ypN(document.getElementById('yphg-kod')?.value);
-  const parca=ypHareketParcaAdi(sec);
-  const bas=document.getElementById('yphg-bas')?.value||'—';
-  const bit=document.getElementById('yphg-bit')?.value||'—';
-  const title='BURKAB A.Ş. — YEDEK PARÇA STOK HAREKET RAPORU';
-  const rows=list.map(h=>`<tr>
-    <td>${ypEsc(ypHareketTarihMetin(h))}</td>
-    <td>${ypEsc(ypHareketKod(h))}</td>
-    <td>${ypEsc(ypHareketParcaAdi(ypHareketKod(h)))}</td>
-    <td>${ypEsc(ypHareketEtiket(ypHareketTip(h)))}</td>
-    <td class="num">${ypNum(ypHareketMiktar(h))}</td>
-    <td class="num">${ypEsc(ypHareketOncekiStok(h)||'—')}</td>
-    <td class="num">${ypEsc(ypHareketSonrakiStok(h)||'—')}</td>
-    <td>${ypEsc(ypHareketBelge(h)||'—')}</td>
-    <td>${ypEsc(ypHareketAciklama(h)||'—')}</td>
-    <td>${ypEsc(ypHareketKaynak(h)||'—')}</td>
-    <td>${ypEsc(ypHareketMakine(h)||'—')}</td>
-    <td>${ypEsc(ypHareketKullanici(h)||'—')}</td>
-  </tr>`).join('');
-  const empty=`<tr><td colspan="12" class="empty">Seçilen kriterlere uygun stok hareketi bulunamadı.</td></tr>`;
-  const html=`<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>${title}</title>
-  <style>
-    @page{size:A4 landscape;margin:9mm}
-    *{box-sizing:border-box}
-    body{font-family:Arial,Helvetica,sans-serif;color:#111;background:#fff;margin:0;font-size:8px}
-    .head{border-bottom:2px solid #111;padding-bottom:7px;margin-bottom:8px}
-    .title{font-size:17px;font-weight:800;margin-bottom:5px}
-    .meta{font-size:9px;line-height:1.5}
-    .summary{display:flex;gap:8px;margin:7px 0 9px}
-    .kpi{border:1px solid #aaa;padding:5px 9px;min-width:105px}.kpi b{display:block;font-size:12px}.kpi span{font-size:7px;color:#555}
-    table{width:100%;border-collapse:collapse;table-layout:fixed}
-    th{background:#1a1a1a;color:#fff;font-size:7.5px;padding:5px 3px;border:1px solid #222;text-align:left}
-    td{border:1px solid #aaa;padding:4px 3px;vertical-align:top;word-break:break-word;line-height:1.25}
-    tr{page-break-inside:avoid}
-    .num{text-align:right;white-space:nowrap}
-    .empty{text-align:center;padding:20px}
-    .foot{margin-top:7px;font-size:7px;color:#555;text-align:right}
-  </style></head><body>
-  <div class="head"><div class="title">${title}</div>
-  <div class="meta">Parça: <b>${ypEsc(sec?sec+' — '+parca:'TÜM PARÇALAR')}</b> &nbsp; | &nbsp; Tarih: <b>${ypEsc(bas)}</b> → <b>${ypEsc(bit)}</b> &nbsp; | &nbsp; Kayıt: <b>${list.length}</b> &nbsp; | &nbsp; Rapor: ${new Date().toLocaleString('tr-TR')}</div></div>
-  <div class="summary"><div class="kpi"><b>${list.length}</b><span>HAREKET KAYDI</span></div>
-  <div class="kpi"><b>${ypNum(list.reduce((s,h)=>{const t=ypHareketTip(h);return s+((t==='GIRIS'||t==='IADE')?ypHareketMiktar(h):0)},0))}</b><span>TOPLAM GİRİŞ / İADE</span></div>
-  <div class="kpi"><b>${ypNum(list.reduce((s,h)=>{const t=ypHareketTip(h);return s+((t==='CIKIS'||t==='HURDA')?ypHareketMiktar(h):0)},0))}</b><span>TOPLAM ÇIKIŞ / HURDA</span></div></div>
-  <table><thead><tr><th>Tarih/Saat</th><th>Stok Kodu</th><th>Parça</th><th>Hareket</th><th>Miktar</th><th>Önceki</th><th>Sonraki</th><th>Form/Belge</th><th>Açıklama</th><th>Kaynak</th><th>Makine</th><th>Kullanıcı</th></tr></thead>
-  <tbody>${rows||empty}</tbody></table>
-  <div class="foot">BURKAB A.Ş. · Yedek Parça Stok Hareketleri · İzlenebilirlik Raporu</div>
-  <script>window.onload=function(){setTimeout(function(){window.print();setTimeout(function(){window.close()},700)},250)};<\/script>
-  </body></html>`;
-  const win=window.open('','_blank','width=1400,height=900');
-  if(!win){notify('⚠️ Rapor penceresi açılamadı. Tarayıcı açılır pencere iznini kontrol edin.','bad');return;}
-  win.document.open();win.document.write(html);win.document.close();
-}
-
-function ypHareketModalAc(kod='',tip='GIRIS'){ypParcaSelectDoldur();document.getElementById('yph-kod').value=kod;document.getElementById('yph-tip').value=tip;document.getElementById('yph-miktar').value=1;document.getElementById('yph-belge').value='';document.getElementById('yph-aciklama').value='';const p=ypStoklar.find(x=>ypN(x.stokKodu)===ypN(kod));document.getElementById('yph-fiyat').value=p?.birimFiyat||'';document.getElementById('ypHareketModal').classList.add('open');}
-async function ypHareketKaydet(){const hareket={stokKodu:document.getElementById('yph-kod').value,tip:document.getElementById('yph-tip').value,miktar:ypNum(document.getElementById('yph-miktar').value),belgeNo:ypN(document.getElementById('yph-belge').value),birimFiyat:ypNum(document.getElementById('yph-fiyat').value),aciklama:ypN(document.getElementById('yph-aciklama').value)};if(!hareket.stokKodu||hareket.miktar<=0||!hareket.aciklama){notify('❗ Parça, miktar ve açıklama zorunludur.','bad');return;}try{document.body.style.cursor='wait';const r=await api('yedekParcaHareket',{hareket});if(!r?.ok)throw new Error(r?.error||'Hareket başarısız');ypModalKapat('ypHareketModal');ypYuklendi=false;await ypVerileriYukle(true);notify('✅ Stok hareketi işlendi.','ok');}catch(e){notify('⚠️ '+e.message,'bad')}finally{document.body.style.cursor='';}}
-function ypSiparisModalAc(kod='',miktar){ypParcaSelectDoldur();const p=ypStoklar.find(x=>ypN(x.stokKodu)===ypN(kod));document.getElementById('yps-kod').value=kod;document.getElementById('yps-miktar').value=miktar||Math.max(1,ypNum(p?.maksimumStok)-ypNum(p?.mevcutStok));document.getElementById('yps-tedarikci').value=p?.tedarikci||'';const d=new Date();d.setDate(d.getDate()+Math.max(1,ypNum(p?.terminGun)||7));document.getElementById('yps-tarih').value=d.toISOString().slice(0,10);document.getElementById('yps-not').value='';document.getElementById('ypSiparisModal').classList.add('open');}
-function ypTopluSiparisModalAc(){const p=ypStoklar.filter(x=>['KRITIK','STOK_YOK'].includes(ypDurum(x))).sort((a,b)=>ypRisk(b)-ypRisk(a))[0];if(!p){notify('✅ Sipariş gerektiren kritik parça yok.','ok');return;}ypSiparisModalAc(p.stokKodu);}
-async function ypSiparisKaydet(){const siparis={stokKodu:document.getElementById('yps-kod').value,miktar:ypNum(document.getElementById('yps-miktar').value),hedefTarih:document.getElementById('yps-tarih').value,oncelik:document.getElementById('yps-oncelik').value,tedarikci:ypN(document.getElementById('yps-tedarikci').value),not:ypN(document.getElementById('yps-not').value),durum:'TALEP_ACILDI'};if(!siparis.stokKodu||siparis.miktar<=0){notify('❗ Parça ve sipariş miktarı zorunludur.','bad');return;}try{document.body.style.cursor='wait';const r=await api('yedekParcaSiparisSave',{siparis});if(!r?.ok)throw new Error(r?.error||'Sipariş talebi başarısız');ypModalKapat('ypSiparisModal');ypYuklendi=false;await ypVerileriYukle(true);notify('✅ Sipariş talebi oluşturuldu.','ok');}catch(e){notify('⚠️ '+e.message,'bad')}finally{document.body.style.cursor='';}}
-async function ypBakimdanStokDus(kayit){const list=parseParcalar(kayit.parcalar);const stoklu=list.filter(x=>x.stokKodu||ypStoklar.some(p=>ypN(p.stokKodu)===ypN(x.ad)));if(!stoklu.length)return {ok:true,skipped:true};const hareketler=stoklu.map(x=>({stokKodu:x.stokKodu||x.ad,tip:'CIKIS',miktar:ypNum(x.adet),belgeNo:kayit.formNo||String(kayit.id),birimFiyat:ypNum(x.fiyat),aciklama:'BAKIM FORMUNDAN OTOMATİK TÜKETİM',kaynak:'BAKIM'}));const r=await api('yedekParcaTopluHareket',{hareketler});if(!r?.ok)throw new Error(r?.error||'Parça stok düşümü başarısız');ypYuklendi=false;return r;}
-
 </script>
 </body></html>
