@@ -94,6 +94,30 @@
 @media(max-width:850px){.passport-hero,.passport-grid{grid-template-columns:1fr}.passport-info{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.passport-info{grid-template-columns:1fr}.passport-check{grid-template-columns:26px 1fr}.passport-check .reason{grid-column:2;text-align:left}.life-row{grid-template-columns:1fr 65px}}
 
+
+/* TBE YEDEK PARÇA — KOLAY STOK GİRİŞ/ÇIKIŞ */
+.quick-stock-wrap{margin-top:14px}
+.quick-stock-toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:end}
+.quick-stock-toolbar .field{min-width:180px;flex:1;margin:0}
+.quick-stock-toolbar input,.quick-stock-toolbar select{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%}
+.quick-stock-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.quick-stock-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;border-top:4px solid var(--gold);box-shadow:0 4px 14px #0000000b}
+.quick-stock-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.quick-stock-code{font-weight:900;font-family:'IBM Plex Mono',monospace}
+.quick-stock-name{font-weight:800;margin-top:3px}
+.quick-stock-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}
+.quick-stock-meta div{background:#fbfaf6;border:1px solid #eee7da;border-radius:8px;padding:8px;text-align:center}
+.quick-stock-meta b{display:block;font-size:20px}
+.quick-stock-meta small{color:var(--muted);font-size:10px;font-weight:800}
+.quick-stock-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.quick-stock-actions button{min-height:42px}
+.quick-plus{background:#16804d;color:#fff}
+.quick-minus{background:#c62828;color:#fff}
+.quick-move{background:#1a1a1a;color:#ffd700}
+.quick-stock-empty{padding:25px;text-align:center;color:#777}
+@media(max-width:1000px){.quick-stock-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.quick-stock-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -219,6 +243,32 @@
       </div>
     </div>
   </div>
+
+  <div class="section quick-stock-wrap">
+    <div class="section-head">
+      <span><i class="fas fa-bolt"></i> HIZLI YEDEK PARÇA GİRİŞ / ÇIKIŞ</span>
+      <small>Tek tuşla +1 / -1</small>
+    </div>
+    <div class="section-body">
+      <div class="quick-stock-toolbar">
+        <div class="field">
+          <label>PARÇA / STOK ARA</label>
+          <input id="quickStockSearch" placeholder="Stok kodu, parça adı..." oninput="renderQuickStock()">
+        </div>
+        <div class="field">
+          <label>DURUM</label>
+          <select id="quickStockFilter" onchange="renderQuickStock()">
+            <option value="">TÜMÜ</option>
+            <option value="NORMAL">NORMAL</option>
+            <option value="KRITIK">KRİTİK</option>
+            <option value="STOK YOK">STOK YOK</option>
+          </select>
+        </div>
+        <button type="button" class="btn ghost" onclick="clearQuickStock()"><i class="fas fa-eraser"></i> Temizle</button>
+      </div>
+      <div id="quickStockGrid" class="quick-stock-grid" style="margin-top:13px"></div>
+    </div>
+  </div>
 </section>
 <section id="p-kesit" class="page"><div class="page-head"><div><h2>Terminal Kesit PDF Arşivi</h2><p>Proje, iş emri, lot ve terminal bazlı kanıt</p></div><button class="btn primary" onclick="openModal('kesitDlg')">+ PDF</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Tarih</th><th>Aplikatör</th><th>Terminal</th><th>Proje / İş Emri</th><th>Lot</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody id="kesitBody"></tbody></table></div></div></section>
 <section id="p-bakim" class="page"><div class="page-head"><div><h2>Bakım ve Revizyon Geçmişi</h2><p>Bu modülün kendi bağımsız kayıtları</p></div><button class="btn primary" onclick="openModal('bakimDlg')">+ Kayıt</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Tarih</th><th>Aplikatör</th><th>Tür</th><th>Durum</th><th>Yapılan İşlem</th><th>Duruş</th><th>Maliyet</th></tr></thead><tbody id="bakimBody"></tbody></table></div></div></section>
@@ -249,7 +299,65 @@ function newAplikator(){
   notify('Yeni kayıt modu açıldı.','info');
 }
 async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
-function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.stock.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${partName(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${num(x.MevcutMiktar)}</td><td>${num(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${st(x.Oncelik||'NORMAL')}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(7);fillSelects()}
+function render(){renderCards();renderAplikator();renderQuickStock();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);stokBody.innerHTML=S.stock.map(x=>`<tr><td>${e(x.StokKodu)}</td><td>${partName(x.ParcaId)}</td><td>${e(x.RafKonumu)}</td><td>${num(x.MevcutMiktar)}</td><td>${num(x.MinimumStok)}</td><td>${e(x.Tedarikci)}</td><td>${st(Number(x.MevcutMiktar)<=Number(x.MinimumStok)?'KRITIK':'NORMAL')}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${st(x.Oncelik||'NORMAL')}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(7);fillSelects()}
+
+function quickStockStatus(x){
+  const n=Number(x.MevcutMiktar||0), min=Number(x.MinimumStok||0);
+  if(n<=0)return 'STOK YOK';
+  if(n<=min)return 'KRITIK';
+  return 'NORMAL';
+}
+function renderQuickStock(){
+  const box=document.getElementById('quickStockGrid');
+  if(!box)return;
+  const q=tbeN(document.getElementById('quickStockSearch')?.value||'');
+  const f=tbeN(document.getElementById('quickStockFilter')?.value||'');
+  const list=S.stock.filter(x=>{
+    const p=S.parts.find(y=>String(y.ParcaId)===String(x.ParcaId))||{};
+    const text=[x.StokKodu,p.StokKodu,p.ParcaKodu,p.ParcaAdi,x.RafKonumu,x.Tedarikci].join(' ');
+    const durum=tbeN(quickStockStatus(x));
+    return (!q||tbeN(text).includes(q))&&(!f||durum===f);
+  });
+  box.innerHTML=list.map(x=>{
+    const p=S.parts.find(y=>String(y.ParcaId)===String(x.ParcaId))||{};
+    const durum=quickStockStatus(x);
+    const cls=durum==='STOK YOK'?'KRITIK':durum;
+    return `<div class="quick-stock-card">
+      <div class="quick-stock-head">
+        <div><div class="quick-stock-code">${e(x.StokKodu||p.StokKodu||'—')}</div><div class="quick-stock-name">${e(p.ParcaAdi||p.ParcaKodu||'Parça')}</div></div>
+        ${st(cls)}
+      </div>
+      <div class="quick-stock-meta">
+        <div><b>${num(x.MevcutMiktar)}</b><small>MEVCUT</small></div>
+        <div><b>${num(x.MinimumStok)}</b><small>MİNİMUM</small></div>
+        <div><b>${num(Math.max(0,Number(x.MevcutMiktar||0)-Number(x.MinimumStok||0)))}</b><small>ÜST SEVİYE</small></div>
+      </div>
+      <div style="font-size:11px;color:#666;margin-bottom:9px">📍 ${e(x.RafKonumu||'—')} · ${e(x.Tedarikci||'Tedarikçi yok')}</div>
+      <div class="quick-stock-actions">
+        <button type="button" class="btn quick-plus" onclick='quickStockMove(${JSON.stringify(String(x.StokId))},"GIRIS",1)'><i class="fas fa-plus"></i> 1 EKLE</button>
+        <button type="button" class="btn quick-minus" onclick='quickStockMove(${JSON.stringify(String(x.StokId))},"CIKIS",1)' ${Number(x.MevcutMiktar||0)<=0?'disabled':''}><i class="fas fa-minus"></i> 1 ÇIKAR</button>
+        <button type="button" class="btn quick-move" onclick='openQuickMovement(${JSON.stringify(String(x.StokId))})'><i class="fas fa-right-left"></i> MİKTAR</button>
+      </div>
+    </div>`;
+  }).join('')||'<div class="quick-stock-empty">Filtreye uygun yedek parça bulunamadı.</div>';
+}
+function clearQuickStock(){
+  const a=document.getElementById('quickStockSearch'),b=document.getElementById('quickStockFilter');
+  if(a)a.value=''; if(b)b.value=''; renderQuickStock();
+}
+async function quickStockMove(stokId,tur,miktar){
+  try{
+    await api('tbeStokHareketKaydet',{StokId:stokId,HareketTuru:tur,Miktar:miktar,Aciklama:tur==='GIRIS'?'Hızlı stok +1':'Hızlı stok -1'});
+    notify(tur==='GIRIS'?'Stok +1 eklendi.':'Stok -1 çıkarıldı.','ok');
+    await load();
+  }catch(err){notify('Stok hareketi yapılamadı: '+err.message,'bad');}
+}
+function openQuickMovement(stokId){
+  const sel=document.getElementById('stokSelect');
+  if(sel){sel.value=stokId;}
+  const dlg=document.getElementById('stokDlg');
+  if(dlg)dlg.showModal();
+}
 
 function parcaAplikatorAra(){
   const stokQ=tbeN(document.getElementById('parcaAraStok')?.value||'');
