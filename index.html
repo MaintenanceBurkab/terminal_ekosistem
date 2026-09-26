@@ -363,8 +363,24 @@ function terminalCardsForAplikator(aplikatorId){
       });
     }
 
-    const kesit=String(x.KabloKesiti||'').replace(',','.').trim();
-    if(!kesit)return;
+    // Google Sheets sayısal kesitleri bazen 1, 1.5, 1.00 gibi farklı
+    // biçimlerde döndürebilir. Formdaki anahtarlar ise sabit 2 hanelidir.
+    // Düzenleme sırasında ölçülerin kaybolmaması için tek bir anahtara normalize et.
+    const rawKesit=String(x.KabloKesiti??'').replace(',','.').trim();
+    if(!rawKesit)return;
+    const kesitNum=Number(rawKesit);
+    const kesit=Number.isFinite(kesitNum) ? kesitNum.toFixed(2) : rawKesit;
+    if(!TBE_KESITLER.includes(kesit)){
+      const eslesen=TBE_KESITLER.find(k=>Number(k)===kesitNum);
+      if(eslesen) {
+        // Örn. 1 -> 1.00, 1.5 -> 1.50
+        groups.get(key).degerler[eslesen]={
+          CH:x.CH||'', CH_Tol:x.CH_Tol||'', CW:x.CW||'', CW_Tol:x.CW_Tol||'',
+          IH:x.IH||'', IH_Tol:x.IH_Tol||'', IW:x.IW||'', IW_Tol:x.IW_Tol||''
+        };
+        return;
+      }
+    }
 
     groups.get(key).degerler[kesit]={
       CH:x.CH||'',
@@ -563,9 +579,12 @@ function editAp(raw){
 
   const ilkKesit=S.cuts.find(c=>String(c.AplikatorId)===String(x.AplikatorId));
   wTerminal.value=ilkKesit?.TerminalKodu||'';
-  wKesit.value=ilkKesit?.KabloKesiti||'';
+  const ilkKesitDegeri=ilkKesit?.KabloKesiti??'';
+  const ilkKesitNum=Number(String(ilkKesitDegeri).replace(',','.'));
+  wKesit.value=Number.isFinite(ilkKesitNum)?ilkKesitNum.toFixed(2):String(ilkKesitDegeri||'');
   wPdf.value=ilkKesit?.PDFURL||'';
 
+  wizardDraft=null;
   currentStep=0;
   showStep();
 
@@ -577,7 +596,14 @@ function editAp(raw){
   page('new');
   notify('Sicilin 5 aşamasındaki mevcut değerler yüklendi.','ok');
 }
-function addPresRow(v={}){presRows.insertAdjacentHTML('beforeend',`<div class="repeat-row"><div class="field"><label>Pres Kodu</label><input data-k="PresKodu" value="${ea(v.PresKodu||'')}"></div><div class="field"><label>Marka</label><input data-k="PresMarka" value="${ea(v.PresMarka||'')}"></div><div class="field"><label>Model</label><input data-k="PresModel" value="${ea(v.PresModel||'')}"></div><div class="field"><label>Uyum</label><select data-k="UyumDurumu"><option>UYGUN</option><option>KOŞULLU</option><option>UYGUNSUZ</option></select></div><div class="field"><label>Açıklama</label><input data-k="Aciklama"></div><button type="button" class="btn danger" onclick="this.parentElement.remove()">Sil</button></div>`)}
+function addPresRow(v={}){
+  presRows.insertAdjacentHTML('beforeend',`<div class="repeat-row"><div class="field"><label>Pres Kodu</label><input data-k="PresKodu" value="${ea(v.PresKodu||'')}"></div><div class="field"><label>Marka</label><input data-k="PresMarka" value="${ea(v.PresMarka||'')}"></div><div class="field"><label>Model</label><input data-k="PresModel" value="${ea(v.PresModel||'')}"></div><div class="field"><label>Uyum</label><select data-k="UyumDurumu"><option>UYGUN</option><option>KOŞULLU</option><option>UYGUNSUZ</option></select></div><div class="field"><label>Açıklama</label><input data-k="Aciklama" value="${ea(v.Aciklama||'')}"></div><button type="button" class="btn danger" onclick="this.parentElement.remove()">Sil</button></div>`);
+  const last=presRows.lastElementChild;
+  if(last){
+    const sel=last.querySelector('[data-k="UyumDurumu"]');
+    if(sel)sel.value=v.UyumDurumu||'UYGUN';
+  }
+}
 const TBE_KESITLER=['0.22','0.35','0.50','0.75','1.00','1.50','2.00','2.50','3.00','4.00','6.00','10.00','16.00'];
 const TBE_OLCULER=[['CH','C/H'],['CW','C/W'],['IH','I/H'],['IW','I/W']];
 
@@ -643,7 +669,54 @@ function addPartRow(v={}){
   if(last && v.ParaBirimi) last.querySelector('[data-k="ParaBirimi"]').value=v.ParaBirimi;
 }
 function collectRows(id){return [...document.querySelectorAll('#'+id+' .repeat-row,#'+id+' .part-row')].map(r=>Object.fromEntries([...r.querySelectorAll('[data-k]')].map(x=>[x.dataset.k,x.value.trim()]))).filter(x=>Object.values(x).some(Boolean))}
-function moveStep(d){if(d>0&&!validateStep())return;currentStep=Math.max(0,Math.min(4,currentStep+d));showStep()}
+function wizardTerminalSnapshot(){
+  return [...document.querySelectorAll('#terminalRows .crimp-card')].map(card=>{
+    const head=Object.fromEntries([...card.querySelectorAll('[data-head]')].map(x=>[x.dataset.head,x.value.trim()]));
+    const degerler={};
+    TBE_KESITLER.forEach(k=>{
+      const row={}; let has=false;
+      card.querySelectorAll(`[data-kesit="${k}"]`).forEach(x=>{row[x.dataset.m]=x.value.trim();if(x.value.trim())has=true;});
+      if(has)degerler[k]=row;
+    });
+    return {...head,degerler};
+  });
+}
+function wizardStateSnapshot(){
+  return {
+    form:Object.fromEntries(new FormData(wizardForm)),
+    pres:collectRows('presRows'),
+    seals:collectRows('sealRows'),
+    terminals:wizardTerminalSnapshot(),
+    parts:collectRows('partRows'),
+    pdf:{TerminalKodu:wTerminal.value||'',KabloKesiti:wKesit.value||'',PDFURL:wPdf.value||''}
+  };
+}
+function restoreWizardState(st){
+  if(!st)return;
+  Object.entries(st.form||{}).forEach(([k,v])=>{const el=wizardForm.elements[k];if(el)el.value=v??'';});
+  presRows.innerHTML='';(st.pres||[]).forEach(addPresRow);
+  if(!(st.pres||[]).length)addPresRow();
+  sealRows.innerHTML='';(st.seals||[]).forEach(addSealRow);
+  wizardForm.elements.SealVarMi.value=(st.form?.SealVarMi||((st.seals||[]).length?'VAR':'YOK'));
+  toggleSealSection();
+  terminalRows.innerHTML='';
+  if((st.terminals||[]).length)(st.terminals||[]).forEach(addTerminalCard);else addTerminalCard();
+  partRows.innerHTML='';(st.parts||[]).forEach(addPartRow);
+  if(!(st.parts||[]).length)addPartRow();
+  wTerminal.value=st.pdf?.TerminalKodu||'';
+  wKesit.value=st.pdf?.KabloKesiti||'';
+  wPdf.value=st.pdf?.PDFURL||'';
+}
+let wizardDraft=null;
+function moveStep(d){
+  if(d>0&&!validateStep())return;
+  wizardDraft=wizardStateSnapshot();
+  currentStep=Math.max(0,Math.min(4,currentStep+d));
+  showStep();
+  // Adım geçişinde hiçbir alanın yeniden oluşturulması veri kaybına yol açmasın.
+  restoreWizardState(wizardDraft);
+  if(currentStep===4)buildReview();
+}
 function validateStep(){if(currentStep===0&&!wizardForm.elements.SicilNo.value.trim()){notify('Sicil No zorunludur.','bad');return false}return true}
 function showStep(){document.querySelectorAll('.wizard-panel').forEach((x,i)=>x.classList.toggle('active',i===currentStep));document.querySelectorAll('.step').forEach((x,i)=>{x.classList.toggle('active',i===currentStep);x.classList.toggle('done',i<currentStep)});prevBtn.disabled=currentStep===0;nextBtn.classList.toggle('hidden',currentStep===4);saveBtn.classList.toggle('hidden',currentStep!==4);stepTitle.textContent=`Adım ${currentStep+1} / 5`;if(currentStep===4)buildReview()}
 function buildReview(){
@@ -661,6 +734,7 @@ function buildReview(){
   ].map(x=>`<div class="review-box"><b>${x[0]}</b>${e(x[1]||'—')}</div>`).join('')
 }
 function resetWizard(){
+  wizardDraft=null;
   wizardForm.reset();
   presRows.innerHTML='';
   sealRows.innerHTML='';
