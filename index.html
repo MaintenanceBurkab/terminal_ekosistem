@@ -229,7 +229,7 @@
 <dialog id="bakimDlg"><div class="modal-head"><b>Bakım / Revizyon Kaydı</b><button class="btn ghost" onclick="bakimDlg.close()">✕</button></div><form id="bakimForm" class="modal-body"><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>İşlem Türü</label><select name="IslemTuru"><option>PLANLI BAKIM</option><option>PLANSIZ BAKIM</option><option>ARIZA</option><option>REVIZYON</option><option>TEMIZLIK</option></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field full"><label>Arıza / Konu</label><input name="ArizaTanimi"></div><div class="field full"><label>Yapılan İşlem</label><textarea name="YapilanIslem"></textarea></div><div class="field"><label>Duruş (dk)</label><input name="DurdurmaDakika" type="number" min="0"></div><div class="field"><label>Maliyet (₺)</label><input name="Maliyet" type="number" min="0" step="0.01"></div><div class="field"><label>Onaylayan</label><input name="Onaylayan"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="bakimDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="stokDlg"><div class="modal-head"><b>Stok Hareketi</b><button class="btn ghost" onclick="stokDlg.close()">✕</button></div><form id="stokForm" class="modal-body"><div class="grid2"><div class="field"><label>Stok Kaydı *</label><select name="StokId" id="stokSelect" required></select></div><div class="field"><label>Hareket Türü</label><select name="HareketTuru"><option>GIRIS</option><option>CIKIS</option></select></div><div class="field"><label>Miktar *</label><input name="Miktar" type="number" min="0.01" step="0.01" required></div><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="stokDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="aksiyonDlg"><div class="modal-head"><b>CAPA / Aksiyon</b><button class="btn ghost" onclick="aksiyonDlg.close()">✕</button></div><form id="aksiyonForm" class="modal-body"><div class="grid2"><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field"><label>Öncelik</label><select name="Oncelik"><option value="NORMAL">NORMAL</option><option value="YUKSEK">YÜKSEK</option><option value="KRITIK">KRİTİK</option><option value="DUSUK">DÜŞÜK</option></select></div><div class="field full"><label>Konu *</label><input name="Konu" required></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div><div class="field"><label>Sorumlu</label><input name="Sorumlu"></div><div class="field"><label>Hedef Tarih</label><input name="HedefTarih" type="date"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="aksiyonDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
-<dialog id="passportDlg" class="passport-dialog"><div class="modal-head"><b><i class="fas fa-id-card"></i> APLİKATÖR PASAPORTU</b><button class="btn ghost" type="button" onclick="document.getElementById('passportDlg').close()">✕</button></div><div id="passportBody" class="passport-body"></div></dialog>
+<dialog id="passportHistoryDlg" class="passport-dialog"><div class="modal-head"><b><i class="fas fa-clock-rotate-left"></i> ÜRETİME HAZIRLIK KONTROL GEÇMİŞİ</b><button class="btn ghost" type="button" onclick="document.getElementById('passportHistoryDlg').close()">✕</button></div><div id="passportHistoryBody" class="passport-body"></div></dialog><dialog id="passportDlg" class="passport-dialog"><div class="modal-head"><b><i class="fas fa-id-card"></i> APLİKATÖR PASAPORTU</b><button class="btn ghost" type="button" onclick="document.getElementById('passportDlg').close()">✕</button></div><div id="passportBody" class="passport-body"></div></dialog>
 <div id="toast" class="toast"></div>
 <script>
 const CFG={GS_URL:'https://script.google.com/macros/s/AKfycbzzj7TxQREn8Cz8DyqhrymhVK6bP4Pfbj039CJxXHcZGW6884fQsKiY8-6B2denRt1D/exec'};
@@ -464,7 +464,7 @@ async function openPassport(raw){
   if(dlg && !dlg.open)dlg.showModal();
   try{
     const server=await api('tbeUretimeHazirlikGetir',{AplikatorId:x.AplikatorId});
-    if(body && dlg && dlg.open)body.innerHTML=buildPassport(x,server);
+    if(body && dlg && dlg.open)body.innerHTML=buildPassport(x,server.data||server);
   }catch(err){
     console.warn('Server üretime hazırlık kontrolü alınamadı:',err);
   }
@@ -473,11 +473,37 @@ async function savePassportCheck(aplikatorId){
   const btn=document.getElementById('passportSaveCheckBtn');
   if(btn)btn.disabled=true;
   try{
-    const r=await api('tbeUretimeHazirlikKaydet',{AplikatorId:aplikatorId,requestId:'UHK-'+aplikatorId+'-'+Date.now()});
+    const ap=S.a.find(x=>String(x.AplikatorId)===String(aplikatorId));
+    if(!ap)throw new Error('Aplikatör bulunamadı.');
+    const local=passportChecks(ap);
+    const fails=local.checks.filter(c=>c.state==='fail');
+    const warns=local.checks.filter(c=>c.state==='warn');
+    const sonuc=fails.length?'ÜRETİME HAZIR DEĞİL':'ÜRETİME HAZIR';
+    const checks={
+      aplikatorDurumu:local.checks.find(c=>c.label==='Aplikatör durumu')?.reason||'',
+      terminalUyumu:local.checks.find(c=>c.label==='Terminal uyumluluğu')?.reason||'',
+      presUyumu:local.checks.find(c=>c.label==='Pres uyumluluğu')?.reason||'',
+      parcaOmru:local.checks.find(c=>c.label==='Kritik parça ömrü')?.reason||'',
+      stokDurumu:local.checks.find(c=>c.label==='Kritik stok')?.reason||'',
+      bakimDurumu:local.checks.find(c=>c.label==='Bakım durumu')?.reason||'',
+      aksiyonDurumu:local.checks.find(c=>c.label==='Açık aksiyon')?.reason||''
+    };
+    const r=await api('tbeUretimeHazirlikKaydet',{
+      AplikatorId:ap.AplikatorId,
+      SicilNo:ap.SicilNo,
+      Sonuc:sonuc,
+      KritikEngelSayisi:fails.length,
+      UyariSayisi:warns.length,
+      kontroller:checks,
+      Aciklama:fails.length
+        ? 'Üretime hazırlık kontrolünde engel bulundu: '+fails.map(x=>x.label).join(', ')
+        : (warns.length?'Üretime hazırlık uygun; '+warns.length+' uyarı mevcut.':'Tüm kontroller uygun.'),
+      KontrolEden:S.user?.name||S.user?.adSoyad||S.user?.username||'Kullanıcı',
+      requestId:'UHK-'+ap.AplikatorId+'-'+Date.now()
+    });
     notify('Üretime hazırlık kontrolü kayıt altına alındı.','ok');
     const body=document.getElementById('passportBody');
-    const ap=S.a.find(x=>String(x.AplikatorId)===String(aplikatorId));
-    if(body&&ap)body.innerHTML=buildPassport(ap,r.sonuc||null);
+    if(body)body.innerHTML=buildPassport(ap,local);
   }catch(err){
     notify('Kontrol kaydedilemedi: '+err.message,'bad');
   }finally{
@@ -567,7 +593,36 @@ function buildPassport(x,serverResult){
     <div class="passport-card"><div class="passport-card-head"><span>📄 KESİT PDF ARŞİVİ</span><span>${S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Terminal</th><th>Kesit</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody>${cutRows}</tbody></table></div></div></div>
     <div class="passport-card"><div class="passport-card-head"><span>📌 AÇIK AKSİYONLAR</span><span>${r.openActions.length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Konu</th><th>Sorumlu</th><th>Hedef</th><th>Durum</th><th>Öncelik</th></tr></thead><tbody>${actionRows}</tbody></table></div></div></div>
     <div class="passport-card full"><div class="passport-card-head"><span>🔧 BAKIM / REVİZYON GEÇMİŞİ</span><span>${r.maint.length} kayıt</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Tür</th><th>Durum</th><th>İşlem</th><th>Duruş</th></tr></thead><tbody>${maintRows}</tbody></table></div></div></div>
-  </div><div class="passport-actions"><button type="button" class="btn ghost" onclick="document.getElementById('passportDlg').close()">Kapat</button><button id="passportSaveCheckBtn" type="button" class="btn dark" onclick='savePassportCheck(${JSON.stringify(x.AplikatorId)})'><i class="fas fa-clipboard-check"></i> Kontrolü Kaydet</button><button type="button" class="btn primary" onclick='document.getElementById("passportDlg").close();editAp(${JSON.stringify(JSON.stringify(x))})'><i class="fas fa-pen"></i> Aplikatörü Düzenle</button></div>`;
+  </div><div class="passport-actions"><button type="button" class="btn ghost" onclick="document.getElementById('passportDlg').close()">Kapat</button><button id="passportSaveCheckBtn" type="button" class="btn dark" onclick='savePassportCheck(${JSON.stringify(x.AplikatorId)})'><i class="fas fa-clipboard-check"></i> Kontrolü Kaydet</button><button type="button" class="btn ghost" onclick='showPassportHistory(${JSON.stringify(x.AplikatorId)})'><i class="fas fa-clock-rotate-left"></i> Kontrol Geçmişi</button><button type="button" class="btn primary" onclick='document.getElementById("passportDlg").close();editAp(${JSON.stringify(JSON.stringify(x))})'><i class="fas fa-pen"></i> Aplikatörü Düzenle</button></div>`;
+}
+
+async function showPassportHistory(aplikatorId){
+  const dlg=document.getElementById('passportHistoryDlg');
+  const body=document.getElementById('passportHistoryBody');
+  if(!dlg||!body)return;
+  body.innerHTML='<div class="passport-empty">Kontrol geçmişi yükleniyor…</div>';
+  dlg.showModal();
+  try{
+    const r=await api('tbeUretimeHazirlikGecmis',{AplikatorId:aplikatorId});
+    const rows=r.data||[];
+    if(!rows.length){
+      body.innerHTML='<div class="passport-empty">Bu aplikatör için kayıtlı üretime hazırlık kontrolü bulunmuyor.</div>';
+      return;
+    }
+    body.innerHTML=`<div class="table-wrap"><table class="passport-table">
+      <thead><tr><th>Tarih</th><th>Sonuç</th><th>Engel</th><th>Uyarı</th><th>Kontrol Eden</th><th>Açıklama</th></tr></thead>
+      <tbody>${rows.map(x=>`<tr>
+        <td>${e(x.KontrolZamani||'—')}</td>
+        <td>${st(x.Sonuc||'—')}</td>
+        <td>${e(x.KritikEngelSayisi||0)}</td>
+        <td>${e(x.UyariSayisi||0)}</td>
+        <td>${e(x.KontrolEden||'—')}</td>
+        <td>${e(x.Aciklama||'—')}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+  }catch(err){
+    body.innerHTML='<div class="passport-empty">Geçmiş yüklenemedi: '+e(err.message)+'</div>';
+  }
 }
 
 function editAp(raw){
