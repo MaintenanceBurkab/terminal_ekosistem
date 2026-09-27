@@ -77,6 +77,10 @@
 .passport-body{padding:18px;background:var(--cream);max-height:calc(92vh - 62px);overflow:auto}
 .passport-hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(250px,.6fr);gap:14px;margin-bottom:14px}
 .passport-title{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.passport-title{border-left:5px solid var(--gold)}
+.passport-title h2{color:#162033}
+.passport-ready{box-shadow:0 8px 20px #00000018}
+
 .passport-title h2{margin:0 0 5px;font-size:28px}.passport-title p{margin:4px 0;color:var(--muted)}
 .passport-ready{border-radius:14px;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:center;min-height:130px}
 .passport-ready.ready{background:linear-gradient(135deg,#117a48,#16804d)}
@@ -87,16 +91,38 @@
 .passport-card{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .passport-card-head{background:linear-gradient(90deg,var(--dark),var(--dark2));color:#fff;padding:11px 14px;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .passport-card-body{padding:13px}.passport-card.full{grid-column:1/-1}
+/* ===== APLİKATÖR SİCİL KARTI — RENKLİ KURUMSAL PALET ===== */
+.passport-card{border-color:#dfe5ea;box-shadow:0 5px 18px #0000000a}
+.passport-card-head{border-bottom:0;padding:12px 15px;font-size:13px;letter-spacing:.15px}
+.passport-card-head>span:last-child{padding:4px 9px;border-radius:999px;background:#ffffff66;color:inherit;font-size:11px;font-weight:900}
+.passport-cost-card{border-color:#c9d9ea}.passport-head-cost{background:linear-gradient(90deg,#111827,#263449);color:#fff}
+.passport-check-card{border-color:#b9e5d1}.passport-head-check{background:linear-gradient(90deg,#087f5b,#12a36f);color:#fff}
+.passport-terminal-card{border-color:#a9d8f7}.passport-head-terminal{background:linear-gradient(90deg,#1167b1,#2186d4);color:#fff}
+.passport-press-card{border-color:#d8c3f4}.passport-head-press{background:linear-gradient(90deg,#663399,#7c3aed);color:#fff}
+.passport-spare-card{border-color:#b8dfc9}.passport-head-spare{background:linear-gradient(90deg,#087443,#159b61);color:#fff}
+.passport-used-card{border-color:#b7d6f5}.passport-head-used{background:linear-gradient(90deg,#1565b3,#2f80d1);color:#fff}
+.passport-history-card{border-color:#d8c3f4}.passport-head-history{background:linear-gradient(90deg,#5b2a86,#7c3aed);color:#fff}
+.passport-pdf-card{border-color:#f2d39b}.passport-head-pdf{background:linear-gradient(90deg,#9a5a00,#c77b0a);color:#fff}
+.passport-cost-card .sicil-cost-box{background:linear-gradient(180deg,#f7fbff,#eef5fb);border-color:#d7e5f2}
+.passport-terminal-card .passport-pill{background:#dff3ff;border-color:#9ed8f4;color:#075985}
+.passport-press-card .passport-pill{background:#eee5ff;border-color:#cdb4f4;color:#5b21b6}
+.passport-spare-card .passport-card-body{background:#fbfffc}
+.passport-used-card .passport-card-body{background:#f8fbff}
+.passport-history-card .passport-card-body{background:#fcf9ff}
+.passport-pdf-card .passport-card-body{background:#fffaf2}
+.passport-check.ok{background:#effbf5;border-color:#bde6cf}
+.passport-check.warn{background:#fff8e8;border-color:#f0d28c}
+.passport-check.fail{background:#fff1f1;border-color:#efb3b3}
+.passport-check.ok .icon{color:#12925b}
+.passport-check.warn .icon{color:#c47a00}
+.passport-check.fail .icon{color:#c62828}
+
 .passport-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.passport-info div{padding:9px;border:1px solid #eee7da;border-radius:8px;background:#fbfaf6}.passport-info small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase}.passport-info b{display:block;margin-top:3px}
 .passport-checks{display:grid;gap:7px}.passport-check{display:grid;grid-template-columns:28px minmax(150px,1fr) auto;gap:8px;align-items:center;padding:9px 10px;border:1px solid #eee7da;border-radius:9px}.passport-check .icon{font-size:17px;text-align:center}.passport-check.ok{background:#f2fbf6}.passport-check.warn{background:#fffaf0}.passport-check.fail{background:#fff4f4}.passport-check .reason{color:var(--muted);font-size:12px;text-align:right}
 .passport-pills{display:flex;flex-wrap:wrap;gap:6px}.passport-pill{padding:6px 9px;border-radius:999px;background:#fff7cc;border:1px solid #f5c400;font-size:11px;font-weight:800}.passport-pill.ok{background:#d7f2e2;border-color:#a9dfc0;color:#12633b}.passport-pill.bad{background:#ffd7d7;border-color:#f0aaaa;color:#8e1111}
 .life-list{display:grid;gap:7px}.life-row{display:grid;grid-template-columns:minmax(130px,1fr) 70px 90px 80px;gap:8px;align-items:center;padding:8px;border-bottom:1px solid #eee9df}.life-row:last-child{border-bottom:0}.life-bar{height:8px;background:#eee;border-radius:99px;overflow:hidden}.life-bar span{display:block;height:100%;background:var(--gold);border-radius:99px}.life-bar span.bad{background:var(--bad)}.life-bar span.warn{background:#c88a00}
 .passport-table{width:100%;min-width:0}.passport-table th,.passport-table td{padding:8px;font-size:12px}.passport-count{font-size:12px;color:var(--muted)}
 .passport-empty{padding:18px;text-align:center;color:#777;background:#fbfaf6;border-radius:8px}
- .passport-stock-actions{display:flex;gap:5px;margin-top:6px}
-.passport-stock-btn{min-width:34px;padding:4px 8px!important;font-weight:900;font-size:11px}
-.passport-stock-btn.danger-stock{border-color:#d6b8b8;color:#a11}
-.passport-stock-missing{color:#999}
 .passport-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 .sicil-cost-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.sicil-cost-box{padding:13px;border:1px solid #eee7da;border-radius:10px;background:#fbfaf6}.sicil-cost-box small{display:block;color:var(--muted);font-size:10px;font-weight:900;text-transform:uppercase}.sicil-cost-box b{display:block;font-size:19px;margin-top:4px}.sicil-part-table th,.sicil-part-table td{padding:8px;font-size:12px}.sicil-part-table tfoot td{font-weight:900;background:#fbfaf6}.bakim-cost-panel{margin-top:10px;padding:12px;border:1px solid #eee7da;border-radius:10px;background:#fbfaf6}.bakim-cost-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.bakim-part-row{display:grid;grid-template-columns:minmax(180px,1fr) 90px 110px 110px 36px;gap:7px;align-items:end;margin-top:8px}.bakim-part-row .field{margin:0}.bakim-part-row .field label{font-size:10px}.bakim-total{font-size:16px;font-weight:900;text-align:right;margin-top:10px}.sicil-print-only{display:none}@media print{body>*{display:none!important}#passportDlg{display:block!important;position:static!important;width:100%!important;max-width:none!important;border:0!important;box-shadow:none!important}.passport-dialog .modal-head{display:none!important}.passport-body{max-height:none!important;overflow:visible!important;background:#fff!important}.sicil-print-only{display:block}.passport-ready{print-color-adjust:exact;-webkit-print-color-adjust:exact}.passport-card,.passport-title{break-inside:avoid}.sicil-cost-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:850px){.sicil-cost-grid{grid-template-columns:1fr 1fr}.bakim-cost-grid{grid-template-columns:1fr}.bakim-part-row{grid-template-columns:1fr 80px 100px 100px 36px}}
@@ -450,34 +476,6 @@ async function openPassport(raw){
     console.warn('Server üretime hazırlık kontrolü alınamadı:',err);
   }
 }
-async function tbePassportQuickStock(aplikatorId,stokId,tur){
-  if(!stokId)return;
-  const btns=[...document.querySelectorAll('.passport-stock-btn')];
-  btns.forEach(b=>b.disabled=true);
-  try{
-    const x=S.stock.find(a=>String(a.StokId)===String(stokId));
-    if(!x)throw new Error('Stok kaydı bulunamadı.');
-    await api('tbeStokHareketKaydet',{
-      StokId:x.StokId,
-      StokKodu:x.StokKodu,
-      ParcaId:x.ParcaId,
-      HareketTuru:tur,
-      Miktar:1,
-      AplikatorId:aplikatorId,
-      Aciklama:'Sicil kartından kalıp bazlı hızlı stok '+(tur==='GIRIS'?'girişi':'çıkışı')
-    });
-    await load();
-    const ap=S.a.find(a=>String(a.AplikatorId)===String(aplikatorId));
-    const body=document.getElementById('passportBody');
-    const dlg=document.getElementById('passportDlg');
-    if(ap&&body&&dlg&&dlg.open)body.innerHTML=buildPassport(ap,null);
-    notify((tur==='GIRIS'?'+1 stok girişi':'−1 stok çıkışı')+' kaydedildi.','ok');
-  }catch(err){
-    notify('Stok güncellenemedi: '+err.message,'bad');
-  }finally{
-    document.querySelectorAll('.passport-stock-btn').forEach(b=>b.disabled=false);
-  }
-}
 async function savePassportCheck(aplikatorId){
   const btn=document.getElementById('passportSaveCheckBtn');
   if(btn)btn.disabled=true;
@@ -590,26 +588,7 @@ function buildPassport(x,serverResult){
     const unit=Number(p.stock?.Fiyat||p.part?.Fiyat||0);
     const value=stock===null?0:stock*unit;
     const stockText=stock===null?'—':`${num(stock)}${min!==null?' / min '+num(min):''}`;
-    const sid=p.stock?.StokId||'';
-    const pid=p.part?.ParcaId||p.link?.ParcaId||'';
-    const apid=x.AplikatorId||'';
-    const quick = sid
-      ? `<div class="passport-stock-actions">
-           <button type="button" class="btn ghost passport-stock-btn" title="Bu kalıba bağlı parçanın stoğunu 1 artır"
-             onclick='tbePassportQuickStock(${JSON.stringify(apid)},${JSON.stringify(sid)},${JSON.stringify("GIRIS")})'>+1</button>
-           <button type="button" class="btn ghost passport-stock-btn danger-stock" title="Bu kalıba bağlı parçanın stoğunu 1 azalt"
-             onclick='tbePassportQuickStock(${JSON.stringify(apid)},${JSON.stringify(sid)},${JSON.stringify("CIKIS")})'>−1</button>
-         </div>`
-      : `<small class="passport-stock-missing">Stok kaydı yok</small>`;
-    return `<div class="life-row">
-      <div><b>${e(p.name)}</b><br><small>${e(p.part.ParcaKodu||p.part.StokKodu||'')}</small></div>
-      <div>${p.pct===null?'—':'%'+num(p.pct.toFixed(0))}</div>
-      <div class="life-bar"><span class="${cls}" style="width:${pct||0}%"></span></div>
-      <div>
-        <b>${e(stockText)}</b><br><small>${money(value)}</small>
-        ${quick}
-      </div>
-    </div>`;
+    return `<div class="life-row"><div><b>${e(p.name)}</b><br><small>${e(p.part.ParcaKodu||p.part.StokKodu||'')}</small></div><div>${p.pct===null?'—':'%'+num(p.pct.toFixed(0))}</div><div class="life-bar"><span class="${cls}" style="width:${pct||0}%"></span></div><div>${e(stockText)}<br><small>${money(value)}</small></div></div>`;
   }).join('')||'<div class="passport-empty">Bu aplikatöre bağlı parça/ömür kaydı bulunmuyor.</div>';
   const usedRows=costs.used.slice().reverse().slice(0,20).map(q=>`<tr><td>${e(q.ParcaKodu||q.parcaKodu||q.StokKodu||q.stokKodu||'—')}</td><td>${e(q.ParcaAdi||q.parcaAdi||'—')}</td><td>${num(q.miktar)}</td><td>${money(q.birimFiyat)}</td><td>${money(q.toplam)}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Bakım kayıtlarında kullanılan parça maliyeti detayı henüz girilmemiş.</td></tr>';
   const maintRows=r.maint.slice().sort((a,b)=>new Date(b.Baslangic||b.SonGuncelleme||0)-new Date(a.Baslangic||a.SonGuncelleme||0)).slice(0,8).map(m=>`<tr><td>${dt(m.Baslangic||m.SonGuncelleme)}</td><td>${e(m.IslemTuru||'—')}</td><td>${st(m.Durum||'—')}</td><td>${e(m.YapilanIslem||m.ArizaTanimi||'—')}</td><td>${num(m.DurdurmaDakika)} dk</td><td>${money(m.Maliyet)}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Bakım kaydı yok.</td></tr>';
@@ -618,15 +597,15 @@ function buildPassport(x,serverResult){
   const checkHtml=r.checks.map(c=>`<div class="passport-check ${c.state}"><span class="icon">${passportIcon(c.state)}</span><b>${e(c.label)}</b><span class="reason">${e(c.reason)} · ${passportStatusText(c.state)}</span></div>`).join('');
   return `<div class="sicil-print-only"><h1>BURKAB A.Ş. — APLİKATÖR SİCİL KARTI</h1><p>Oluşturma: ${dt(new Date())}</p></div>
   <div class="passport-hero"><div class="passport-title"><h2>${e(x.SicilNo||'Aplikatör')}</h2><p><b>APLIKATÖR SİCİL KARTI</b></p><p>${e((x.Marka||'')+' '+(x.ModelSeriNo||x.Model||''))}</p><p><b>Hat:</b> ${e(x.Hat||'—')} &nbsp; <b>Lokasyon:</b> ${e(x.Lokasyon||'—')}</p><p><b>Durum:</b> ${e(x.Durum||'—')} &nbsp; <b>QR:</b> <code>${e(x.QRKod||'—')}</code></p></div><div class="passport-ready ${readyClass}"><span class="big">${ready?'🟢':'🔴'} ${readyTitle}</span><small>${e(readyReason)}</small><small>Kontrol: ${dt(new Date())} · ${e(S.user?.name||S.user?.adSoyad||S.user?.username||'Kullanıcı')}</small></div></div>
-  <div class="passport-card full"><div class="passport-card-head"><span>💰 SİCİL MALİYET ÖZETİ</span><span>${costs.maint.length} bakım</span></div><div class="passport-card-body"><div class="sicil-cost-grid"><div class="sicil-cost-box"><small>Toplam Bakım</small><b>${money(costs.bakimToplam)}</b></div><div class="sicil-cost-box"><small>Kullanılan Parça</small><b>${money(costs.parcaMaliyeti)}</b></div><div class="sicil-cost-box"><small>Bağlı Stok Değeri</small><b>${money(costs.stokDegeri)}</b></div><div class="sicil-cost-box"><small>Toplam Duruş</small><b>${num(costs.durus)} dk</b></div></div></div></div>
-  <div class="passport-card full"><div class="passport-card-head"><span><i class="fas fa-list-check"></i> ÜRETİME HAZIRLIK KONTROLÜ</span><span>${fails.length?'🔴 '+fails.length+' engel':warns.length?'🟡 '+warns.length+' uyarı':'🟢 Uygun'}</span></div><div class="passport-card-body passport-checks">${checkHtml}</div></div>
+  <div class="passport-card full passport-cost-card"><div class="passport-card-head passport-head-cost"><span>💰 SİCİL MALİYET ÖZETİ</span><span>${costs.maint.length} bakım</span></div><div class="passport-card-body"><div class="sicil-cost-grid"><div class="sicil-cost-box"><small>Toplam Bakım</small><b>${money(costs.bakimToplam)}</b></div><div class="sicil-cost-box"><small>Kullanılan Parça</small><b>${money(costs.parcaMaliyeti)}</b></div><div class="sicil-cost-box"><small>Bağlı Stok Değeri</small><b>${money(costs.stokDegeri)}</b></div><div class="sicil-cost-box"><small>Toplam Duruş</small><b>${num(costs.durus)} dk</b></div></div></div></div>
+  <div class="passport-card full passport-check-card"><div class="passport-card-head passport-head-check"><span><i class="fas fa-list-check"></i> ÜRETİME HAZIRLIK KONTROLÜ</span><span>${fails.length?'🔴 '+fails.length+' engel':warns.length?'🟡 '+warns.length+' uyarı':'🟢 Uygun'}</span></div><div class="passport-card-body passport-checks">${checkHtml}</div></div>
   <div class="passport-grid">
-    <div class="passport-card"><div class="passport-card-head"><span>🔩 BASABİLDİĞİ TERMİNALLER</span><span>${r.terminals.length}</span></div><div class="passport-card-body"><div class="passport-pills">${terminalPills}</div></div></div>
-    <div class="passport-card"><div class="passport-card-head"><span>🛠 PRES UYUMLULUĞU</span><span>${r.presses.length}</span></div><div class="passport-card-body"><div class="passport-pills">${pressPills}</div></div></div>
-    <div class="passport-card full"><div class="passport-card-head"><span>🔩 YEDEK PARÇALAR / ÖMÜR / STOK / MALİYET</span><span>${r.parts.length} parça · +1 / −1 hızlı stok</span></div><div class="passport-card-body"><div class="life-list"><div class="life-row"><b>Parça</b><b>Ömür</b><b>Ömür Barı</b><b>Stok / Değer</b></div>${partRows}</div></div></div>
-    <div class="passport-card full"><div class="passport-card-head"><span>💸 BAKIMDA KULLANILAN PARÇALAR</span><span>${costs.used.length} kalem</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table sicil-part-table"><thead><tr><th>Parça Kodu</th><th>Parça Adı</th><th>Miktar</th><th>Birim Maliyet</th><th>Toplam</th></tr></thead><tbody>${usedRows}</tbody><tfoot><tr><td colspan="4">Toplam Kullanılan Parça Maliyeti</td><td>${money(costs.parcaMaliyeti)}</td></tr></tfoot></table></div></div></div>
-    <div class="passport-card full"><div class="passport-card-head"><span>🔧 BAKIM / REVİZYON GEÇMİŞİ</span><span>${r.maint.length} kayıt · ${money(costs.bakimToplam)}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Tür</th><th>Durum</th><th>İşlem</th><th>Duruş</th><th>Maliyet</th></tr></thead><tbody>${maintRows}</tbody></table></div></div></div>
-    <div class="passport-card"><div class="passport-card-head"><span>📄 KESİT PDF ARŞİVİ</span><span>${S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Terminal</th><th>Kesit</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody>${cutRows}</tbody></table></div></div></div>
+    <div class="passport-card passport-terminal-card"><div class="passport-card-head passport-head-terminal"><span>🔩 BASABİLDİĞİ TERMİNALLER</span><span>${r.terminals.length}</span></div><div class="passport-card-body"><div class="passport-pills">${terminalPills}</div></div></div>
+    <div class="passport-card passport-press-card"><div class="passport-card-head passport-head-press"><span>🛠 PRES UYUMLULUĞU</span><span>${r.presses.length}</span></div><div class="passport-card-body"><div class="passport-pills">${pressPills}</div></div></div>
+    <div class="passport-card full passport-spare-card"><div class="passport-card-head passport-head-spare"><span>🔩 YEDEK PARÇALAR / ÖMÜR / STOK / MALİYET</span><span>${r.parts.length} parça</span></div><div class="passport-card-body"><div class="life-list"><div class="life-row"><b>Parça</b><b>Ömür</b><b>Ömür Barı</b><b>Stok / Değer</b></div>${partRows}</div></div></div>
+    <div class="passport-card full passport-used-card"><div class="passport-card-head passport-head-used"><span>💸 BAKIMDA KULLANILAN PARÇALAR</span><span>${costs.used.length} kalem</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table sicil-part-table"><thead><tr><th>Parça Kodu</th><th>Parça Adı</th><th>Miktar</th><th>Birim Maliyet</th><th>Toplam</th></tr></thead><tbody>${usedRows}</tbody><tfoot><tr><td colspan="4">Toplam Kullanılan Parça Maliyeti</td><td>${money(costs.parcaMaliyeti)}</td></tr></tfoot></table></div></div></div>
+    <div class="passport-card full passport-history-card"><div class="passport-card-head passport-head-history"><span>🔧 BAKIM / REVİZYON GEÇMİŞİ</span><span>${r.maint.length} kayıt · ${money(costs.bakimToplam)}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Tür</th><th>Durum</th><th>İşlem</th><th>Duruş</th><th>Maliyet</th></tr></thead><tbody>${maintRows}</tbody></table></div></div></div>
+    <div class="passport-card passport-pdf-card"><div class="passport-card-head passport-head-pdf"><span>📄 KESİT PDF ARŞİVİ</span><span>${S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Tarih</th><th>Terminal</th><th>Kesit</th><th>Sonuç</th><th>PDF</th></tr></thead><tbody>${cutRows}</tbody></table></div></div></div>
     <div class="passport-card"><div class="passport-card-head"><span>📌 AÇIK AKSİYONLAR</span><span>${r.openActions.length}</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table"><thead><tr><th>Konu</th><th>Sorumlu</th><th>Hedef</th><th>Durum</th><th>Öncelik</th></tr></thead><tbody>${actionRows}</tbody></table></div></div></div>
   </div><div class="passport-actions"><button type="button" class="btn ghost" onclick="document.getElementById('passportDlg').close()">Kapat</button><button type="button" class="btn ghost" onclick="printSicilCard()"><i class="fas fa-print"></i> Sicil Kartını Yazdır</button><button id="passportSaveCheckBtn" type="button" class="btn dark" onclick='savePassportCheck(${JSON.stringify(x.AplikatorId)})'><i class="fas fa-clipboard-check"></i> Kontrolü Kaydet</button><button type="button" class="btn primary" onclick='document.getElementById("passportDlg").close();editAp(${JSON.stringify(JSON.stringify(x))})'><i class="fas fa-pen"></i> Aplikatörü Düzenle</button></div>`;
 }
