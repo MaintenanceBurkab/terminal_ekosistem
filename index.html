@@ -267,6 +267,33 @@
 /* Alt aksiyonlar */
 .passport-actions .btn.primary{background:#f5c400;color:#191919}
 
+
+/* === BAKIM / REVİZYON YAZDIRMA & PDF AKTARIM === */
+.bakim-export-actions{
+  display:flex;
+  justify-content:flex-start;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-right:auto;
+}
+.btn.bakim-print{
+  background:#1d4ed8;
+  color:#fff;
+  border:1px solid #1742b5;
+  box-shadow:0 3px 8px #1d4ed82a;
+}
+.btn.bakim-print:hover{background:#1742b5}
+.btn.bakim-pdf{
+  background:#c62828;
+  color:#fff;
+  border:1px solid #a61f1f;
+  box-shadow:0 3px 8px #c628282a;
+}
+.btn.bakim-pdf:hover{background:#a61f1f}
+@media(max-width:650px){
+  .bakim-export-actions{width:100%}
+  .bakim-export-actions .btn{flex:1}
+}
 </style>
 </head>
 <body>
@@ -347,7 +374,14 @@
 </main></div></section>
 
 <dialog id="kesitDlg"><div class="modal-head"><b>Kesit PDF Kaydı</b><button class="btn ghost" onclick="kesitDlg.close()">✕</button></div><form id="kesitForm" class="modal-body"><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>Terminal *</label><input name="TerminalKodu" required></div><div class="field"><label>Kablo Kesiti</label><input name="KabloKesiti"></div><div class="field"><label>Proje</label><input name="ProjeKodu"></div><div class="field"><label>İş Emri</label><input name="IsEmriNo"></div><div class="field"><label>Lot</label><input name="LotNo"></div><div class="field full"><label>PDF / Drive URL *</label><input name="PDFURL" type="url" required></div><div class="field"><label>Sonuç</label><select name="KontrolSonucu"><option>BEKLIYOR</option><option>UYGUN</option><option>UYGUNSUZ</option></select></div><div class="field"><label>Operatör</label><input name="Operator"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="kesitDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
-<dialog id="bakimDlg"><div class="modal-head"><b>Bakım / Revizyon Kaydı</b><button class="btn ghost" onclick="bakimDlg.close()">✕</button></div><form id="bakimForm" class="modal-body"><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>İşlem Türü</label><select name="IslemTuru"><option>PLANLI BAKIM</option><option>PLANSIZ BAKIM</option><option>ARIZA</option><option>REVIZYON</option><option>TEMIZLIK</option></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field full"><label>Arıza / Konu</label><input name="ArizaTanimi"></div><div class="field full"><label>Yapılan İşlem</label><textarea name="YapilanIslem"></textarea></div><div class="field"><label>Başlangıç</label><input name="Baslangic" type="datetime-local"></div><div class="field"><label>Bitiş</label><input name="Bitis" type="datetime-local"></div><div class="field"><label>Duruş (dk)</label><input name="DurdurmaDakika" type="number" min="0"></div></div><div class="bakim-cost-panel"><b>Parça ve Maliyet Detayı</b><div class="field" style="margin-top:8px"><label>Değişen / Kullanılan Parçalar</label><div id="bakimPartRows"></div><button type="button" class="btn ghost" style="margin-top:8px" onclick="addBakimPartRow()">+ Parça Ekle</button><input type="hidden" name="DegisenParcalarJSON" id="bakimDegisenParcalarJSON"></div><div class="bakim-cost-grid"><div class="field"><label>Parça Maliyeti (€)</label><input id="bakimParcaMaliyeti" type="number" min="0" step="0.01" value="0" readonly></div><div class="field"><label>İşçilik Maliyeti (€)</label><input id="bakimIscilikMaliyeti" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>Diğer Maliyet (€)</label><input id="bakimDigerMaliyeti" type="number" min="0" step="0.01" value="0"></div></div><div class="bakim-total">Toplam Bakım Maliyeti: <span id="bakimToplamMaliyetText">0,00 €</span></div><input type="hidden" name="Maliyet" id="bakimMaliyetHidden" value="0"></div><div class="grid2" style="margin-top:10px"><div class="field"><label>Yapan</label><input name="Yapan"></div><div class="field"><label>Onaylayan</label><input name="Onaylayan"></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="bakimDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
+<dialog id="bakimDlg"><div class="modal-head"><b>Bakım / Revizyon Kaydı</b><button class="btn ghost" onclick="bakimDlg.close()">✕</button></div><form id="bakimForm" class="modal-body"><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>İşlem Türü</label><select name="IslemTuru"><option>PLANLI BAKIM</option><option>PLANSIZ BAKIM</option><option>ARIZA</option><option>REVIZYON</option><option>TEMIZLIK</option></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field full"><label>Arıza / Konu</label><input name="ArizaTanimi"></div><div class="field full"><label>Yapılan İşlem</label><textarea name="YapilanIslem"></textarea></div><div class="field"><label>Başlangıç</label><input name="Baslangic" type="datetime-local"></div><div class="field"><label>Bitiş</label><input name="Bitis" type="datetime-local"></div><div class="field"><label>Duruş (dk)</label><input name="DurdurmaDakika" type="number" min="0"></div></div><div class="bakim-cost-panel"><b>Parça ve Maliyet Detayı</b><div class="field" style="margin-top:8px"><label>Değişen / Kullanılan Parçalar</label><div id="bakimPartRows"></div><button type="button" class="btn ghost" style="margin-top:8px" onclick="addBakimPartRow()">+ Parça Ekle</button><input type="hidden" name="DegisenParcalarJSON" id="bakimDegisenParcalarJSON"></div><div class="bakim-cost-grid"><div class="field"><label>Parça Maliyeti (€)</label><input id="bakimParcaMaliyeti" type="number" min="0" step="0.01" value="0" readonly></div><div class="field"><label>İşçilik Maliyeti (€)</label><input id="bakimIscilikMaliyeti" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>Diğer Maliyet (€)</label><input id="bakimDigerMaliyeti" type="number" min="0" step="0.01" value="0"></div></div><div class="bakim-total">Toplam Bakım Maliyeti: <span id="bakimToplamMaliyetText">0,00 €</span></div><input type="hidden" name="Maliyet" id="bakimMaliyetHidden" value="0"></div><div class="grid2" style="margin-top:10px"><div class="field"><label>Yapan</label><input name="Yapan"></div><div class="field"><label>Onaylayan</label><input name="Onaylayan"></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div></div><div class="modal-actions">
+  <div class="bakim-export-actions">
+    <button type="button" class="btn bakim-pdf" onclick="bakimKaydiniYazdir('pdf')"><i class="fas fa-file-pdf"></i> PDF Olarak Aktar</button>
+    <button type="button" class="btn bakim-print" onclick="bakimKaydiniYazdir('print')"><i class="fas fa-print"></i> Yazdır</button>
+  </div>
+  <button type="button" class="btn ghost" onclick="bakimDlg.close()">İptal</button>
+  <button class="btn primary"><i class="fas fa-save"></i> Kaydet</button>
+</div></form></dialog>
 <dialog id="stokDlg"><div class="modal-head"><b>Stok Hareketi</b><button class="btn ghost" onclick="stokDlg.close()">✕</button></div><form id="stokForm" class="modal-body"><div class="grid2"><div class="field"><label>Stok Kaydı *</label><select name="StokId" id="stokSelect" required></select></div><div class="field"><label>Hareket Türü</label><select name="HareketTuru"><option>GIRIS</option><option>CIKIS</option></select></div><div class="field"><label>Miktar *</label><input name="Miktar" type="number" min="0.01" step="0.01" required></div><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="stokDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="aksiyonDlg"><div class="modal-head"><b>CAPA / Aksiyon</b><button class="btn ghost" onclick="aksiyonDlg.close()">✕</button></div><form id="aksiyonForm" class="modal-body"><div class="grid2"><div class="field"><label>Aplikatör</label><select name="AplikatorId" class="ap-select"></select></div><div class="field"><label>Durum</label><select name="Durum"><option>ACIK</option><option>ISLEMDE</option><option>KAPALI</option></select></div><div class="field"><label>Öncelik</label><select name="Oncelik"><option value="NORMAL">NORMAL</option><option value="YUKSEK">YÜKSEK</option><option value="KRITIK">KRİTİK</option><option value="DUSUK">DÜŞÜK</option></select></div><div class="field full"><label>Konu *</label><input name="Konu" required></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama"></textarea></div><div class="field"><label>Sorumlu</label><input name="Sorumlu"></div><div class="field"><label>Hedef Tarih</label><input name="HedefTarih" type="date"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="aksiyonDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="tbeParcaDlg" class="tbe-part-modal"><div class="modal-head"><b><i class="fas fa-box"></i> TBE YEDEK PARÇA KARTI</b><button class="btn ghost" type="button" onclick="tbeParcaDlg.close()">✕</button></div><form id="tbeParcaForm" class="modal-body"><input type="hidden" name="ParcaId"><div class="grid3"><div class="field"><label>Stok Kodu *</label><input name="StokKodu" required></div><div class="field"><label>Parça Kodu *</label><input name="ParcaKodu" required></div><div class="field"><label>Parça Adı *</label><input name="ParcaAdi" required></div><div class="field"><label>Üretici</label><input name="Uretici"></div><div class="field"><label>Parça Tipi</label><input name="ParcaTipi" placeholder="Örn. Bıçak, kalıp, yay"></div><div class="field"><label>Maks. Ömür</label><input name="VarsayilanMaksOmur" type="number" min="0"></div><div class="field"><label>Birim</label><select name="Birim"><option>AD</option><option>TAKIM</option><option>SET</option><option>MT</option></select></div><div class="field"><label>Mevcut Stok</label><input name="MevcutMiktar" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>Minimum Stok</label><input name="MinimumStok" type="number" min="0" step="0.01" value="0"></div><div class="field"><label>Raf Konumu</label><input name="RafKonumu"></div><div class="field"><label>Birim Fiyat (€)</label><input name="Fiyat" type="number" min="0" step="0.01"></div><div class="field"><label>Para Birimi</label><select name="ParaBirimi"><option>EUR</option><option>TRY</option><option>USD</option></select></div><div class="field"><label>Tedarikçi</label><input name="Tedarikci"></div><div class="field full"><label>Açıklama</label><textarea name="Aciklama" rows="2"></textarea></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="tbeParcaDlg.close()">İptal</button><button class="btn primary"><i class="fas fa-save"></i> Kaydet</button></div></form></dialog>
@@ -987,7 +1021,119 @@ function bakimMaliyetHesapla(){const rows=[...document.querySelectorAll('#bakimP
 function prepareBakimForm(){const f=document.getElementById('bakimForm');if(!f)return;const ap=f.querySelector('[name="AplikatorId"]');if(ap&&!ap.value&&S.a.length)ap.value=S.a[0].AplikatorId;const rows=document.getElementById('bakimPartRows');if(rows&&!rows.children.length)addBakimPartRow();bakimMaliyetHesapla()}
 function resetBakimForm(){const f=document.getElementById('bakimForm');if(!f)return;f.reset();const r=document.getElementById('bakimPartRows');if(r)r.innerHTML='';const im=document.getElementById('bakimIscilikMaliyeti');if(im)im.value='0';const dm=document.getElementById('bakimDigerMaliyeti');if(dm)dm.value='0';bakimMaliyetHesapla()}
 ['bakimIscilikMaliyeti','bakimDigerMaliyeti'].forEach(id=>document.getElementById(id)?.addEventListener('input',bakimMaliyetHesapla));
-bindForm('kesitForm','tbeKesitKaydet',kesitDlg);bindForm('stokForm','tbeStokHareketKaydet',stokDlg);bindForm('aksiyonForm','tbeAksiyonKaydet',aksiyonDlg);document.getElementById('bakimForm').onsubmit=async ev=>{ev.preventDefault();bakimMaliyetHesapla();const b=ev.submitter;b.disabled=true;try{await api('tbeBakimKaydet',Object.fromEntries(new FormData(ev.target)));bakimDlg.close();resetBakimForm();await load();notify('Bakım / revizyon kaydı tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}};document.getElementById('bakimDlg').addEventListener('close',()=>{});
+bindForm('kesitForm','tbeKesitKaydet',kesitDlg);bindForm('stokForm','tbeStokHareketKaydet',stokDlg);bindForm('aksiyonForm','tbeAksiyonKaydet',aksiyonDlg);
+function bakimKaydiniYazdir(mode='print'){
+  const f=document.getElementById('bakimForm');
+  if(!f)return;
+  bakimMaliyetHesapla();
+
+  const val=name=>f.elements[name]?.value||'';
+  const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const fmtDate=v=>{
+    if(!v)return '—';
+    const d=new Date(v);
+    if(Number.isNaN(d.getTime()))return esc(v);
+    return d.toLocaleString('tr-TR',{dateStyle:'short',timeStyle:'short'});
+  };
+  const apId=val('AplikatorId');
+  const ap=S.a.find(x=>String(x.AplikatorId)===String(apId))||{};
+  const apText=[ap.SicilNo,ap.Marka,ap.ModelSeriNo||ap.Model].filter(Boolean).join(' — ')||apId||'—';
+  const parts=[...document.querySelectorAll('#bakimPartRows .bakim-part-row')].map(r=>{
+    const sel=r.querySelector('[data-bp="ParcaId"]');
+    const p=S.parts.find(x=>String(x.ParcaId)===String(sel?.value))||{};
+    return {
+      kod:p.ParcaKodu||p.StokKodu||'',
+      ad:p.ParcaAdi||'',
+      qty:r.querySelector('[data-bp="Miktar"]')?.value||'0',
+      unit:r.querySelector('[data-bp="BirimFiyat"]')?.value||'0',
+      total:r.querySelector('[data-bp="Toplam"]')?.value||'0'
+    };
+  }).filter(x=>x.kod||x.ad||Number(x.qty));
+
+  const partRows=parts.length
+    ? parts.map(x=>`<tr><td>${esc(x.kod)}</td><td>${esc(x.ad)}</td><td>${esc(x.qty)}</td><td>${esc(x.unit)} €</td><td>${esc(x.total)} €</td></tr>`).join('')
+    : '<tr><td colspan="5" class="empty">Değişen / kullanılan parça kaydı yok</td></tr>';
+
+  const total=Number(document.getElementById('bakimMaliyetHidden')?.value||0);
+  const parca=Number(document.getElementById('bakimParcaMaliyeti')?.value||0);
+  const iscilik=Number(document.getElementById('bakimIscilikMaliyeti')?.value||0);
+  const diger=Number(document.getElementById('bakimDigerMaliyeti')?.value||0);
+  const now=new Date().toLocaleString('tr-TR');
+
+  const title=mode==='pdf'?'Bakım / Revizyon Kaydı — PDF Aktarımı':'Bakım / Revizyon Kaydı';
+  const html=`<!doctype html><html lang="tr"><head><meta charset="utf-8">
+  <title>${esc(title)}</title>
+  <style>
+    @page{size:A4;margin:13mm}
+    *{box-sizing:border-box}
+    body{font-family:Arial,Helvetica,sans-serif;color:#20252b;margin:0;font-size:10.5pt}
+    .head{border-bottom:4px solid #f5c400;padding:0 0 10px;margin-bottom:16px;display:flex;justify-content:space-between;gap:20px}
+    .brand{font-size:16pt;font-weight:800;color:#18232d}.brand span{color:#b78d00}
+    .sub{font-size:8.5pt;color:#68727c;margin-top:4px}
+    .meta{font-size:8pt;color:#68727c;text-align:right}
+    h2{font-size:12pt;margin:14px 0 8px;padding:7px 10px;background:#18232d;color:#fff;border-left:5px solid #f5c400}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+    .box{border:1px solid #d9e0e6;border-radius:6px;padding:7px 9px;min-height:42px;background:#f8fafc}
+    .label{font-size:7.5pt;color:#68727c;font-weight:700;text-transform:uppercase;margin-bottom:3px}
+    .value{font-weight:700;white-space:pre-wrap}
+    .wide{grid-column:1/-1}
+    table{width:100%;border-collapse:collapse;margin-top:5px}
+    th{background:#1d4ed8;color:#fff;text-align:left;padding:7px;font-size:8.5pt}
+    td{border:1px solid #dfe5ea;padding:7px;font-size:8.5pt}
+    tr:nth-child(even) td{background:#f7faff}
+    .cost{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}
+    .cost .box{background:#f5f9ff}
+    .total{margin-top:9px;text-align:right;font-size:12pt;font-weight:800;padding:9px;background:#fff7df;border:1px solid #efd27a;border-radius:6px}
+    .note{margin-top:16px;padding-top:8px;border-top:1px solid #d9e0e6;font-size:7.5pt;color:#7b858e;text-align:center}
+    .hint{margin:0 0 12px;padding:8px 10px;background:#eef5ff;border:1px solid #c9dcff;border-radius:6px;color:#174a9c;font-size:8.5pt}
+    .empty{text-align:center;color:#7b858e}
+  </style></head><body>
+  <div class="head">
+    <div><div class="brand">BURKAB A.Ş. <span>— BAKIM / REVİZYON</span></div>
+    <div class="sub">Terminal Basım Ekosistemi · Aplikatör bakım ve revizyon kayıt formu</div></div>
+    <div class="meta">Belge tarihi<br><b>${esc(now)}</b></div>
+  </div>
+  ${mode==='pdf'?'<div class="hint">PDF aktarımı için açılan yazdırma penceresinde hedef/yazıcı olarak <b>PDF olarak kaydet</b> seçeneğini kullanabilirsiniz.</div>':''}
+  <h2>Bakım / Revizyon Bilgileri</h2>
+  <div class="grid">
+    <div class="box"><div class="label">Aplikatör</div><div class="value">${esc(apText)}</div></div>
+    <div class="box"><div class="label">İşlem Türü</div><div class="value">${esc(val('IslemTuru'))}</div></div>
+    <div class="box"><div class="label">Durum</div><div class="value">${esc(val('Durum'))}</div></div>
+    <div class="box wide"><div class="label">Arıza / Konu</div><div class="value">${esc(val('ArizaTanimi')||'—')}</div></div>
+    <div class="box wide"><div class="label">Yapılan İşlem</div><div class="value">${esc(val('YapilanIslem')||'—')}</div></div>
+    <div class="box"><div class="label">Başlangıç</div><div class="value">${fmtDate(val('Baslangic'))}</div></div>
+    <div class="box"><div class="label">Bitiş</div><div class="value">${fmtDate(val('Bitis'))}</div></div>
+    <div class="box"><div class="label">Duruş</div><div class="value">${esc(val('DurdurmaDakika')||'0')} dk</div></div>
+  </div>
+  <h2>Parça ve Maliyet Detayı</h2>
+  <table><thead><tr><th>Parça Kodu</th><th>Parça Adı</th><th>Miktar</th><th>Birim Fiyat</th><th>Toplam</th></tr></thead><tbody>${partRows}</tbody></table>
+  <div class="cost">
+    <div class="box"><div class="label">Parça Maliyeti</div><div class="value">${parca.toLocaleString('tr-TR',{minimumFractionDigits:2})} €</div></div>
+    <div class="box"><div class="label">İşçilik</div><div class="value">${iscilik.toLocaleString('tr-TR',{minimumFractionDigits:2})} €</div></div>
+    <div class="box"><div class="label">Diğer</div><div class="value">${diger.toLocaleString('tr-TR',{minimumFractionDigits:2})} €</div></div>
+    <div class="box"><div class="label">Toplam</div><div class="value">${total.toLocaleString('tr-TR',{minimumFractionDigits:2})} €</div></div>
+  </div>
+  <div class="total">Toplam Bakım Maliyeti: ${total.toLocaleString('tr-TR',{minimumFractionDigits:2})} €</div>
+  <h2>Onay / Açıklama</h2>
+  <div class="grid">
+    <div class="box"><div class="label">Yapan</div><div class="value">${esc(val('Yapan')||'—')}</div></div>
+    <div class="box"><div class="label">Onaylayan</div><div class="value">${esc(val('Onaylayan')||'—')}</div></div>
+    <div class="box wide"><div class="label">Açıklama</div><div class="value">${esc(val('Aciklama')||'—')}</div></div>
+  </div>
+  <div class="note">BURKAB A.Ş. · Terminal Basım Ekosistemi · Bakım / Revizyon kayıt çıktısı</div>
+  </body></html>`;
+
+  const win=window.open('','_blank','width=900,height=1000');
+  if(!win){notify('Yazdırma penceresi engellendi. Tarayıcı açılır pencere iznini kontrol edin.','bad');return;}
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>{win.print();},350);
+  notify(mode==='pdf'?'PDF aktarımı için yazdırma ekranı açıldı.':'Yazdırma ekranı açıldı.','ok');
+}
+
+document.getElementById('bakimForm').onsubmit=async ev=>{ev.preventDefault();bakimMaliyetHesapla();const b=ev.submitter;b.disabled=true;try{await api('tbeBakimKaydet',Object.fromEntries(new FormData(ev.target)));bakimDlg.close();resetBakimForm();await load();notify('Bakım / revizyon kaydı tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}};document.getElementById('bakimDlg').addEventListener('close',()=>{});
 function openModal(id){document.getElementById(id).showModal()}
 function fillSelects(){const ops='<option value="">Seçiniz</option>'+S.a.map(x=>`<option value="${ea(x.AplikatorId)}">${e(x.SicilNo)} — ${e(x.Marka)} ${e(x.Model)}</option>`).join('');document.querySelectorAll('.ap-select').forEach(x=>x.innerHTML=ops);stokSelect.innerHTML='<option value="">Seçiniz</option>'+S.stock.map(x=>`<option value="${ea(x.StokId)}">${e(x.StokKodu)} — ${partName(x.ParcaId)}</option>`).join('')}
 function apName(id){const x=S.a.find(y=>String(y.AplikatorId)===String(id));return x?e(x.SicilNo):e(id||'—')}function apModel(id){const x=S.a.find(y=>String(y.AplikatorId)===String(id));return x?e((x.Marka||'')+' '+(x.ModelSeriNo||x.Model||'')):'—'}function partName(id){const x=S.parts.find(y=>String(y.ParcaId)===String(id));return x?e((x.ParcaKodu||'')+' — '+(x.ParcaAdi||'')):e(id||'—')}function notify(m,t='ok'){toast.textContent=m;toast.className='toast '+t+' show';clearTimeout(notify.t);notify.t=setTimeout(()=>toast.classList.remove('show'),3500)}function e(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function ea(v){return e(v)}function num(v){return Number(v||0).toLocaleString('tr-TR')}function dt(v){if(!v)return'—';const d=new Date(v);return isNaN(d)?e(v):d.toLocaleString('tr-TR')}function st(v){v=tbeN(v||'BELIRSIZ').replace(/\s/g,'_');return`<span class="status ${ea(v)}">${e(v)}</span>`}function empty(c){return`<tr><td colspan="${c}" class="empty">Kayıt yok.</td></tr>`}function tbeN(v){return String(v||'').trim().toLocaleUpperCase('tr-TR').replace(/İ/g,'I').replace(/Ş/g,'S').replace(/Ğ/g,'G').replace(/Ü/g,'U').replace(/Ö/g,'O').replace(/Ç/g,'C')}
