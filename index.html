@@ -358,7 +358,7 @@
   <div class="section-body grid3">
     <div class="field"><label>Terminal Kodu</label><input id="wTerminal"></div>
     <div class="field"><label>Kablo Kesiti</label><select id="wKesit"><option value="">Seçiniz</option><option>0.22</option><option>0.35</option><option>0.50</option><option>0.75</option><option>1.00</option><option>1.50</option><option>2.00</option><option>2.50</option><option>3.00</option><option>4.00</option><option>6.00</option><option>10.00</option><option>16.00</option></select></div>
-    <div class="field"><label>PDF URL</label><input id="wPdf" type="url"></div>
+    <div class="field"><label>Mevcut PDF bağlantısı (isteğe bağlı)</label><input id="wPdf" type="url"><label>Veya bilgisayardan PDF seç</label><input id="wPdfFile" type="file" accept="application/pdf,.pdf"></div>
   </div>
 </div>
 </div>
@@ -394,7 +394,7 @@
 <section id="p-aksiyon" class="page"><div class="page-head"><div><h2>CAPA / Aksiyonlar</h2><p>IATF 16949 izlenebilir aksiyon kaydı</p></div><button class="btn primary" onclick="openModal('aksiyonDlg')">+ Aksiyon</button></div><div class="section"><div class="table-wrap"><table><thead><tr><th>Aplikatör</th><th>Konu</th><th>Öncelik</th><th>Sorumlu</th><th>Hedef</th><th>Durum</th><th>Açıklama</th></tr></thead><tbody id="aksiyonBody"></tbody></table></div></div></section>
 </main></div></section>
 
-<dialog id="kesitDlg"><div class="modal-head"><b>Kesit PDF Kaydı</b><button class="btn ghost" onclick="kesitDlg.close()">✕</button></div><form id="kesitForm" class="modal-body"><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>Terminal *</label><input name="TerminalKodu" required></div><div class="field"><label>Kablo Kesiti</label><input name="KabloKesiti"></div><div class="field"><label>Proje</label><input name="ProjeKodu"></div><div class="field"><label>İş Emri</label><input name="IsEmriNo"></div><div class="field"><label>Lot</label><input name="LotNo"></div><div class="field full"><label>PDF / Drive URL *</label><input name="PDFURL" type="url" required></div><div class="field"><label>Sonuç</label><select name="KontrolSonucu"><option>BEKLIYOR</option><option>UYGUN</option><option>UYGUNSUZ</option></select></div><div class="field"><label>Operatör</label><input name="Operator"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="kesitDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
+<dialog id="kesitDlg"><div class="modal-head"><b>Kesit PDF Kaydı</b><button class="btn ghost" onclick="kesitDlg.close()">✕</button></div><form id="kesitForm" class="modal-body"><div class="field full"><label>Kayıt</label><select id="kesitExisting" name="KesitId"><option value="">Yeni PDF kaydı</option></select><small>Eski yerel bağlantıyı düzeltmek için mevcut kaydı seçin.</small></div><div class="field full"><label>Bilgisayardan PDF seç (aynı aplikatör için en fazla 5)</label><input id="kesitPdfFiles" type="file" accept="application/pdf,.pdf" multiple><small>Dosyalar Drive’a yüklenir. Her dosya en fazla 10 MB olabilir. Seçtiğiniz terminal ve kesit bilgisi tüm seçilen dosyalara uygulanır.</small></div><div id="kesitUploadStatus" role="status"></div><div class="grid3"><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" required></select></div><div class="field"><label>Terminal *</label><input name="TerminalKodu" required></div><div class="field"><label>Kablo Kesiti</label><input name="KabloKesiti"></div><div class="field"><label>Proje</label><input name="ProjeKodu"></div><div class="field"><label>İş Emri</label><input name="IsEmriNo"></div><div class="field"><label>Lot</label><input name="LotNo"></div><div class="field full"><label>Mevcut PDF / Drive bağlantısı (isteğe bağlı)</label><input name="PDFURL" type="url" placeholder="https://drive.google.com/…"><small>Bilgisayardan dosya seçtiğinizde bağlantı otomatik oluşur.</small></div><div class="field"><label>Sonuç</label><select name="KontrolSonucu"><option>BEKLIYOR</option><option>UYGUN</option><option>UYGUNSUZ</option></select></div><div class="field"><label>Operatör</label><input name="Operator"></div></div><div class="modal-actions"><button type="button" class="btn ghost" onclick="kesitDlg.close()">İptal</button><button class="btn primary">Kaydet</button></div></form></dialog>
 <dialog id="bakimDlg" class="bakim-dialog"><div class="modal-head bakim-modal-head"><div><b><i class="fas fa-screwdriver-wrench"></i> Bakım / Revizyon Kaydı</b><small>Aplikatör bakım ve revizyon kayıt formu</small></div><button class="btn ghost" type="button" onclick="bakimDlg.close()">✕</button></div><form id="bakimForm" class="modal-body bakim-modal-body">
   <div class="bakim-top-grid">
     <div class="bakim-field-card blue"><div class="bakim-card-title"><i class="fas fa-users-gear"></i> APLİKATÖR</div><div class="field"><label>Aplikatör *</label><select name="AplikatorId" class="ap-select" onchange="bakimAplikatorDegisti(this)" required></select></div></div>
@@ -444,8 +444,8 @@ function newAplikator(){
   page('new');
   notify('Yeni kayıt modu açıldı.','info');
 }
-async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.ayarlar=r.ayarlar||r.iatfAyarlar||r.IATF_Ayarlar||S.ayarlar||[];S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render();tbeStockRender()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
-function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${x.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(x.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${st(x.Oncelik||'NORMAL')}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(7);fillSelects()}
+async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.ayarlar=r.ayarlar||r.iatfAyarlar||r.IATF_Ayarlar||S.ayarlar||[];S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.smart=r.akilliStok||[];S.smartEvents=r.stokHareketleri||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render();tbeStockRender()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
+function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${tbePdfLink(x)}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${st(x.Oncelik||'NORMAL')}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(7);fillSelects()}
 
 function parcaAplikatorAra(){
   const stokQ=tbeN(document.getElementById('parcaAraStok')?.value||'');
@@ -558,7 +558,7 @@ function renderAplikator(){
   }).join('')||empty(8);
 }
 function sealRowsForAplikator(aplikatorId){
-  return S.seals.filter(x=>String(x.AplikatorId)===String(aplikatorId));
+  return S.seals.filter(x=>String(x.AplikatorId??'').trim()===String(aplikatorId??'').trim());
 }
 
 function toggleSealSection(){
@@ -583,8 +583,15 @@ function addSealRow(v={}){
   if(last && v.Durum)last.querySelector('[data-k="Durum"]').value=v.Durum;
 }
 
+function tbeTerminalNumber(v){
+  if(v===null||v===undefined||String(v).trim()==='')return '';
+  const text=String(v).trim().replace(/\s/g,'').replace(',','.');
+  const n=Number(text);
+  if(!Number.isFinite(n))throw new Error('Geçersiz terminal ölçüsü: '+String(v));
+  return String(n);
+}
 function terminalCardsForAplikator(aplikatorId){
-  const rows=S.term.filter(x=>String(x.AplikatorId)===String(aplikatorId));
+  const rows=S.term.filter(x=>String(x.AplikatorId??'').trim()===String(aplikatorId??'').trim());
   const groups=new Map();
 
   rows.forEach(x=>{
@@ -605,48 +612,25 @@ function terminalCardsForAplikator(aplikatorId){
       });
     }
 
-    // Google Sheets sayısal kesitleri bazen 1, 1.5, 1.00 gibi farklı
-    // biçimlerde döndürebilir. Formdaki anahtarlar ise sabit 2 hanelidir.
-    // Düzenleme sırasında ölçülerin kaybolmaması için tek bir anahtara normalize et.
-    const rawKesit=String(x.KabloKesiti??'').replace(',','.').trim();
-    if(!rawKesit)return;
-    const kesitNum=Number(rawKesit);
-    const kesit=Number.isFinite(kesitNum) ? kesitNum.toFixed(2) : rawKesit;
-    if(!TBE_KESITLER.includes(kesit)){
-      const eslesen=TBE_KESITLER.find(k=>Number(k)===kesitNum);
-      if(eslesen) {
-        // Örn. 1 -> 1.00, 1.5 -> 1.50
-        groups.get(key).degerler[eslesen]={
-          CH:x.CH||'', CH_Tol:x.CH_Tol||'', CW:x.CW||'', CW_Tol:x.CW_Tol||'',
-          IH:x.IH||'', IH_Tol:x.IH_Tol||'', IW:x.IW||'', IW_Tol:x.IW_Tol||''
-        };
-        return;
-      }
-    }
-
-    groups.get(key).degerler[kesit]={
-      CH:x.CH||'',
-      CH_Tol:x.CH_Tol||'',
-      CW:x.CW||'',
-      CW_Tol:x.CW_Tol||'',
-      IH:x.IH||'',
-      IH_Tol:x.IH_Tol||'',
-      IW:x.IW||'',
-      IW_Tol:x.IW_Tol||'',
-      PT_Newton:x.PT_Newton||x.PTNewton||x.MinimumCekmeKuvveti||''
-    };
+    const kesit=tbeTerminalNumber(x.KabloKesiti);
+    if(kesit==='')return;
+    const kesitKey=Number(kesit).toFixed(2);
+    const row={};
+    ['CH','CH_Tol','CW','CW_Tol','IH','IH_Tol','IW','IW_Tol'].forEach(k=>row[k]=tbeTerminalNumber(x[k]));
+    row.PT_Newton=tbeTerminalNumber(x.PT_Newton??x.PTNewton??x.MinimumCekmeKuvveti);
+    groups.get(key).degerler[kesitKey]=row;
   });
 
   return [...groups.values()];
 }
 
 function partRowsForAplikator(aplikatorId){
-  const links=S.pu.filter(x=>String(x.AplikatorId)===String(aplikatorId));
+  const links=S.pu.filter(x=>String(x.AplikatorId??'').trim()===String(aplikatorId??'').trim());
 
   return links.map(link=>{
     const part=S.parts.find(x=>String(x.ParcaId)===String(link.ParcaId))||{};
     const life=S.life.find(x=>
-      String(x.AplikatorId)===String(aplikatorId) &&
+      String(x.AplikatorId??'').trim()===String(aplikatorId??'').trim() &&
       String(x.ParcaId)===String(link.ParcaId)
     )||{};
     const stock=S.stock.find(x=>String(x.ParcaId)===String(link.ParcaId))||{};
@@ -689,7 +673,7 @@ async function savePassportCheck(aplikatorId){
     const r=await api('tbeUretimeHazirlikKaydet',{AplikatorId:aplikatorId,requestId:'UHK-'+aplikatorId+'-'+Date.now()});
     notify('Üretime hazırlık kontrolü kayıt altına alındı.','ok');
     const body=document.getElementById('passportBody');
-    const ap=S.a.find(x=>String(x.AplikatorId)===String(aplikatorId));
+    const ap=S.a.find(x=>String(x.AplikatorId??'').trim()===String(aplikatorId??'').trim());
     if(body&&ap)body.innerHTML=buildPassport(ap,r.sonuc||null);
   }catch(err){
     notify('Kontrol kaydedilemedi: '+err.message,'bad');
@@ -793,7 +777,7 @@ function buildPassport(x,serverResult){
     const min=p.stock?passportNum(p.stock.MinimumStok):null;
     const unit=Number(p.stock?.Fiyat||p.part?.Fiyat||0);
     const value=stock===null?0:stock*unit;
-    const stockText=stock===null?'—':`${num(stock)}${min!==null?' / min '+num(min):''}`;
+    const smart=tbeSmartRow(p.stock?.StokId);const drawer=smart?.Konumlar.find(l=>l.KonumId==='AP:'+x.AplikatorId);const stockText=smart?`Çekmece: ${drawer?.Dogrulandi?num(drawer.Mevcut):'sayım bekliyor'} / Serbest: ${drawer?.Dogrulandi?num(drawer.Kullanilabilir):'—'} · Tüm konumlar: ${num(smart.Toplam)}`:(stock===null?'—':`${num(stock)}${min!==null?' / min '+num(min):''}`);
     const sid=p.stock?.StokId||'';
     const quick=sid
       ? `<div class="passport-stock-actions">
@@ -812,7 +796,7 @@ function buildPassport(x,serverResult){
   const usedRows=costs.used.slice().reverse().slice(0,20).map(q=>`<tr><td>${e(q.ParcaKodu||q.parcaKodu||q.StokKodu||q.stokKodu||'—')}</td><td>${e(q.ParcaAdi||q.parcaAdi||'—')}</td><td>${num(q.miktar)}</td><td>${money(q.birimFiyat)}</td><td>${money(q.toplam)}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Bakım kayıtlarında kullanılan parça maliyeti detayı henüz girilmemiş.</td></tr>';
   const maintRows=r.maint.slice().sort((a,b)=>new Date(b.Baslangic||b.SonGuncelleme||0)-new Date(a.Baslangic||a.SonGuncelleme||0)).slice(0,8).map(m=>`<tr><td>${dt(m.Baslangic||m.SonGuncelleme)}</td><td>${e(m.IslemTuru||'—')}</td><td>${st(m.Durum||'—')}</td><td>${e(m.YapilanIslem||m.ArizaTanimi||'—')}</td><td>${num(m.DurdurmaDakika)} dk</td><td>${money(m.Maliyet)}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Bakım kaydı yok.</td></tr>';
   const actionRows=r.actions.filter(a=>['ACIK','ISLEMDE'].includes(tbeN(a.Durum))).map(a=>`<tr><td>${e(a.Konu||'—')}</td><td>${e(a.Sorumlu||'—')}</td><td>${e(a.HedefTarih||'—')}</td><td>${st(a.Durum||'—')}</td><td>${e(a.Oncelik||'—')}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Açık aksiyon yok.</td></tr>';
-  const cutRows=S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).slice().sort((a,b)=>new Date(b.KayitZamani||0)-new Date(a.KayitZamani||0)).slice(0,8).map(c=>`<tr><td>${dt(c.KayitZamani)}</td><td>${e(c.TerminalKodu||'—')}</td><td>${e(c.KabloKesiti||'—')}</td><td>${st(c.KontrolSonucu||'—')}</td><td>${c.PDFURL?`<a class="link" target="_blank" rel="noopener" href="${ea(c.PDFURL)}">PDF Aç</a>`:'—'}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Kesit PDF kaydı yok.</td></tr>';
+  const cutRows=S.cuts.filter(c=>String(c.AplikatorId)===String(x.AplikatorId)).slice().sort((a,b)=>new Date(b.KayitZamani||0)-new Date(a.KayitZamani||0)).slice(0,8).map(c=>`<tr><td>${dt(c.KayitZamani)}</td><td>${e(c.TerminalKodu||'—')}</td><td>${e(c.KabloKesiti||'—')}</td><td>${st(c.KontrolSonucu||'—')}</td><td>${tbePdfLink(c)}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Kesit PDF kaydı yok.</td></tr>';
   const checkHtml=r.checks.map(c=>`<div class="passport-check ${c.state}"><span class="icon">${passportIcon(c.state)}</span><b>${e(c.label)}</b><span class="reason">${e(c.reason)} · ${passportStatusText(c.state)}</span></div>`).join('');
   return `<div class="sicil-print-only"><h1>BURKAB A.Ş. — APLİKATÖR SİCİL KARTI</h1><p>Oluşturma: ${dt(new Date())}</p></div>
   <div class="passport-hero"><div class="passport-title"><h2>${e(x.SicilNo||'Aplikatör')}</h2><p><b>APLIKATÖR SİCİL KARTI</b></p><p>${e((x.Marka||'')+' '+(x.ModelSeriNo||x.Model||''))}</p><p><b>Hat:</b> ${e(x.Hat||'—')} &nbsp; <b>Lokasyon:</b> ${e(x.Lokasyon||'—')}</p><p><b>Durum:</b> ${e(x.Durum||'—')} &nbsp; <b>QR:</b> <code>${e(x.QRKod||'—')}</code></p></div><div class="passport-ready ${readyClass}"><span class="big">${ready?'🟢':'🔴'} ${readyTitle}</span><small>${e(readyReason)}</small><small>Kontrol: ${dt(new Date())} · ${e(S.user?.name||S.user?.adSoyad||S.user?.username||'Kullanıcı')}</small></div></div>
@@ -830,12 +814,23 @@ function buildPassport(x,serverResult){
 }
 function printSicilCard(){const d=document.getElementById('passportDlg');if(!d)return;const wasOpen=d.open;if(!wasOpen)d.showModal();setTimeout(()=>{window.print();},100);}
 
-function editAp(raw){
+async function editAp(raw){
   const x=JSON.parse(raw);
+  // Formu temizlemeden önce terminal kayıtlarının güncel ve eksiksiz okunduğunu doğrula.
+  try{
+    const r=await api('tbeBootstrap',{_ts:Date.now()});
+    if(!Array.isArray(r.terminaller))throw new Error('Terminal kayıtları sunucudan alınamadı.');
+    S.term=r.terminaller.map(t=>Object.fromEntries(Object.entries(t).map(([k,v])=>[k.trim(),v])));
+  }catch(err){notify('Düzenleme açılamadı: '+err.message,'bad');return;}
+
+
+  let terminalKartlari;
+  try{terminalKartlari=terminalCardsForAplikator(x.AplikatorId);}catch(err){notify(err.message,'bad');return;}
 
   // Düzenleme açılırken sadece bir kez temizlenir.
   // Adımlar arasında ilerlerken reset yapılmaz.
   wizardForm.reset();
+  document.getElementById('wPdfFile').value='';
   presRows.innerHTML='';
   sealRows.innerHTML='';
   terminalRows.innerHTML='';
@@ -859,7 +854,6 @@ function editAp(raw){
   }
   toggleSealSection();
 
-  const terminalKartlari=terminalCardsForAplikator(x.AplikatorId);
   if(terminalKartlari.length)terminalKartlari.forEach(addTerminalCard);
   else addTerminalCard();
 
@@ -900,12 +894,13 @@ const TBE_OLCULER=[['CH','C/H'],['CW','C/W'],['IH','I/H'],['IW','I/W'],['PT_Newt
 function addTerminalCard(v={}){
   const id='tc_'+Date.now()+'_'+Math.random().toString(36).slice(2);
   const values=v.degerler||{};
-  const heads=TBE_KESITLER.map(k=>`<th>${k} mm²</th>`).join('');
+  const kesitler=[...new Set([...TBE_KESITLER,...Object.keys(values)])].sort((a,b)=>Number(a)-Number(b));
+  const heads=kesitler.map(k=>`<th>${k} mm²</th>`).join('');
   const rows=TBE_OLCULER.map(([key,label])=>{
-    const cells=TBE_KESITLER.map(k=>{
+    const cells=kesitler.map(k=>{
       const x=values[k]||{};
-      if(key==='PT_Newton') return `<td><div class="tol pt-cell"><input type="number" step="0.1" min="0" data-m="${key}" data-kesit="${k}" value="${ea(x[key]||'')}" placeholder="N"></div></td>`;
-      return `<td><div class="tol"><input type="number" step="0.001" data-m="${key}" data-kesit="${k}" value="${ea(x[key]||'')}" placeholder="${label}"><span>±</span><input type="number" step="0.001" data-m="${key}_Tol" data-kesit="${k}" value="${ea(x[key+'_Tol']||'')}" placeholder="Tol."></div></td>`;
+      if(key==='PT_Newton') return `<td><div class="tol pt-cell"><input type="number" step="0.1" min="0" data-m="${key}" data-kesit="${k}" value="${ea(tbeTerminalNumber(x[key]))}" placeholder="N"></div></td>`;
+      return `<td><div class="tol"><input type="number" step="0.001" data-m="${key}" data-kesit="${k}" value="${ea(tbeTerminalNumber(x[key]))}" placeholder="${label}"><span>±</span><input type="number" step="0.001" data-m="${key}_Tol" data-kesit="${k}" value="${ea(tbeTerminalNumber(x[key+'_Tol']))}" placeholder="Tol."></div></td>`;
     }).join('');
     return `<tr class="${key==='PT_Newton'?'pt-row':''}"><td>${label}</td>${cells}</tr>`;
   }).join('');
@@ -926,7 +921,7 @@ function collectTerminalRows(){
   const out=[];
   document.querySelectorAll('#terminalRows .crimp-card').forEach(card=>{
     const head=Object.fromEntries([...card.querySelectorAll('[data-head]')].map(x=>[x.dataset.head,x.value.trim()]));
-    TBE_KESITLER.forEach(k=>{
+    [...new Set([...card.querySelectorAll('[data-kesit]')].map(x=>x.dataset.kesit))].forEach(k=>{
       const row={...head,KabloKesiti:k};
       let has=false;
       card.querySelectorAll(`[data-kesit="${k}"]`).forEach(x=>{
@@ -964,7 +959,7 @@ function wizardTerminalSnapshot(){
   return [...document.querySelectorAll('#terminalRows .crimp-card')].map(card=>{
     const head=Object.fromEntries([...card.querySelectorAll('[data-head]')].map(x=>[x.dataset.head,x.value.trim()]));
     const degerler={};
-    TBE_KESITLER.forEach(k=>{
+    [...new Set([...card.querySelectorAll('[data-kesit]')].map(x=>x.dataset.kesit))].forEach(k=>{
       const row={}; let has=false;
       card.querySelectorAll(`[data-kesit="${k}"]`).forEach(x=>{row[x.dataset.m]=x.value.trim();if(x.value.trim())has=true;});
       if(has)degerler[k]=row;
@@ -1025,6 +1020,7 @@ function buildReview(){
 function resetWizard(){
   wizardDraft=null;
   wizardForm.reset();
+  document.getElementById('wPdfFile').value='';
   presRows.innerHTML='';
   sealRows.innerHTML='';
   terminalRows.innerHTML='';
@@ -1037,6 +1033,7 @@ function resetWizard(){
   wTerminal.value='';
   wKesit.value='';
   wPdf.value='';
+  document.getElementById('wPdfFile').value='';
   currentStep=0;
   showStep();
   const title=document.querySelector('#p-new .page-head h2');
@@ -1044,7 +1041,7 @@ function resetWizard(){
   if(title)title.textContent='Yeni Aplikatör Kaydı';
   if(subtitle)subtitle.textContent='Bakım modülündeki gibi aşamalı kayıt';
 }
-wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);if(wPdf.value.trim())await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
+wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);const wf=document.getElementById('wPdfFile').files[0];if(wf)await tbeDrivePdfUpload(wf,{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),KontrolSonucu:'BEKLIYOR'});else if(wPdf.value.trim()&&!S.cuts.some(c=>String(c.AplikatorId)===String(r.data.AplikatorId)&&c.PDFURL===wPdf.value.trim())){tbeValidatePdfUrl(wPdf.value.trim());await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});}notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
 function bindForm(id,action,dlg){document.getElementById(id).onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{await api(action,Object.fromEntries(new FormData(ev.target)));dlg.close();ev.target.reset();await load();notify('Kayıt tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}}}
 function bakimIscilikSabit(){
   const candidates=[S.ayarlar,S.d?.ayarlar,S.d?.IATF_Ayarlar,S.d?.iatfAyarlar];
@@ -1220,13 +1217,13 @@ function bakimKaydiniYazdir(mode='print'){
 }
 
 document.getElementById('bakimForm').onsubmit=async ev=>{ev.preventDefault();bakimMaliyetHesapla();const b=ev.submitter;b.disabled=true;try{await api('tbeBakimKaydet',Object.fromEntries(new FormData(ev.target)));bakimDlg.close();resetBakimForm();await load();notify('Bakım / revizyon kaydı tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}};document.getElementById('bakimDlg').addEventListener('close',()=>{});
-function openModal(id){document.getElementById(id).showModal()}
+function openModal(id){if(id==='kesitDlg')tbeKesitExistingOptions();document.getElementById(id).showModal()}
 function fillSelects(){const ops='<option value="">Seçiniz</option>'+S.a.map(x=>`<option value="${ea(x.AplikatorId)}">${e(x.SicilNo)} — ${e(x.Marka)} ${e(x.Model)}</option>`).join('');document.querySelectorAll('.ap-select').forEach(x=>x.innerHTML=ops);stokSelect.innerHTML='<option value="">Seçiniz</option>'+S.stock.map(x=>`<option value="${ea(x.StokId)}">${e(x.StokKodu)} — ${partName(x.ParcaId)}</option>`).join('')}
 function apName(id){const x=S.a.find(y=>String(y.AplikatorId)===String(id));return x?e(x.SicilNo):e(id||'—')}function apModel(id){const x=S.a.find(y=>String(y.AplikatorId)===String(id));return x?e((x.Marka||'')+' '+(x.ModelSeriNo||x.Model||'')):'—'}function partName(id){const x=S.parts.find(y=>String(y.ParcaId)===String(id));return x?e((x.ParcaKodu||'')+' — '+(x.ParcaAdi||'')):e(id||'—')}function notify(m,t='ok'){toast.textContent=m;toast.className='toast '+t+' show';clearTimeout(notify.t);notify.t=setTimeout(()=>toast.classList.remove('show'),3500)}function e(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function ea(v){return e(v)}function num(v){return Number(v||0).toLocaleString('tr-TR')}function dt(v){if(!v)return'—';const d=new Date(v);return isNaN(d)?e(v):d.toLocaleString('tr-TR')}function st(v){v=tbeN(v||'BELIRSIZ').replace(/\s/g,'_');return`<span class="status ${ea(v)}">${e(v)}</span>`}function empty(c){return`<tr><td colspan="${c}" class="empty">Kayıt yok.</td></tr>`}function tbeN(v){return String(v||'').trim().toLocaleUpperCase('tr-TR').replace(/İ/g,'I').replace(/Ş/g,'S').replace(/Ğ/g,'G').replace(/Ü/g,'U').replace(/Ö/g,'O').replace(/Ç/g,'C')}
 function tbeStockData(){return S.stock.map(stk=>{const p=S.parts.find(x=>String(x.ParcaId)===String(stk.ParcaId))||{};const links=S.pu.filter(x=>String(x.ParcaId)===String(stk.ParcaId));const terms=[...new Set(links.map(l=>S.term.filter(t=>String(t.AplikatorId)===String(l.AplikatorId)).map(t=>t.TerminalKodu).filter(Boolean)).flat())];const mevcut=Number(stk.MevcutMiktar||0),min=Number(stk.MinimumStok||0);const aktif=tbeN(p.Aktif??stk.Aktif??'EVET')!=='HAYIR'&&tbeN(stk.KayitDurumu||'AKTIF')!=='PASIF';const durum=!aktif?'PASIF':mevcut<=0?'KRITIK':mevcut<=min?'DUSUK':'NORMAL';return {stk,p,links,terms,mevcut,min,aktif,durum};})}
 function tbeStockRender(){const root=document.getElementById('tbeStockCards');if(!root)return;const q=tbeN(document.getElementById('tbeStockSearch')?.value||'');const f=document.getElementById('tbeStockFilter')?.value||'ALL';const all=tbeStockData();const arr=all.filter(x=>{const text=[x.stk.StokKodu,x.p.ParcaKodu,x.p.ParcaAdi,x.p.Uretici,x.stk.Tedarikci,x.stk.RafKonumu].join(' ');return (!q||tbeN(text).includes(q))&&(f==='ALL'||x.durum===f);});const k=all.filter(x=>x.aktif);const krit=k.filter(x=>x.durum==='KRITIK').length,dusuk=k.filter(x=>x.durum==='DUSUK').length,qty=k.reduce((a,x)=>a+x.mevcut,0);const kpi=document.getElementById('tbeStockKpis');if(kpi)kpi.innerHTML=[['Aktif Parça',k.length],['Kritik Stok',krit],['Minimum Seviyede',dusuk],['Toplam Miktar',num(qty)]].map(x=>`<div class="card"><small>${x[0]}</small><div class="value">${x[1]}</div></div>`).join('');const count=document.getElementById('tbeStockCount');if(count)count.textContent=arr.length+' kayıt';if(!arr.length){root.innerHTML='<div class="tbe-part-empty"><i class="fas fa-box-open" style="font-size:32px"></i><br><br>Bu filtreye uygun TBE yedek parça bulunamadı.<br><button class="btn primary" style="margin-top:12px" onclick="tbeParcaModalAc()">+ İlk Parçayı Ekle</button></div>';return}root.innerHTML=arr.map(x=>{const cls=x.durum==='KRITIK'?'critical':x.durum==='DUSUK'?'low':'';const terminals=x.terms.slice(0,8).map(t=>`<span class="tbe-terminal-chip">${e(t)}</span>`).join('');return `<div class="tbe-part-card ${cls}"><div class="tbe-part-card-head"><div><h3>${e(x.p.ParcaAdi||x.p.ParcaKodu||x.stk.StokKodu)}</h3><small><b>${e(x.p.ParcaKodu||'—')}</b> · Stok: ${e(x.stk.StokKodu||'—')}</small></div>${st(x.durum)}</div><div class="tbe-part-body"><div style="display:flex;justify-content:space-between;align-items:end"><div><small>MEVCUT STOK</small><div class="tbe-stock-number">${num(x.mevcut)} <small>${e(x.p.Birim||'AD')}</small></div></div><div style="text-align:right"><small>MIN.</small><div style="font-weight:900">${num(x.min)}</div></div></div><div class="tbe-stock-meta"><div><small>Raf</small><b>${e(x.stk.RafKonumu||'—')}</b></div><div><small>Tedarikçi</small><b>${e(x.stk.Tedarikci||'—')}</b></div><div><small>Üretici</small><b>${e(x.p.Uretici||'—')}</b></div><div><small>Fiyat</small><b>${num(x.stk.Fiyat||x.p.Fiyat||0)} ${e(x.stk.ParaBirimi||x.p.ParaBirimi||'EUR')}</b></div></div>${terminals?`<small><b>Bağlı Terminaller</b></small><div class="tbe-terminal-chips">${terminals}</div>`:''}<div class="tbe-part-actions"><button class="btn primary tbe-mini" onclick='tbeStokHareketAc(${JSON.stringify(x.stk.StokId)})'><i class="fas fa-right-left"></i> Hareket</button><button class="btn ghost tbe-mini" onclick='tbeQuickStock(${JSON.stringify(x.stk.StokId)},${JSON.stringify('GIRIS')})'>+1</button><button class="btn ghost tbe-mini" onclick='tbeQuickStock(${JSON.stringify(x.stk.StokId)},${JSON.stringify('CIKIS')})'>−1</button><button class="btn ghost tbe-mini" onclick='tbeParcaDuzenle(${JSON.stringify(x.p.ParcaId)})'><i class="fas fa-pen"></i></button></div></div></div>`}).join('')}
-function tbeParcaModalAc(){const f=document.getElementById('tbeParcaForm');if(!f)return;f.reset();f.elements.ParcaId.value='';f.elements.MevcutMiktar.value='0';f.elements.MinimumStok.value='0';tbeParcaDlg.showModal()}
-function tbeParcaDuzenle(id){const p=S.parts.find(x=>String(x.ParcaId)===String(id));const stx=S.stock.find(x=>String(x.ParcaId)===String(id))||{};if(!p)return;const f=document.getElementById('tbeParcaForm');f.reset();Object.keys(p).forEach(k=>{if(f.elements[k])f.elements[k].value=p[k]??''});['StokKodu','RafKonumu','MevcutMiktar','MinimumStok','Tedarikci','Fiyat','ParaBirimi'].forEach(k=>{if(f.elements[k])f.elements[k].value=stx[k]??f.elements[k].value});f.elements.ParcaId.value=p.ParcaId;tbeParcaDlg.showModal()}
+function tbeParcaModalAc(){const f=document.getElementById('tbeParcaForm');if(!f)return;f.reset();f.elements.ParcaId.value='';f.elements.MevcutMiktar.readOnly=false;f.elements.MevcutMiktar.value='0';f.elements.MinimumStok.value='1';tbeParcaDlg.showModal()}
+function tbeParcaDuzenle(id){const p=S.parts.find(x=>String(x.ParcaId)===String(id));const stx=S.stock.find(x=>String(x.ParcaId)===String(id))||{};if(!p)return;const f=document.getElementById('tbeParcaForm');f.reset();Object.keys(p).forEach(k=>{if(f.elements[k])f.elements[k].value=p[k]??''});['StokKodu','RafKonumu','MevcutMiktar','MinimumStok','Tedarikci','Fiyat','ParaBirimi'].forEach(k=>{if(f.elements[k])f.elements[k].value=stx[k]??f.elements[k].value});f.elements.ParcaId.value=p.ParcaId;f.elements.MevcutMiktar.readOnly=true;f.elements.MinimumStok.value='1';f.elements.MinimumStok.readOnly=true;tbeParcaDlg.showModal()}
 async function tbeParcaKaydetForm(ev){ev.preventDefault();const b=ev.submitter;b.disabled=true;try{const d=Object.fromEntries(new FormData(ev.target));await api('tbeYedekParcaKaydet',d);tbeParcaDlg.close();await load();page('stok');notify('TBE yedek parça kaydedildi.','ok')}catch(x){notify('Parça kaydedilemedi: '+x.message,'bad')}finally{b.disabled=false}}
 function tbeStokHareketAc(stokId){const x=tbeStockData().find(a=>String(a.stk.StokId)===String(stokId));if(!x)return;const f=document.getElementById('tbeHareketForm');f.reset();f.elements.StokId.value=x.stk.StokId;f.elements.StokKodu.value=x.stk.StokKodu;f.elements.ParcaId.value=x.stk.ParcaId;f.elements.AplikatorId.value='';document.getElementById('tbeHareketParca').value=(x.p.ParcaKodu||'')+' — '+(x.p.ParcaAdi||'');tbeHareketDlg.showModal()}
 async function tbeHareketKaydetForm(ev){ev.preventDefault();const b=ev.submitter;b.disabled=true;try{const d=Object.fromEntries(new FormData(ev.target));await api('tbeStokHareketKaydet',d);tbeHareketDlg.close();await load();page('stok');notify('Stok hareketi kaydedildi.','ok')}catch(x){notify('Stok hareketi kaydedilemedi: '+x.message,'bad')}finally{b.disabled=false}}
@@ -1248,6 +1245,118 @@ async function tbePassportQuickStock(stokId,tur,apId){
   }
 }
 document.getElementById('tbeParcaForm').onsubmit=tbeParcaKaydetForm;document.getElementById('tbeHareketForm').onsubmit=tbeHareketKaydetForm;
+
+function tbeValidatePdfUrl(raw){
+  let u;try{u=new URL(String(raw).trim());}catch(_){throw new Error('Geçerli bir PDF / Drive bağlantısı girin veya PDF dosyasını seçin.');}
+  if(!['https:','http:'].includes(u.protocol))throw new Error('Yerel dosya adresi kaydedilemez. PDF dosyasını Dosya Seç ile yükleyin.');
+  return u.href;
+}
+function tbePdfLink(row){
+  let url=row.PDFURL||'';
+  if(row.DriveFileId&&/^[\w-]+$/.test(row.DriveFileId))url='https://drive.google.com/file/d/'+row.DriveFileId+'/view';
+  try{url=tbeValidatePdfUrl(url);}catch(_){return url?'<span title="PDF dosyasını yeniden seçip Drive’a yükleyin">Yerel/geçersiz bağlantı</span>':'—';}
+  return '<a class="link" target="_blank" rel="noopener" href="'+ea(url)+'">PDF Aç</a>';
+}
+function tbePdfBase64(file){return new Promise((resolve,reject)=>{
+  if(!/\.pdf$/i.test(file.name)||file.size>10*1024*1024||file.size===0){reject(new Error('Boş olmayan, en fazla 10 MB bir PDF seçin.'));return;}
+  const reader=new FileReader();reader.onerror=()=>reject(new Error('PDF okunamadı.'));reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.readAsDataURL(file);
+});}
+async function tbeDrivePdfUpload(file,metadata){
+  const base64=await tbePdfBase64(file),requestId=crypto.randomUUID(),nonce=crypto.randomUUID();
+  const payload={...metadata,action:'tbeKesitKaydet',auth:S.user||{},authToken:token(),token:token(),requestId,pdfBase64:base64,DosyaAdi:file.name,replyOrigin:location.origin,replyNonce:nonce};
+  return new Promise((resolve,reject)=>{
+    const frame=document.createElement('iframe'),form=document.createElement('form');
+    frame.name='pdf_'+nonce;frame.style.display='none';form.style.display='none';form.method='POST';form.action=CFG.GS_URL;form.target=frame.name;
+    const input=document.createElement('input');input.type='hidden';input.name='tbePdfPayload';input.value=JSON.stringify(payload);form.appendChild(input);
+    let timer;const cleanup=()=>{clearTimeout(timer);window.removeEventListener('message',receive);frame.remove();form.remove();};
+    function receive(ev){
+      if(!/^https:\/\/(?:script\.google\.com|(?:[a-z0-9-]+\.)?googleusercontent\.com)$/.test(ev.origin))return;
+      const d=ev.data;if(!d||d.type!=='BURKAB_PDF_UPLOAD'||d.nonce!==nonce)return;
+      cleanup();d.result?.ok?resolve(d.result):reject(new Error(d.result?.error||'PDF yüklenemedi.'));
+    }
+    window.addEventListener('message',receive);timer=setTimeout(()=>{cleanup();reject(new Error('Yükleme yanıtı alınamadı. Tekrar yüklemeden önce PDF arşivini yenileyip kaydı kontrol edin.'));},180000);
+    document.body.append(frame,form);form.submit();
+  });
+}
+function tbeKesitExistingOptions(){
+  const f=document.getElementById('kesitForm'),sel=document.getElementById('kesitExisting');
+  sel.innerHTML='<option value="">Yeni PDF kaydı</option>'+S.cuts.filter(c=>String(c.AplikatorId)===String(f.elements.AplikatorId.value)).map(c=>'<option value="'+ea(c.KesitId)+'">'+e(c.DosyaAdi||c.TerminalKodu||c.PDFURL||c.KesitId)+'</option>').join('');
+}
+document.getElementById('kesitForm').elements.AplikatorId.addEventListener('change',tbeKesitExistingOptions);
+document.getElementById('kesitExisting').addEventListener('change',function(){
+  const c=S.cuts.find(c=>String(c.KesitId)===this.value),f=document.getElementById('kesitForm');if(!c)return;
+  ['TerminalKodu','KabloKesiti','ProjeKodu','IsEmriNo','LotNo','Operator','KontrolSonucu'].forEach(k=>{if(f.elements[k])f.elements[k].value=c[k]||'';});
+  f.elements.PDFURL.value=/^https?:\/\//.test(c.PDFURL||'')?c.PDFURL:'';
+});
+document.getElementById('kesitForm').onsubmit=async ev=>{
+  ev.preventDefault();const form=ev.target,b=ev.submitter,status=document.getElementById('kesitUploadStatus');
+  const data=Object.fromEntries(new FormData(form)),input=document.getElementById('kesitPdfFiles'),files=[...input.files];
+  let saved=0;b.disabled=true;
+  try{
+    if(!files.length&&!String(data.PDFURL||'').trim())throw new Error('Bir PDF dosyası seçin veya geçerli bağlantı girin.');
+    const count=S.cuts.filter(c=>String(c.AplikatorId)===String(data.AplikatorId)).length;
+    if(!data.KesitId&&count+(files.length||1)>5)throw new Error('Bu aplikatör için en fazla 5 PDF kaydı tutulabilir. Mevcut kayıt: '+count);
+    if(data.KesitId&&files.length>1)throw new Error('Mevcut kaydı değiştirmek için yalnızca bir PDF seçin.');
+    for(const file of files){if(!/\.pdf$/i.test(file.name)||!file.size||file.size>10*1024*1024)throw new Error('PDF dosyaları boş olmamalı ve dosya başına 10 MB sınırını aşmamalı.');}
+    if(files.length){
+      for(let i=0;i<files.length;i++){
+        status.textContent=(i+1)+' / '+files.length+' yükleniyor: '+files[i].name;
+        await tbeDrivePdfUpload(files[i],data);saved++;
+      }
+    }else{data.PDFURL=tbeValidatePdfUrl(data.PDFURL);await api('tbeKesitKaydet',data);saved=1;}
+    status.textContent='';form.reset();kesitDlg.close();await load();notify(saved+' PDF kaydı Drive bağlantısıyla hazır.','ok');
+  }catch(err){
+    status.textContent=(saved?saved+' PDF kaydedildi. ':'')+err.message;
+    // Kısmi başarıda aynı dosyaların yeniden gönderilmesini önle; arşiv kayıtları korunur.
+    if(saved){input.value='';await load();}
+    notify(status.textContent,'bad');
+  }finally{b.disabled=false;}
+};
+
+
+// === KONUM BAZLI AKILLI STOK ARAYÜZÜ ===
+function tbeSmartLocName(id){if(id==='DEPO')return 'Merkezi depo';const a=S.a.find(x=>'AP:'+x.AplikatorId===id);return a?(a.SicilNo+' çekmecesi'):id;}
+function tbeSmartRow(stokId){return (S.smart||[]).find(r=>r.StokId===stokId);}
+function tbeStockRender(){
+ const root=document.getElementById('tbeStockCards');if(!root)return;
+ const search=tbeN(document.getElementById('tbeStockSearch')?.value||''),filter=document.getElementById('tbeStockFilter')?.value||'ALL';
+ const rows=(S.smart||[]).filter(r=>{const p=S.parts.find(p=>p.ParcaId===r.ParcaId)||{},low=r.Konumlar.some(l=>l.Dogrulandi&&l.Compatibile&&l.Kullanilabilir<=1),zero=r.Konumlar.some(l=>l.Dogrulandi&&l.Compatibile&&l.Kullanilabilir<=0);return (!search||tbeN([r.StokKodu,p.ParcaAdi,p.ParcaKodu,...r.Konumlar.map(l=>tbeSmartLocName(l.KonumId))].join(' ')).includes(search))&&(filter==='ALL'||filter==='KRITIK'&&zero||filter==='DUSUK'&&low||filter==='NORMAL'&&!low||filter==='PASIF'&&tbeN(p.Aktif)==='HAYIR');});
+ const kpi=document.getElementById('tbeStockKpis');if(kpi)kpi.innerHTML=[['Parça',S.smart?.length||0],['Transfer önerisi',(S.smart||[]).filter(r=>r.Transferler.length).length],['Satın alma önerisi',(S.smart||[]).filter(r=>r.SiparisOneri>0).length],['Toplam fiziksel adet',(S.smart||[]).reduce((a,r)=>a+r.Toplam,0)]].map(x=>'<div class="card"><small>'+e(x[0])+'</small><div class="value">'+num(x[1])+'</div></div>').join('');
+ const count=document.getElementById('tbeStockCount');if(count)count.textContent=rows.length+' parça';
+ root.innerHTML='<div style="grid-column:1/-1;background:#fff;padding:16px;border-radius:12px"><b>Konum başına: minimum 1 · dengeli 2 · maksimum 3 adet</b><p>Başlangıç miktarları merkezi depoda korunmuştur. Çekmecelerin miktarı henüz doğrulanmadıysa SAYIM BEKLİYOR görünür. Gerçek miktarı sayım veya depo transferi ile girin. Takılı parçayı yedek stok saymayın. Sayım ve transfer tüketim değildir.</p><button class="btn ghost" onclick="tbeSmartExport()">6 / 12 aylık analiz verisini indir</button><button class="btn ghost" onclick="tbeSmartHistory()">Hareket geçmişi</button><small> AI henüz bağlı değil; zaman, adet ve konum kayıtları hazır.</small></div>'+
+ rows.map(r=>{
+  const p=S.parts.find(p=>p.ParcaId===r.ParcaId)||{},six=r.Analiz180,year=r.Analiz365;
+  const loc=r.Konumlar.map(l=>'<tr><td>'+e(tbeSmartLocName(l.KonumId))+'</td><td>'+num(l.Mevcut)+'</td><td>'+num(l.Rezerve)+'</td><td><b>'+num(l.Kullanilabilir)+'</b></td><td>'+e(!l.Dogrulandi?'SAYIM BEKLİYOR':l.Kullanilabilir===0?'STOK YOK':l.Kullanilabilir===1?'MİNİMUM':l.Durum)+'</td></tr>').join('');
+  const transfers=r.Transferler.map(t=>'<div style="margin:8px 0"><b>Transfer:</b> '+e(tbeSmartLocName(t.KaynakKonum))+' → '+e(tbeSmartLocName(t.HedefKonum))+' · '+t.Miktar+' adet <button class="btn ghost tbe-mini" data-smart-transfer="'+ea(r.StokId)+'" data-from="'+ea(t.KaynakKonum)+'" data-to="'+ea(t.HedefKonum)+'" data-qty="'+t.Miktar+'">İncele / aktar</button></div>').join('');
+  return '<div class="tbe-part-card '+(r.SiparisOneri?'critical':'')+'"><div class="tbe-part-card-head"><div><h3>'+e(p.ParcaAdi||r.StokKodu)+'</h3><small>'+e(r.StokKodu)+' · '+e(p.ParcaKodu)+'</small></div><b>'+num(r.Toplam)+' adet</b></div><div class="tbe-part-body"><b>'+e(r.Karar)+'</b><p>Kullanılabilir toplam: '+num(r.Kullanilabilir)+(r.SiparisOneri?' · Önerilen satın alma: '+r.SiparisOneri+' adet':'')+'</p><div class="table-wrap"><table><thead><tr><th>Konum</th><th>Mevcut</th><th>Ayrılmış</th><th>Serbest</th><th>Seviye</th></tr></thead><tbody>'+loc+'</tbody></table></div>'+transfers+'<p><b>6 ay:</b> '+six.TuketimAdet+' adet / '+six.IslemSayisi+' çıkış işlemi<br><b>1 yıl:</b> '+year.TuketimAdet+' adet / '+year.IslemSayisi+' çıkış işlemi'+(year.OrtalamaAdetAraligiGun?' · yaklaşık '+year.OrtalamaAdetAraligiGun+' günde 1 adet':'')+'<br><small>Gözlem: '+year.GozlemGun+' gün. '+e(year.VeriYeterli?year.Aciklama:six.Aciklama)+'</small></p>'+(r.BelirsizEskiCikis?'<p><small>Eski sistemde '+r.BelirsizEskiCikis+' adet çıkış var. Tüketim/transfer ayrımı belli olmadığı için sipariş hesabına katılmadı.</small></p>':'')+(six.MaxAsimRiski?'<p>Termin süresindeki beklenen tüketim 3 adet hedefini aşabilir; tedarik süresini değerlendirin.</p>':'')+'<div class="field"><label>Tedarik süresi (gün)</label><input data-smart-lead="'+ea(r.StokId)+'" type="number" min="1" max="365" value="'+ea(r.Kural.TerminGun||30)+'"><button class="btn ghost tbe-mini" data-smart-rule="'+ea(r.StokId)+'">Kaydet</button></div><button class="btn primary" data-smart-move="'+ea(r.StokId)+'">Giriş / tüketim / transfer / sayım</button><button class="btn ghost" data-smart-edit="'+ea(r.ParcaId)+'">Parça kartı</button></div></div>';
+ }).join('');
+ root.querySelectorAll('[data-smart-move]').forEach(b=>b.onclick=()=>tbeSmartMoveOpen(b.dataset.smartMove));
+ root.querySelectorAll('[data-smart-edit]').forEach(b=>b.onclick=()=>tbeParcaDuzenle(b.dataset.smartEdit));
+ root.querySelectorAll('[data-smart-transfer]').forEach(b=>b.onclick=()=>tbeSmartMoveOpen(b.dataset.smartTransfer,'TRANSFER',b.dataset.from,b.dataset.to,b.dataset.qty));
+ root.querySelectorAll('[data-smart-rule]').forEach(b=>b.onclick=async()=>{b.disabled=true;try{const val=root.querySelector('[data-smart-lead="'+CSS.escape(b.dataset.smartRule)+'"]').value;await api('tbeAkilliStokKuralKaydet',{StokId:b.dataset.smartRule,TerminGun:val});await load();notify('Termin kaydedildi.','ok');}catch(err){notify(err.message,'bad');}finally{b.disabled=false;}});
+}
+function tbeSmartMoveOpen(id,tip='GIRIS',from='DEPO',to='DEPO',qty=1){
+ const row=tbeSmartRow(id);if(!row){notify('Konum verileri yüklenemedi. Sayfayı yenileyin.','bad');return;}
+ let dlg=document.getElementById('smartMoveDlg');if(!dlg){dlg=document.createElement('dialog');dlg.id='smartMoveDlg';document.body.appendChild(dlg);}
+ const options=row.Konumlar.map(l=>'<option value="'+ea(l.KonumId)+'">'+e(tbeSmartLocName(l.KonumId))+' · serbest '+l.Kullanilabilir+'</option>').join('');
+ dlg.innerHTML='<div class="modal-head"><b>'+e(row.StokKodu)+' — Konumlu stok hareketi</b><button type="button" class="btn ghost" onclick="this.closest(\'dialog\').close()">✕</button></div><form id="smartMoveForm" class="modal-body"><div class="grid3"><div class="field"><label>İşlem</label><select name="Tip"><option value="GIRIS">Yeni stok girişi</option><option value="TUKETIM">Gerçek kullanım / tüketim çıkışı</option><option value="TRANSFER">Konumlar arası transfer</option><option value="SAYIM">Sayım sonucu (toplam mevcut)</option><option value="REZERVE">Parça ayır</option><option value="REZERVE_COZ">Ayırmayı çöz</option></select></div><div class="field"><label>Kaynak konum (tüketim / transfer)</label><select name="KaynakKonum">'+options+'</select></div><div class="field"><label>Hedef / işlem konumu</label><select name="HedefKonum">'+options+'</select></div><div class="field"><label>Miktar (sayımda gerçek toplam)</label><input name="Miktar" type="number" step="1" min="0" required></div><div class="field full"><label>Açıklama *</label><input name="Aciklama" required></div></div><p>Transfer tüketim sayılmaz. Kaynakta en az 1 serbest parça korunur. Sayım, o konumdaki gerçek yedek adetini belirtir; takılı parçalar dahil değildir.</p><button class="btn primary" type="submit">Hareketi kaydet</button></form>';
+ const form=dlg.querySelector('form');form.elements.Tip.value=tip;form.elements.KaynakKonum.value=from;form.elements.HedefKonum.value=to;form.elements.Miktar.value=qty;if(tip==='TRANSFER')form.elements.Aciklama.value='İç transfer — dengeli stok hedefi 2';
+ let requestId=crypto.randomUUID();form.onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{const data=Object.fromEntries(new FormData(form));await api('tbeAkilliStokHareket',{...data,StokId:id,requestId});dlg.close();await load();notify('Konumlu stok hareketi kaydedildi.','ok');}catch(err){notify(err.message+' Zaman aşımında tekrar basmadan önce geçmişi kontrol edin.','bad');}finally{b.disabled=false;}};
+ dlg.showModal();
+}
+function tbeStokHareketAc(id){tbeSmartMoveOpen(id);}
+function tbeQuickStock(id,tip){tbeSmartMoveOpen(id,tip==='CIKIS'?'TUKETIM':'GIRIS');}
+function tbePassportQuickStock(id,tip,apId){tbeSmartMoveOpen(id,tip==='CIKIS'?'TUKETIM':'GIRIS','AP:'+apId,'AP:'+apId);}
+function tbeSmartExport(){
+ const payload={version:'TBE_SMART_STOCK_1',olusturma:new Date().toISOString(),aiBagli:false,kurallar:{min:1,dengeli:2,max:3},rapor:S.smart||[],hareketler:S.smartEvents||[],aciklama:'Transfer ve sayım tüketim değildir. Eski belirsiz çıkışlar satın alma hesabından ayrı tutulur.'};
+ const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='TBE_STOK_ANALIZ_'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function tbeSmartHistory(){
+ let dlg=document.getElementById('smartHistoryDlg');if(!dlg){dlg=document.createElement('dialog');dlg.id='smartHistoryDlg';document.body.appendChild(dlg);}
+ const rows=(S.smartEvents||[]).slice().reverse().slice(0,200);
+ dlg.innerHTML='<div class="modal-head"><b>Konum hareket geçmişi — son 200 kayıt</b><button class="btn ghost" onclick="this.closest(\'dialog\').close()">✕</button></div><div class="modal-body table-wrap"><table><thead><tr><th>Tarih</th><th>Parça</th><th>Tür</th><th>Kaynak</th><th>Hedef</th><th>Adet</th><th>Yapan</th><th>Açıklama</th></tr></thead><tbody>'+rows.map(h=>'<tr><td>'+e(h.ZamanISO)+'</td><td>'+partName(h.ParcaId)+'</td><td>'+e(h.Tip)+'</td><td>'+e(tbeSmartLocName(h.KaynakKonum))+'</td><td>'+e(tbeSmartLocName(h.HedefKonum))+'</td><td>'+num(h.Miktar)+'</td><td>'+e(h.Yapan)+'</td><td>'+e(h.Aciklama)+'</td></tr>').join('')+'</tbody></table></div>';dlg.showModal();
+}
+
 resetWizard();(()=>{const u=localStorage.getItem('burkab_tbe_user'),t=token();if(u&&t){try{S.user=JSON.parse(u);show()}catch(_){logout()}}})();
 </script>
 </body></html>
