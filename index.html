@@ -316,6 +316,15 @@
 @media(max-width:900px){.bakim-top-grid,.bakim-main-grid,.bakim-bottom-grid{grid-template-columns:1fr}.bakim-cost-cards{grid-template-columns:1fr 1fr}.bakim-labor-grid{grid-template-columns:1fr 1fr}.bakim-part-row{grid-template-columns:1fr 85px 120px 120px 38px}}
 @media(max-width:600px){.bakim-modal-body{padding:9px}.bakim-cost-cards,.bakim-labor-grid,.bakim-date-grid{grid-template-columns:1fr}.bakim-part-row{grid-template-columns:1fr}.bakim-export-actions{width:100%}.bakim-export-actions .btn{flex:1}}
 .tbe-cable-area{padding:14px;background:#f4f7f6;border-bottom:1px solid var(--line)}.tbe-cable-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-weight:800}.tbe-cable-list{display:grid;gap:10px}.tbe-cable-row{display:grid;grid-template-columns:1.4fr 1.4fr 1fr auto;gap:10px;align-items:end}.tbe-cable-mm{display:flex;align-items:center;gap:8px}.tbe-cable-mm input{min-width:0}.tbe-cable-mm span{font-weight:800}@media(max-width:750px){.tbe-cable-row{grid-template-columns:1fr 1fr}}@media(max-width:450px){.tbe-cable-row{grid-template-columns:1fr}}
+
+#terminalRows .tbe-terminal-toggle{display:flex;align-items:center;gap:12px;width:100%;padding:16px 18px;text-align:left;border:0;background:#fbfaf6;cursor:pointer;color:#202020;font:inherit;border-bottom:1px solid var(--line)}
+#terminalRows .tbe-terminal-title{font-size:17px;font-weight:850}#terminalRows .tbe-terminal-count{font-size:12px;color:#777}#terminalRows .tbe-terminal-chevron{margin-left:auto;font-size:22px}#terminalRows .tbe-terminal-toggle[aria-expanded="false"] .tbe-terminal-chevron{transform:rotate(180deg)}
+#terminalRows [hidden]{display:none!important}#terminalRows .tbe-subsection{padding:16px 18px;background:#fff;border-bottom:1px solid #eee7da}#terminalRows .tbe-subsection:last-child{border-bottom:0}#terminalRows .tbe-subtitle{display:flex;align-items:center;gap:10px;margin-bottom:14px}#terminalRows .tbe-step-no{display:inline-flex;align-items:center;justify-content:center;width:29px;height:29px;flex-shrink:0;border-radius:50%;background:#ffe999;color:#222;font-weight:900}#terminalRows .tbe-terminal-delete,#terminalRows .tbe-add-section{margin-left:auto}
+#terminalRows .tbe-terminal-fields{display:grid;grid-template-columns:1.1fr 1fr 1.1fr 1.4fr;gap:12px}#terminalRows .field{min-width:0;margin:0}#terminalRows .tbe-pdf-field{display:flex;gap:6px}#terminalRows .tbe-pdf-field input{min-width:0}#terminalRows .tbe-pdf-field button{white-space:nowrap}
+#terminalRows .tbe-cable-table{border:1px solid var(--line);border-radius:9px;overflow:hidden}#terminalRows .tbe-cable-table-head,#terminalRows .tbe-cable-row{display:grid;grid-template-columns:1.4fr 1.4fr 1fr 44px;gap:8px;align-items:center;padding:8px 10px}#terminalRows .tbe-cable-table-head{background:#202020;color:#fff;font-size:12px;font-weight:800}#terminalRows .tbe-cable-list{gap:0}#terminalRows .tbe-cable-row{border-bottom:1px solid var(--line)}#terminalRows .tbe-cable-row:last-child{border-bottom:0}#terminalRows .tbe-cable-row label{display:none}#terminalRows .tbe-cable-row input{padding:9px}#terminalRows .tbe-cable-mm{gap:0}#terminalRows .tbe-cable-mm input{border-radius:6px 0 0 6px}#terminalRows .tbe-cable-mm span{padding:9px 8px;background:#f7f5ef;border:1px solid var(--line);border-left:0;border-radius:0 6px 6px 0;font-size:12px}#terminalRows .tbe-cable-footer{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}#terminalRows .tbe-cable-footer small{color:#777}#terminalRows .tbe-cable-delete{padding:8px}
+#terminalRows .crimp-matrix-wrap{padding:0;overflow-x:auto}#terminalRows .crimp-matrix{min-width:0;width:100%;table-layout:auto}#terminalRows .crimp-matrix input{width:100%;min-width:48px;max-width:110px;padding:8px 5px;font-size:12px}#terminalRows .crimp-matrix td,#terminalRows .crimp-matrix th{padding:7px 5px}#terminalRows .crimp-matrix th:first-child,#terminalRows .crimp-matrix td:first-child{min-width:88px;max-width:105px}#terminalRows .tol{gap:5px}#terminalRows .tbe-cut-head{display:flex;justify-content:center;align-items:center;gap:6px;white-space:nowrap}#terminalRows .tbe-cut-remove{background:transparent;border:0;color:#e7dca5;padding:2px;font-size:18px;cursor:pointer}#terminalRows .tbe-unit{font-size:11px;color:#777}#terminalRows .tbe-section-picker{display:flex;gap:8px;align-items:end;justify-content:flex-end;margin:0 0 12px}#terminalRows .tbe-section-picker label{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:800}#terminalRows .tbe-section-picker select{min-width:150px}#terminalRows .tbe-section-empty{border:1px dashed #d9ccad;background:#fffdf5;padding:22px;border-radius:8px;text-align:center;color:#766849;font-size:13px}
+@media(max-width:900px){#terminalRows .tbe-terminal-fields{grid-template-columns:1fr 1fr}}
+@media(max-width:550px){#terminalRows .tbe-terminal-fields{grid-template-columns:1fr}#terminalRows .tbe-terminal-count{font-size:11px}#terminalRows .tbe-terminal-title{font-size:14px}#terminalRows .tbe-cable-table-head{display:none}#terminalRows .tbe-cable-row{grid-template-columns:1fr 1fr;gap:10px}#terminalRows .tbe-cable-row label{display:block}#terminalRows .tbe-subsection{padding:12px}#terminalRows .tbe-subtitle{flex-wrap:wrap}#terminalRows .tbe-section-picker{justify-content:flex-start;flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -351,7 +360,7 @@
   </div>
 </div>
 <div class="section" style="box-shadow:none">
-  <div class="section-head"><span>Terminal / Kablo Kesiti Krimp / Minimum Çekme Kuvveti (Kopma Testi)</span><div style="display:flex;gap:8px"><button type="button" class="btn primary" onclick="addCableToLastTerminal()">+ Kablo</button><button type="button" class="btn primary" onclick="addTerminalCard()">+ Terminal</button></div></div>
+  <div class="section-head"><span>Terminal ve Kablo Tanımları</span><button type="button" class="btn primary" onclick="addTerminalCard()">+ Terminal ekle</button></div>
   <div class="section-body" id="terminalRows"></div>
 </div>
 <div class="section" style="box-shadow:none">
@@ -617,7 +626,7 @@ function terminalCardsForAplikator(aplikatorId){
     if(x.KabloKodu||x.KabloCinsi||String(x.SiyirmaBoyu??'').trim()){const cable={KabloKodu:x.KabloKodu||'',KabloCinsi:x.KabloCinsi||'',SiyirmaBoyu:x.SiyirmaBoyu??''},list=groups.get(key).kablolar;const ck=c=>[tbeN(c.KabloKodu),tbeN(c.KabloCinsi),String(c.SiyirmaBoyu).replace(',','.')].join('¦');if(!list.some(c=>ck(c)===ck(cable)))list.push(cable);}
     const kesit=tbeTerminalNumber(x.KabloKesiti);
     if(kesit==='')return;
-    const kesitKey=Number(kesit).toFixed(2);
+    const kesitKey=String(Number(kesit));
     const row={};
     ['CH','CH_Tol','CW','CW_Tol','IH','IH_Tol','IW','IW_Tol'].forEach(k=>row[k]=tbeTerminalNumber(x[k]));
     row.PT_Newton=tbeTerminalNumber(x.PT_Newton??x.PTNewton??x.MinimumCekmeKuvveti);
@@ -892,7 +901,7 @@ function addPresRow(v={}){
     if(sel)sel.value=v.UyumDurumu||'UYGUN';
   }
 }
-const TBE_KESITLER=['0.22','0.35','0.50','0.75','1.00','1.50','2.00','2.50','3.00','4.00','6.00','10.00','16.00'];
+const TBE_KESITLER=['0.22','0.25','0.35','0.50','0.75','1.00','1.50','2.00','2.50','3.00','4.00','6.00','10.00','16.00'];
 const TBE_OLCULER=[['CH','C/H'],['CW','C/W'],['IH','I/H'],['IW','I/W'],['PT_Newton','PT / Newton']];
 
 // Kablo satırları terminale bağlıdır; kesit ve krimp satırlarını çoğaltmaz.
@@ -900,36 +909,43 @@ function tbeCableValues(card,validate=false){return [...card.querySelectorAll('.
 function tbeCableMm(v){const s=String(v??'').trim().replace(/\s*mm\s*$/i,'').replace(',','.');if(!s)return '';if(!/^\d+(?:\.\d+)?$/.test(s)||!Number.isFinite(Number(s))||Number(s)<=0)throw new Error('Sıyırma boyu pozitif bir sayı olmalıdır. Örnek: 3.2 mm');return String(Number(s));}
 function tbeCableHistory(){return [...(S.cableHistory||[]),...S.term,...document.querySelectorAll('#terminalRows .crimp-card')].flatMap(x=>x?.querySelectorAll?tbeCableValues(x):[x]);}
 function tbeCableOptions(card){const history=tbeCableHistory(),codes=new Map(),types=new Map();history.forEach(x=>{if(x.KabloKodu)codes.set(tbeN(x.KabloKodu),String(x.KabloKodu).trim());if(x.KabloCinsi)types.set(tbeN(x.KabloCinsi),String(x.KabloCinsi).trim());});card.querySelector('.tbe-cable-codes').innerHTML=[...codes.values()].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option value="${ea(v)}"></option>`).join('');card.querySelector('.tbe-cable-types').innerHTML=[...types.values()].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option value="${ea(v)}"></option>`).join('');}
-function addCableRow(cardId,v={}){const card=document.getElementById(cardId);if(!card)return;card.querySelector('.tbe-cable-list').insertAdjacentHTML('beforeend',`<div class="tbe-cable-row"><div class="field"><label>Kablo Kodu</label><input data-cable="KabloKodu" list="${cardId}_codes" value="${ea(v.KabloKodu||'')}" placeholder="Seçin veya yeni kod yazın" autocomplete="off" onchange="tbeCableCodeChanged(this)"></div><div class="field"><label>Kablo Cinsi</label><input data-cable="KabloCinsi" list="${cardId}_types" value="${ea(v.KabloCinsi||'')}" placeholder="Seçin veya yeni cins yazın" autocomplete="off"></div><div class="field"><label>Sıyırma Boyu</label><div class="tbe-cable-mm"><input data-cable="SiyirmaBoyu" inputmode="decimal" value="${ea(v.SiyirmaBoyu??'')}" placeholder="3.2" aria-label="Sıyırma boyu, mm"><span>mm</span></div></div><button type="button" class="btn danger" onclick="this.closest('.tbe-cable-row').remove()">Kabloyu Sil</button></div>`);tbeCableOptions(card);}
+function addCableRow(cardId,v={}){const card=document.getElementById(cardId);if(!card)return;card.querySelector('.tbe-cable-list').insertAdjacentHTML('beforeend',`<div class="tbe-cable-row"><div class="field"><label>Kablo kodu</label><input data-cable="KabloKodu" list="${cardId}_codes" value="${ea(v.KabloKodu||'')}" placeholder="Seçin veya yeni kod yazın" autocomplete="off" onchange="tbeCableCodeChanged(this)"></div><div class="field"><label>Kablo cinsi</label><input data-cable="KabloCinsi" list="${cardId}_types" value="${ea(v.KabloCinsi||'')}" placeholder="Seçin veya yeni cins yazın" autocomplete="off"></div><div class="field"><label>Sıyırma boyu</label><div class="tbe-cable-mm"><input data-cable="SiyirmaBoyu" inputmode="decimal" value="${ea(v.SiyirmaBoyu??'')}" placeholder="3.2" aria-label="Sıyırma boyu, mm"><span>mm</span></div></div><button type="button" class="btn ghost tbe-cable-delete" aria-label="Kabloyu sil" onclick="tbeRemoveCable(this)"><i class="fas fa-trash" aria-hidden="true"></i></button></div>`);tbeCableOptions(card);tbeCardSummary(card);}
+
 function addCableToLastTerminal(){if(!terminalRows.lastElementChild)addTerminalCard();const card=terminalRows.lastElementChild;addCableRow(card.id);card.querySelector('.tbe-cable-row:last-child input')?.focus();}
 function tbeCableCodeChanged(input){const row=input.closest('.tbe-cable-row'),type=row.querySelector('[data-cable="KabloCinsi"]');if(type.value.trim())return;const matches=tbeCableHistory().filter(x=>tbeN(x.KabloKodu||'')===tbeN(input.value)&&x.KabloCinsi),types=[...new Set(matches.map(x=>String(x.KabloCinsi).trim()))];if(types.length===1)type.value=types[0];}
 
-function addTerminalCard(v={}){
-  const id='tc_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-  const values=v.degerler||{};
-  const kesitler=[...new Set([...TBE_KESITLER,...Object.keys(values)])].sort((a,b)=>Number(a)-Number(b));
-  const heads=kesitler.map(k=>`<th>${k} mm²</th>`).join('');
-  const rows=TBE_OLCULER.map(([key,label])=>{
-    const cells=kesitler.map(k=>{
-      const x=values[k]||{};
-      if(key==='PT_Newton') return `<td><div class="tol pt-cell"><input type="number" step="0.1" min="0" data-m="${key}" data-kesit="${k}" value="${ea(tbeTerminalNumber(x[key]))}" placeholder="N"></div></td>`;
-      return `<td><div class="tol"><input type="number" step="0.001" data-m="${key}" data-kesit="${k}" value="${ea(tbeTerminalNumber(x[key]))}" placeholder="${label}"><span>±</span><input type="number" step="0.001" data-m="${key}_Tol" data-kesit="${k}" value="${ea(tbeTerminalNumber(x[key+'_Tol']))}" placeholder="Tol."></div></td>`;
-    }).join('');
-    return `<tr class="${key==='PT_Newton'?'pt-row':''}"><td>${label}</td>${cells}</tr>`;
-  }).join('');
-  terminalRows.insertAdjacentHTML('beforeend',`<div class="crimp-card" id="${id}">
-    <div class="crimp-card-head">
-      <div class="field"><label>Terminal Kodu *</label><input data-head="TerminalKodu" value="${ea(v.TerminalKodu||'')}"></div>
-      <div class="field"><label>Terminal Marka</label><input data-head="TerminalMarka" value="${ea(v.TerminalMarka||'')}"></div>
-      <div class="field"><label>Terminal Ailesi</label><input data-head="TerminalAilesi" value="${ea(v.TerminalAilesi||'')}"></div>
-      <div class="field"><label>PDF URL</label><input data-head="PDFURL" type="url" value="${ea(v.PDFURL||'')}"></div>
-      <button type="button" class="btn danger" onclick="document.getElementById('${id}').remove()">Terminali Sil</button>
-    </div>
-    <div class="tbe-cable-area"><div class="tbe-cable-title"><span>Kablo Tanımları</span><button type="button" class="btn primary" onclick="addCableRow('${id}')">+ Kablo</button></div><datalist class="tbe-cable-codes" id="${id}_codes"></datalist><datalist class="tbe-cable-types" id="${id}_types"></datalist><div class="tbe-cable-list"></div></div>
-    <div class="crimp-matrix-wrap"><table class="crimp-matrix"><thead><tr><th>Ölçü</th>${heads}</tr></thead><tbody>${rows}</tbody></table></div>
-  </div>`);
-  (v.kablolar?.length?v.kablolar:[{}]).forEach(k=>addCableRow(id,k));
+function tbeSectionKey(v){const s=tbeTerminalNumber(v);if(s===''||Number(s)<=0)throw new Error('Geçersiz kablo kesiti.');return String(Number(s));}
+function tbeSectionLabel(k){return Number(k).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:8})+' mm²';}
+function tbeSelectedSections(card){return JSON.parse(card.dataset.sections||'[]');}
+function tbeMatrixValues(card){const out={};card.querySelectorAll('[data-kesit]').forEach(input=>{const k=input.dataset.kesit;if(!out[k])out[k]={};out[k][input.dataset.m]=input.value;});return out;}
+function tbeRenderMatrix(card,values={}){
+  const list=tbeSelectedSections(card);const wrap=card.querySelector('.tbe-matrix-area');
+  if(!list.length){wrap.innerHTML='<div class="tbe-section-empty">Bu terminal için kesit seçilmedi. “+ Kesit ekle” ile başlayın.</div>';}
+  else{const heads=list.map(k=>`<th><div class="tbe-cut-head"><span>${tbeSectionLabel(k)}</span><button type="button" class="tbe-cut-remove" aria-label="${ea(tbeSectionLabel(k))} kesitini kaldır" onclick="tbeRemoveSection('${card.id}','${k}')">×</button></div></th>`).join('');const rows=TBE_OLCULER.map(([key,label])=>`<tr class="${key==='PT_Newton'?'pt-row':''}"><td>${label}</td>${list.map(k=>{const v=values[k]||{};if(key==='PT_Newton')return `<td><div class="tol pt-cell"><input type="number" step="any" min="0" data-m="${key}" data-kesit="${k}" value="${ea(tbeTerminalNumber(v[key]))}" placeholder="N" aria-label="${ea(label+' '+tbeSectionLabel(k))}"><span class="tbe-unit">N</span></div></td>`;return `<td><div class="tol"><input type="number" step="any" data-m="${key}" data-kesit="${k}" value="${ea(tbeTerminalNumber(v[key]))}" placeholder="${label}" aria-label="${ea(label+' '+tbeSectionLabel(k))}"><span>±</span><input type="number" step="any" min="0" data-m="${key}_Tol" data-kesit="${k}" value="${ea(tbeTerminalNumber(v[key+'_Tol']))}" placeholder="Tol." aria-label="${ea(label+' tolerans '+tbeSectionLabel(k))}"></div></td>`;}).join('')}</tr>`).join('');wrap.innerHTML=`<div class="crimp-matrix-wrap"><table class="crimp-matrix"><thead><tr><th>Ölçü</th>${heads}</tr></thead><tbody>${rows}</tbody></table></div>`;}
+  const options=card.querySelector('.tbe-section-options'),used=new Set(list);options.innerHTML=TBE_KESITLER.map(tbeSectionKey).filter(k=>!used.has(k)).map(k=>`<option value="${k}">${tbeSectionLabel(k)}</option>`).join('');
+  if(!options.options.length){options.innerHTML='<option value="">Tüm kesitler eklendi</option>';options.disabled=true;}else options.disabled=false;
+  tbeCardSummary(card);
 }
+function tbeCardSummary(card){const heads=Object.fromEntries([...card.querySelectorAll('[data-head]')].map(x=>[x.dataset.head,x.value.trim()]));card.querySelector('.tbe-terminal-title').textContent=(heads.TerminalKodu||'Yeni terminal')+(heads.TerminalMarka?' · '+heads.TerminalMarka:'');const n=tbeCableValues(card).length;card.querySelector('.tbe-terminal-count').textContent=n+' kablo / '+tbeSelectedSections(card).length+' kesit';}
+function tbeToggleTerminal(id){const card=document.getElementById(id),content=card.querySelector('.tbe-terminal-body'),opening=content.hidden;if(opening)document.querySelectorAll('#terminalRows .crimp-card').forEach(c=>{c.querySelector('.tbe-terminal-body').hidden=true;c.querySelector('.tbe-terminal-toggle').setAttribute('aria-expanded','false');});content.hidden=!opening;card.querySelector('.tbe-terminal-toggle').setAttribute('aria-expanded',String(opening));}
+function tbeShowSectionPicker(id){const el=document.getElementById(id).querySelector('.tbe-section-picker');el.hidden=!el.hidden;if(!el.hidden)el.querySelector('select').focus();}
+function tbeAddSection(id){const card=document.getElementById(id),select=card.querySelector('.tbe-section-options');if(!select.value)return;const k=tbeSectionKey(select.value),values=tbeMatrixValues(card),list=tbeSelectedSections(card);if(list.includes(k))return;list.push(k);list.sort((a,b)=>Number(a)-Number(b));card.dataset.sections=JSON.stringify(list);tbeRenderMatrix(card,values);card.querySelector('.tbe-section-picker').hidden=true;card.querySelector(`[data-kesit="${k}"]`)?.focus();}
+function tbeRemoveSection(id,k){const card=document.getElementById(id),values=tbeMatrixValues(card);if(Object.values(values[k]||{}).some(v=>String(v).trim()!=='')&&!confirm('Bu kesitin girilmiş ölçüleri formdan çıkarılacak. Devam edilsin mi?'))return;card.dataset.sections=JSON.stringify(tbeSelectedSections(card).filter(x=>x!==k));delete values[k];tbeRenderMatrix(card,values);}
+function tbeRemoveCable(btn){const card=btn.closest('.crimp-card');btn.closest('.tbe-cable-row').remove();tbeCardSummary(card);}
+function tbeRemoveTerminal(id){const card=document.getElementById(id);if([...card.querySelectorAll('input')].some(x=>x.value.trim())&&!confirm('Bu terminal ve bağlı alanları formdan çıkarılsın mı? Kaydetmeden kayıtlar değişmez.'))return;card.remove();const first=terminalRows.querySelector('.crimp-card');if(first&&![...terminalRows.querySelectorAll('.tbe-terminal-body')].some(x=>!x.hidden))tbeToggleTerminal(first.id);}
+function tbeOpenTerminalPdf(id){const value=document.getElementById(id).querySelector('[data-head="PDFURL"]').value.trim();if(!value){notify('Önce teknik dokümanın PDF bağlantısını girin.','bad');return;}try{tbeValidatePdfUrl(value);const a=document.createElement('a');a.href=value;a.target='_blank';a.rel='noopener noreferrer';a.click();}catch(e){notify(e.message,'bad');}}
+function addTerminalCard(v={}){
+  const id='tc_'+Date.now()+'_'+Math.random().toString(36).slice(2),values={};Object.entries(v.degerler||{}).forEach(([k,row])=>{values[tbeSectionKey(k)]={...row};});const list=[...new Set([...(v.kesitler||[]).map(tbeSectionKey),...Object.keys(values)])].sort((a,b)=>Number(a)-Number(b));
+  const hasCard=!!terminalRows.querySelector('.crimp-card'),open=!hasCard||Object.keys(v).length===0;
+  if(open&&hasCard)terminalRows.querySelectorAll('.crimp-card').forEach(c=>{c.querySelector('.tbe-terminal-body').hidden=true;c.querySelector('.tbe-terminal-toggle').setAttribute('aria-expanded','false');});
+  terminalRows.insertAdjacentHTML('beforeend',`<div class="crimp-card" id="${id}"><button type="button" class="tbe-terminal-toggle" aria-expanded="${open}" aria-controls="${id}_body" onclick="tbeToggleTerminal('${id}')"><span class="tbe-terminal-title"></span><span class="tbe-terminal-count"></span><span class="tbe-terminal-chevron" aria-hidden="true">⌃</span></button><div id="${id}_body" class="tbe-terminal-body" ${open?'':'hidden'}>
+  <div class="tbe-subsection"><div class="tbe-subtitle"><span class="tbe-step-no">1</span><b>Terminal bilgileri</b><button type="button" class="btn danger tbe-terminal-delete" onclick="tbeRemoveTerminal('${id}')">Terminali sil</button></div><div class="tbe-terminal-fields">
+  <div class="field"><label>Terminal Kodu *</label><input data-head="TerminalKodu" value="${ea(v.TerminalKodu||'')}"></div><div class="field"><label>Marka</label><input data-head="TerminalMarka" value="${ea(v.TerminalMarka||'')}"></div><div class="field"><label>Terminal ailesi</label><input data-head="TerminalAilesi" value="${ea(v.TerminalAilesi||'')}"></div><div class="field"><label>Teknik doküman</label><div class="tbe-pdf-field"><input data-head="PDFURL" type="url" value="${ea(v.PDFURL||'')}" placeholder="PDF bağlantısı"><button type="button" class="btn ghost" onclick="tbeOpenTerminalPdf('${id}')">PDF aç</button></div></div></div></div>
+  <div class="tbe-subsection tbe-cable-area"><div class="tbe-subtitle"><span class="tbe-step-no">2</span><b>Bu terminalde kullanılan kablolar</b></div><datalist class="tbe-cable-codes" id="${id}_codes"></datalist><datalist class="tbe-cable-types" id="${id}_types"></datalist><div class="tbe-cable-table"><div class="tbe-cable-table-head"><span>Kablo kodu</span><span>Kablo cinsi</span><span>Sıyırma boyu</span><span></span></div><div class="tbe-cable-list"></div></div><div class="tbe-cable-footer"><button type="button" class="btn ghost" onclick="addCableRow('${id}')">+ Kablo ekle</button><small>Listeden seçebilir veya yeni değer yazabilirsiniz.</small></div></div>
+  <div class="tbe-subsection"><div class="tbe-subtitle"><span class="tbe-step-no">3</span><b>Krimp ölçüleri</b><button type="button" class="btn ghost tbe-add-section" onclick="tbeShowSectionPicker('${id}')">+ Kesit ekle</button></div><div class="tbe-section-picker" hidden><label>Kesit seçin<select class="tbe-section-options" aria-label="Eklenecek kablo kesiti"></select></label><button type="button" class="btn primary" onclick="tbeAddSection('${id}')">Ekle</button></div><div class="tbe-matrix-area"></div></div></div></div>`);
+  const card=document.getElementById(id);card.dataset.sections=JSON.stringify(list);(v.kablolar?.length?v.kablolar:[{}]).forEach(k=>addCableRow(id,k));tbeRenderMatrix(card,values);card.addEventListener('input',()=>tbeCardSummary(card));card.addEventListener('change',()=>tbeCardSummary(card));
+}
+
 function addTerminalRow(v={}){addTerminalCard(v)}
 
 function collectTerminalRows(validate=true){
@@ -979,7 +995,7 @@ function wizardTerminalSnapshot(){
       card.querySelectorAll(`[data-kesit="${k}"]`).forEach(x=>{row[x.dataset.m]=x.value.trim();if(x.value.trim())has=true;});
       if(has)degerler[k]=row;
     });
-    return {...head,degerler,kablolar:tbeCableValues(card)};
+    return {...head,degerler,kablolar:tbeCableValues(card),kesitler:tbeSelectedSections(card)};
   });
 }
 function wizardStateSnapshot(){
