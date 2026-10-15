@@ -315,6 +315,7 @@
 .bakim-modal-actions{padding-top:12px;border-top:1px solid #d7e1ea}.bakim-export-actions{margin-right:auto}.bakim-modal-actions .btn{min-height:40px}
 @media(max-width:900px){.bakim-top-grid,.bakim-main-grid,.bakim-bottom-grid{grid-template-columns:1fr}.bakim-cost-cards{grid-template-columns:1fr 1fr}.bakim-labor-grid{grid-template-columns:1fr 1fr}.bakim-part-row{grid-template-columns:1fr 85px 120px 120px 38px}}
 @media(max-width:600px){.bakim-modal-body{padding:9px}.bakim-cost-cards,.bakim-labor-grid,.bakim-date-grid{grid-template-columns:1fr}.bakim-part-row{grid-template-columns:1fr}.bakim-export-actions{width:100%}.bakim-export-actions .btn{flex:1}}
+.tbe-cable-area{padding:14px;background:#f4f7f6;border-bottom:1px solid var(--line)}.tbe-cable-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-weight:800}.tbe-cable-list{display:grid;gap:10px}.tbe-cable-row{display:grid;grid-template-columns:1.4fr 1.4fr 1fr auto;gap:10px;align-items:end}.tbe-cable-mm{display:flex;align-items:center;gap:8px}.tbe-cable-mm input{min-width:0}.tbe-cable-mm span{font-weight:800}@media(max-width:750px){.tbe-cable-row{grid-template-columns:1fr 1fr}}@media(max-width:450px){.tbe-cable-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -350,7 +351,7 @@
   </div>
 </div>
 <div class="section" style="box-shadow:none">
-  <div class="section-head"><span>Terminal / Kablo Kesiti Krimp / Minimum Çekme Kuvveti (Kopma Testi)</span><button type="button" class="btn primary" onclick="addTerminalCard()">+ Terminal</button></div>
+  <div class="section-head"><span>Terminal / Kablo Kesiti Krimp / Minimum Çekme Kuvveti (Kopma Testi)</span><div style="display:flex;gap:8px"><button type="button" class="btn primary" onclick="addCableToLastTerminal()">+ Kablo</button><button type="button" class="btn primary" onclick="addTerminalCard()">+ Terminal</button></div></div>
   <div class="section-body" id="terminalRows"></div>
 </div>
 <div class="section" style="box-shadow:none">
@@ -444,7 +445,7 @@ function newAplikator(){
   page('new');
   notify('Yeni kayıt modu açıldı.','info');
 }
-async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.ayarlar=r.ayarlar||r.iatfAyarlar||r.IATF_Ayarlar||S.ayarlar||[];S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.smart=r.akilliStok||[];S.smartEvents=r.stokHareketleri||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render();tbeStockRender()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
+async function load(){conn.textContent='Bağlanıyor…';try{const r=await api('tbeBootstrap',{_ts:Date.now()});S.d=r.dashboard||{};S.ayarlar=r.ayarlar||r.iatfAyarlar||r.IATF_Ayarlar||S.ayarlar||[];S.a=r.aplikatorler||[];S.pres=r.presler||[];S.term=r.terminaller||[];S.cableHistory=r.kabloGecmisi||S.term;S.seals=r.sealler||[];S.parts=r.parcalar||[];S.pu=r.parcaUyumluluk||[];S.life=r.sayaclar||[];S.stock=r.stoklar||[];S.smart=r.akilliStok||[];S.smartEvents=r.stokHareketleri||[];S.maint=r.bakimlar||[];S.cuts=r.kesitler||[];S.actions=r.aksiyonlar||[];conn.textContent='● Canlı bağlantı';render();tbeStockRender()}catch(x){conn.textContent='● Bağlantı hatası';notify('Veriler yüklenemedi: '+x.message,'bad')}}
 function render(){renderCards();renderAplikator();presBody.innerHTML=S.pres.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.PresKodu)}</td><td>${e(x.PresMarka)}</td><td>${e(x.PresModel)}</td><td>${st(x.UyumDurumu)}</td><td>${st(x.Aktif||'EVET')}</td></tr>`).join('')||empty(6);omurBody.innerHTML=S.life.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${partName(x.ParcaId)}</td><td>${num(x.MevcutSayac)}</td><td>${num(x.MaksimumOmur)}</td><td>${num(x.KalanOmur)}</td><td>%${num(x.KullanimYuzdesi)}</td><td>${st(x.Durum)}</td></tr>`).join('')||empty(7);parcaAplikatorAra();kesitBody.innerHTML=S.cuts.map(x=>`<tr><td>${dt(x.KayitZamani)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.TerminalKodu)}</td><td>${e(x.ProjeKodu)} / ${e(x.IsEmriNo)}</td><td>${e(x.LotNo)}</td><td>${st(x.KontrolSonucu)}</td><td>${tbePdfLink(x)}</td></tr>`).join('')||empty(7);bakimBody.innerHTML=S.maint.map(x=>`<tr><td>${dt(x.Baslangic||x.SonGuncelleme)}</td><td>${apName(x.AplikatorId)}</td><td>${e(x.IslemTuru)}</td><td>${st(x.Durum)}</td><td>${e(x.YapilanIslem||x.ArizaTanimi)}</td><td>${num(x.DurdurmaDakika)} dk</td><td>${num(x.Maliyet)} ₺</td></tr>`).join('')||empty(7);aksiyonBody.innerHTML=S.actions.map(x=>`<tr><td>${apName(x.AplikatorId)}</td><td>${e(x.Konu)}</td><td>${st(x.Oncelik||'NORMAL')}</td><td>${e(x.Sorumlu)}</td><td>${e(x.HedefTarih)}</td><td>${st(x.Durum)}</td><td>${e(x.Aciklama)}</td></tr>`).join('')||empty(7);fillSelects()}
 
 function parcaAplikatorAra(){
@@ -608,10 +609,12 @@ function terminalCardsForAplikator(aplikatorId){
         TerminalMarka:x.TerminalMarka||'',
         TerminalAilesi:x.TerminalAilesi||'',
         PDFURL:x.PDFURL||'',
+        kablolar:[],
         degerler:{}
       });
     }
 
+    if(x.KabloKodu||x.KabloCinsi||String(x.SiyirmaBoyu??'').trim()){const cable={KabloKodu:x.KabloKodu||'',KabloCinsi:x.KabloCinsi||'',SiyirmaBoyu:x.SiyirmaBoyu??''},list=groups.get(key).kablolar;const ck=c=>[tbeN(c.KabloKodu),tbeN(c.KabloCinsi),String(c.SiyirmaBoyu).replace(',','.')].join('¦');if(!list.some(c=>ck(c)===ck(cable)))list.push(cable);}
     const kesit=tbeTerminalNumber(x.KabloKesiti);
     if(kesit==='')return;
     const kesitKey=Number(kesit).toFixed(2);
@@ -721,7 +724,7 @@ function passportChecks(x){
   const stockWarn=parts.filter(p=>p.stock && passportNum(p.stock.MevcutMiktar)!==null && passportNum(p.stock.MinimumStok)!==null && passportNum(p.stock.MevcutMiktar)<=passportNum(p.stock.MinimumStok) && !stockFail.includes(p));
   const checks=[
     {label:'Aplikatör durumu',state:apStatus==='AKTIF'?'ok':'fail',reason:apStatus==='AKTIF'?'AKTİF':'Durum: '+(x.Durum||'BELİRSİZ')},
-    {label:'Terminal uyumluluğu',state:terminals.length?'ok':'warn',reason:terminals.length?terminals.length+' aktif terminal':'Uyumlu terminal kaydı yok'},
+    {label:'Terminal uyumluluğu',state:terminals.length?'ok':'warn',reason:terminals.length?new Set(terminals.map(t=>tbeN(t.TerminalKodu))).size+' aktif terminal':'Uyumlu terminal kaydı yok'},
     {label:'Pres uyumluluğu',state:uygunPresses.length?'ok':kosulluPresses.length?'warn':'warn',reason:uygunPresses.length?uygunPresses.length+' uygun pres':kosulluPresses.length?kosulluPresses.length+' koşullu pres':'Uygun pres kaydı yok'},
     {label:'Kritik parça ömrü',state:lifeFail.length?'fail':lifeWarn.length?'warn':parts.length?'ok':'warn',reason:lifeFail.length?lifeFail.length+' parça kritik ömürde':lifeWarn.length?lifeWarn.length+' parça %80 üzeri':parts.length?'Parça ömürleri uygun':'Parça/ömür verisi yok'},
     {label:'Kritik stok',state:stockFail.length?'fail':stockWarn.length?'warn':parts.length?'ok':'warn',reason:stockFail.length?stockFail.length+' parça stokta yok':stockWarn.length?stockWarn.length+' parça minimum seviyede':parts.length?'Stok uygun':'Stok verisi yok'},
@@ -758,6 +761,7 @@ function sicilCostSummary(x){
   const durus=maint.reduce((a,m)=>a+Number(m.DurdurmaDakika||0),0);
   return {maint,bakimToplam,parcaMaliyeti,iscilik,diger,stokDegeri,durus,used};
 }
+function tbeCablePassport(id){const list=S.term.filter(t=>String(t.AplikatorId)===String(id)&&t.KabloKodu);const seen=new Set();const rows=list.filter(t=>{const k=[t.TerminalKodu,t.KabloKodu,t.KabloCinsi,t.SiyirmaBoyu].join('¦');if(seen.has(k))return false;seen.add(k);return true;});return rows.length?'<div style="margin-top:12px"><b>Kablo Tanımları</b>'+rows.map(t=>`<div style="padding:6px 0">${e(t.TerminalKodu)} · <b>${e(t.KabloKodu)}</b> · ${e(t.KabloCinsi)} · Sıyırma: ${e(t.SiyirmaBoyu)} mm</div>`).join('')+'</div>':'';}
 function buildPassport(x,serverResult){
   const local=passportChecks(x);
   const r=serverResult?{...local,checks:serverResult.checks||local.checks,serverResult}:local;
@@ -768,7 +772,7 @@ function buildPassport(x,serverResult){
   const readyTitle=ready?'ÜRETİME HAZIR':'ÜRETİME HAZIR DEĞİL';
   const readyReason=ready?(warns.length?warns.length+' uyarı var; üretime çıkış engellenmiyor.':'Tüm zorunlu kontroller uygun.'):(fails[0]?.reason||'Kritik kontrol başarısız.');
   const costs=sicilCostSummary(x);
-  const terminalPills=r.terminals.map(t=>`<span class="passport-pill ok">${e(t.TerminalKodu||'—')}</span>`).join('')||'<div class="passport-empty">Uyumlu terminal kaydı yok.</div>';
+  const terminalPills=[...new Set(r.terminals.map(t=>String(t.TerminalKodu||'—')))].map(t=>`<span class="passport-pill ok">${e(t)}</span>`).join('')||'<div class="passport-empty">Uyumlu terminal kaydı yok.</div>';
   const pressPills=r.presses.map(p=>`<span class="passport-pill press-pill">${e(p.PresKodu||'—')} · ${e(p.PresMarka||'')} ${e(p.PresModel||'')}</span>`).join('')||'<div class="passport-empty">Uygun pres kaydı yok.</div>';
   const partRows=r.parts.map(p=>{
     const pct=p.pct===null?'':Math.max(0,Math.min(100,p.pct));
@@ -803,7 +807,7 @@ function buildPassport(x,serverResult){
   <div class="passport-card full"><div class="passport-card-head card-dark"><span>💰 SİCİL MALİYET ÖZETİ</span><span class="count-pill">${costs.maint.length} bakım</span></div><div class="passport-card-body"><div class="sicil-cost-grid"><div class="sicil-cost-box"><small>Toplam Bakım</small><b>${money(costs.bakimToplam)}</b></div><div class="sicil-cost-box"><small>Kullanılan Parça</small><b>${money(costs.parcaMaliyeti)}</b></div><div class="sicil-cost-box"><small>Bağlı Stok Değeri</small><b>${money(costs.stokDegeri)}</b></div><div class="sicil-cost-box"><small>Toplam Duruş</small><b>${num(costs.durus)} dk</b></div></div></div></div>
   <div class="passport-card full"><div class="passport-card-head card-green"><span><i class="fas fa-list-check"></i> ÜRETİME HAZIRLIK KONTROLÜ</span><span class="count-pill">${fails.length?'🔴 '+fails.length+' engel':warns.length?'🟡 '+warns.length+' uyarı':'🟢 Uygun'}</span></div><div class="passport-card-body passport-checks">${checkHtml}</div></div>
   <div class="passport-grid">
-    <div class="passport-card"><div class="passport-card-head card-blue"><span>🔩 BASABİLDİĞİ TERMİNALLER</span><span class="count-pill">${r.terminals.length}</span></div><div class="passport-card-body"><div class="passport-pills">${terminalPills}</div></div></div>
+    <div class="passport-card"><div class="passport-card-head card-blue"><span>🔩 BASABİLDİĞİ TERMİNALLER</span><span class="count-pill">${r.terminals.length}</span></div><div class="passport-card-body"><div class="passport-pills">${terminalPills}${tbeCablePassport(x.AplikatorId)}</div></div></div>
     <div class="passport-card"><div class="passport-card-head card-purple"><span>🛠 PRES UYUMLULUĞU</span><span class="count-pill">${r.presses.length}</span></div><div class="passport-card-body"><div class="passport-pills">${pressPills}</div></div></div>
     <div class="passport-card full"><div class="passport-card-head card-green"><span>🔩 YEDEK PARÇALAR / ÖMÜR / STOK / MALİYET</span><span class="count-pill">${r.parts.length} parça</span></div><div class="passport-card-body"><div class="life-list"><div class="passport-stock-head"><div>Parça</div><div>Ömür</div><div>Ömür Barı</div><div>Stok / Değer</div><div>İşlem</div></div>${partRows}</div></div></div>
     <div class="passport-card full card-maint"><div class="passport-card-head card-lightblue"><span>⚙️ BAKIMDA KULLANILAN PARÇALAR</span><span class="count-pill">${costs.used.length} kalem</span></div><div class="passport-card-body"><div class="table-wrap"><table class="passport-table sicil-part-table"><thead><tr><th>Parça Kodu</th><th>Parça Adı</th><th>Miktar</th><th>Birim Maliyet</th><th>Toplam</th></tr></thead><tbody>${usedRows}</tbody><tfoot><tr><td colspan="4">Toplam Kullanılan Parça Maliyeti</td><td>${money(costs.parcaMaliyeti)}</td></tr></tfoot></table></div></div></div>
@@ -891,6 +895,15 @@ function addPresRow(v={}){
 const TBE_KESITLER=['0.22','0.35','0.50','0.75','1.00','1.50','2.00','2.50','3.00','4.00','6.00','10.00','16.00'];
 const TBE_OLCULER=[['CH','C/H'],['CW','C/W'],['IH','I/H'],['IW','I/W'],['PT_Newton','PT / Newton']];
 
+// Kablo satırları terminale bağlıdır; kesit ve krimp satırlarını çoğaltmaz.
+function tbeCableValues(card,validate=false){return [...card.querySelectorAll('.tbe-cable-row')].map(row=>{const v=Object.fromEntries([...row.querySelectorAll('[data-cable]')].map(x=>[x.dataset.cable,x.value.trim()]));if(!Object.values(v).some(Boolean))return null;if(validate){if(!v.KabloKodu||!v.KabloCinsi)throw new Error('Kablo kodu ve kablo cinsi birlikte girilmelidir.');const mm=tbeCableMm(v.SiyirmaBoyu);if(mm==='')throw new Error('Sıyırma boyunu mm olarak girin.');v.SiyirmaBoyu=mm;}return v;}).filter(Boolean);}
+function tbeCableMm(v){const s=String(v??'').trim().replace(/\s*mm\s*$/i,'').replace(',','.');if(!s)return '';if(!/^\d+(?:\.\d+)?$/.test(s)||!Number.isFinite(Number(s))||Number(s)<=0)throw new Error('Sıyırma boyu pozitif bir sayı olmalıdır. Örnek: 3.2 mm');return String(Number(s));}
+function tbeCableHistory(){return [...(S.cableHistory||[]),...S.term,...document.querySelectorAll('#terminalRows .crimp-card')].flatMap(x=>x?.querySelectorAll?tbeCableValues(x):[x]);}
+function tbeCableOptions(card){const history=tbeCableHistory(),codes=new Map(),types=new Map();history.forEach(x=>{if(x.KabloKodu)codes.set(tbeN(x.KabloKodu),String(x.KabloKodu).trim());if(x.KabloCinsi)types.set(tbeN(x.KabloCinsi),String(x.KabloCinsi).trim());});card.querySelector('.tbe-cable-codes').innerHTML=[...codes.values()].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option value="${ea(v)}"></option>`).join('');card.querySelector('.tbe-cable-types').innerHTML=[...types.values()].sort((a,b)=>a.localeCompare(b,'tr')).map(v=>`<option value="${ea(v)}"></option>`).join('');}
+function addCableRow(cardId,v={}){const card=document.getElementById(cardId);if(!card)return;card.querySelector('.tbe-cable-list').insertAdjacentHTML('beforeend',`<div class="tbe-cable-row"><div class="field"><label>Kablo Kodu</label><input data-cable="KabloKodu" list="${cardId}_codes" value="${ea(v.KabloKodu||'')}" placeholder="Seçin veya yeni kod yazın" autocomplete="off" onchange="tbeCableCodeChanged(this)"></div><div class="field"><label>Kablo Cinsi</label><input data-cable="KabloCinsi" list="${cardId}_types" value="${ea(v.KabloCinsi||'')}" placeholder="Seçin veya yeni cins yazın" autocomplete="off"></div><div class="field"><label>Sıyırma Boyu</label><div class="tbe-cable-mm"><input data-cable="SiyirmaBoyu" inputmode="decimal" value="${ea(v.SiyirmaBoyu??'')}" placeholder="3.2" aria-label="Sıyırma boyu, mm"><span>mm</span></div></div><button type="button" class="btn danger" onclick="this.closest('.tbe-cable-row').remove()">Kabloyu Sil</button></div>`);tbeCableOptions(card);}
+function addCableToLastTerminal(){if(!terminalRows.lastElementChild)addTerminalCard();const card=terminalRows.lastElementChild;addCableRow(card.id);card.querySelector('.tbe-cable-row:last-child input')?.focus();}
+function tbeCableCodeChanged(input){const row=input.closest('.tbe-cable-row'),type=row.querySelector('[data-cable="KabloCinsi"]');if(type.value.trim())return;const matches=tbeCableHistory().filter(x=>tbeN(x.KabloKodu||'')===tbeN(input.value)&&x.KabloCinsi),types=[...new Set(matches.map(x=>String(x.KabloCinsi).trim()))];if(types.length===1)type.value=types[0];}
+
 function addTerminalCard(v={}){
   const id='tc_'+Date.now()+'_'+Math.random().toString(36).slice(2);
   const values=v.degerler||{};
@@ -912,24 +925,26 @@ function addTerminalCard(v={}){
       <div class="field"><label>PDF URL</label><input data-head="PDFURL" type="url" value="${ea(v.PDFURL||'')}"></div>
       <button type="button" class="btn danger" onclick="document.getElementById('${id}').remove()">Terminali Sil</button>
     </div>
+    <div class="tbe-cable-area"><div class="tbe-cable-title"><span>Kablo Tanımları</span><button type="button" class="btn primary" onclick="addCableRow('${id}')">+ Kablo</button></div><datalist class="tbe-cable-codes" id="${id}_codes"></datalist><datalist class="tbe-cable-types" id="${id}_types"></datalist><div class="tbe-cable-list"></div></div>
     <div class="crimp-matrix-wrap"><table class="crimp-matrix"><thead><tr><th>Ölçü</th>${heads}</tr></thead><tbody>${rows}</tbody></table></div>
   </div>`);
+  (v.kablolar?.length?v.kablolar:[{}]).forEach(k=>addCableRow(id,k));
 }
 function addTerminalRow(v={}){addTerminalCard(v)}
 
-function collectTerminalRows(){
+function collectTerminalRows(validate=true){
   const out=[];
   document.querySelectorAll('#terminalRows .crimp-card').forEach(card=>{
     const head=Object.fromEntries([...card.querySelectorAll('[data-head]')].map(x=>[x.dataset.head,x.value.trim()]));
+    const cables=tbeCableValues(card,validate);
+    if(validate&&cables.length&&!head.TerminalKodu)throw new Error('Kablo tanımı için terminal kodunu girin.');
     [...new Set([...card.querySelectorAll('[data-kesit]')].map(x=>x.dataset.kesit))].forEach(k=>{
-      const row={...head,KabloKesiti:k};
-      let has=false;
-      card.querySelectorAll(`[data-kesit="${k}"]`).forEach(x=>{
-        row[x.dataset.m]=x.value.trim();
-        if(x.value.trim())has=true;
-      });
-      if(head.TerminalKodu && has)out.push(row);
+      const row={...head,KabloKesiti:k};let has=false;
+      card.querySelectorAll(`[data-kesit="${k}"]`).forEach(x=>{row[x.dataset.m]=x.value.trim();if(x.value.trim())has=true;});
+      if(validate&&has&&!head.TerminalKodu)throw new Error('Ölçü girilen terminalin kodu zorunludur.');
+      if(head.TerminalKodu&&has)out.push(row);
     });
+    cables.forEach(c=>out.push({...head,...c,KabloKesiti:''}));
   });
   return out;
 }
@@ -964,7 +979,7 @@ function wizardTerminalSnapshot(){
       card.querySelectorAll(`[data-kesit="${k}"]`).forEach(x=>{row[x.dataset.m]=x.value.trim();if(x.value.trim())has=true;});
       if(has)degerler[k]=row;
     });
-    return {...head,degerler};
+    return {...head,degerler,kablolar:tbeCableValues(card)};
   });
 }
 function wizardStateSnapshot(){
@@ -1013,7 +1028,7 @@ function buildReview(){
     ['Sayaç',d.SayacVarMi],
     ['Pres Uyumluluk',collectRows('presRows').length+' kayıt'],
     ['Seal',d.SealVarMi==='VAR' ? collectRows('sealRows').length+' kayıt' : 'Yok'],
-    ['Krimp Kesit Kaydı',collectTerminalRows().length+' kayıt'],
+    ['Krimp / Kablo Kaydı',collectTerminalRows(false).length+' kayıt'],
     ['Yedek Parça',collectRows('partRows').length+' kayıt']
   ].map(x=>`<div class="review-box"><b>${x[0]}</b>${e(x[1]||'—')}</div>`).join('')
 }
@@ -1041,7 +1056,7 @@ function resetWizard(){
   if(title)title.textContent='Yeni Aplikatör Kaydı';
   if(subtitle)subtitle.textContent='Bakım modülündeki gibi aşamalı kayıt';
 }
-wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);const wf=document.getElementById('wPdfFile').files[0];if(wf)await tbeDrivePdfUpload(wf,{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),KontrolSonucu:'BEKLIYOR'});else if(wPdf.value.trim()&&!S.cuts.some(c=>String(c.AplikatorId)===String(r.data.AplikatorId)&&c.PDFURL===wPdf.value.trim())){tbeValidatePdfUrl(wPdf.value.trim());await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});}notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
+wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',terminalCableVersion:1,aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);const wf=document.getElementById('wPdfFile').files[0];if(wf)await tbeDrivePdfUpload(wf,{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),KontrolSonucu:'BEKLIYOR'});else if(wPdf.value.trim()&&!S.cuts.some(c=>String(c.AplikatorId)===String(r.data.AplikatorId)&&c.PDFURL===wPdf.value.trim())){tbeValidatePdfUrl(wPdf.value.trim());await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});}notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
 function bindForm(id,action,dlg){document.getElementById(id).onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{await api(action,Object.fromEntries(new FormData(ev.target)));dlg.close();ev.target.reset();await load();notify('Kayıt tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}}}
 function bakimIscilikSabit(){
   const candidates=[S.ayarlar,S.d?.ayarlar,S.d?.IATF_Ayarlar,S.d?.iatfAyarlar];
