@@ -1042,11 +1042,38 @@ function buildReview(){
     ['Model / Seri No',d.ModelSeriNo],
     ['Durum',d.Durum],
     ['Sayaç',d.SayacVarMi],
-    ['Pres Uyumluluk',collectRows('presRows').length+' kayıt'],
-    ['Seal',d.SealVarMi==='VAR' ? collectRows('sealRows').length+' kayıt' : 'Yok'],
+    ['Pres Uyumluluk',collectRows('presRows').filter(x=>String(x.PresKodu||'').trim()).length+' kayıt'],
+    ['Seal',d.SealVarMi==='VAR' ? collectRows('sealRows').filter(x=>String(x.SealKodu||x.SealStokKodu||'').trim()).length+' kayıt' : 'Yok'],
     ['Krimp / Kablo Kaydı',collectTerminalRows(false).length+' kayıt'],
-    ['Yedek Parça',collectRows('partRows').length+' kayıt']
+    ['Yedek Parça',collectRows('partRows').filter(x=>String(x.ParcaKodu||x.ParcaId||'').trim()).length+' kayıt']
   ].map(x=>`<div class="review-box"><b>${x[0]}</b>${e(x[1]||'—')}</div>`).join('')
+}
+// Tek sayfalı formda kontrol özeti her değişiklikte güncel kalır.
+let tbeReviewTimer;
+function scheduleTbeReview(){
+  clearTimeout(tbeReviewTimer);
+  tbeReviewTimer=setTimeout(buildReview,60);
+}
+function installTbeLiveReview(){
+  wizardForm.addEventListener('input',scheduleTbeReview);
+  wizardForm.addEventListener('change',scheduleTbeReview);
+  wizardForm.addEventListener('reset',scheduleTbeReview);
+  const observer=new MutationObserver(scheduleTbeReview);
+  ['presRows','sealRows','terminalRows','partRows'].forEach(id=>{
+    const root=document.getElementById(id);
+    if(root)observer.observe(root,{childList:true,subtree:true});
+  });
+}
+function showTbeSaveReceipt(aplikator,id){
+  const host=document.getElementById('p-aplikator');
+  let receipt=document.getElementById('tbeSaveReceipt');
+  if(!receipt){
+    receipt=document.createElement('div');receipt.id='tbeSaveReceipt';
+    receipt.setAttribute('role','status');
+    receipt.style.cssText='padding:14px 18px;margin:12px 0;border:1px solid #369767;border-radius:10px;background:#eaf7ef;color:#155c36';
+    host.insertBefore(receipt,host.firstChild);
+  }
+  receipt.innerHTML='<b>✓ Kayıt tamamlandı — '+e(aplikator.SicilNo||id)+'</b><br>'+e([aplikator.Marka,aplikator.ModelSeriNo].filter(Boolean).join(' / '))+' · '+e(new Date().toLocaleString('tr-TR'));
 }
 function resetWizard(){
   wizardDraft=null;
@@ -1072,7 +1099,7 @@ function resetWizard(){
   if(title)title.textContent='Yeni Aplikatör Kaydı';
   if(subtitle)subtitle.textContent='Bakım modülündeki gibi aşamalı kayıt';
 }
-wizardForm.onsubmit=async ev=>{ev.preventDefault();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',terminalCableVersion:1,aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);const wf=document.getElementById('wPdfFile').files[0];if(wf)await tbeDrivePdfUpload(wf,{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),KontrolSonucu:'BEKLIYOR'});else if(wPdf.value.trim()&&!S.cuts.some(c=>String(c.AplikatorId)===String(r.data.AplikatorId)&&c.PDFURL===wPdf.value.trim())){tbeValidatePdfUrl(wPdf.value.trim());await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});}notify('Aplikatör ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
+wizardForm.onsubmit=async ev=>{ev.preventDefault();buildReview();const b=saveBtn;b.disabled=true;b.textContent='Kaydediliyor…';try{const aplikator=Object.fromEntries(new FormData(wizardForm));const isEdit=Boolean(String(aplikator.AplikatorId||'').trim());const payload={requestId:'TBE-'+Date.now()+'-'+Math.random().toString(36).slice(2),mode:isEdit?'UPDATE':'INSERT',terminalCableVersion:1,aplikator,presler:collectRows('presRows'),seals:wizardForm.elements.SealVarMi.value==='VAR'?collectRows('sealRows'):[],terminaller:collectTerminalRows(),parcalar:collectRows('partRows')};const r=await api('tbeAplikatorTamKaydet',payload);const wf=document.getElementById('wPdfFile').files[0];if(wf)await tbeDrivePdfUpload(wf,{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),KontrolSonucu:'BEKLIYOR'});else if(wPdf.value.trim()&&!S.cuts.some(c=>String(c.AplikatorId)===String(r.data.AplikatorId)&&c.PDFURL===wPdf.value.trim())){tbeValidatePdfUrl(wPdf.value.trim());await api('tbeKesitKaydet',{AplikatorId:r.data.AplikatorId,TerminalKodu:wTerminal.value.trim(),KabloKesiti:wKesit.value.trim(),PDFURL:wPdf.value.trim(),KontrolSonucu:'BEKLIYOR'});}showTbeSaveReceipt(aplikator,r.data.AplikatorId);notify('Sicil '+aplikator.SicilNo+' ve bağlı kayıtlar kaydedildi.','ok');resetWizard();await load();page('aplikator')}catch(x){notify('Kayıt başarısız: '+x.message,'bad')}finally{b.disabled=false;b.innerHTML='<i class="fas fa-save"></i> Kaydet'}};
 function bindForm(id,action,dlg){document.getElementById(id).onsubmit=async ev=>{ev.preventDefault();const b=ev.submitter;b.disabled=true;try{await api(action,Object.fromEntries(new FormData(ev.target)));dlg.close();ev.target.reset();await load();notify('Kayıt tamamlandı.','ok')}catch(x){notify(x.message,'bad')}finally{b.disabled=false}}}
 function bakimIscilikSabit(){
   const candidates=[S.ayarlar,S.d?.ayarlar,S.d?.IATF_Ayarlar,S.d?.iatfAyarlar];
@@ -1388,6 +1415,6 @@ function tbeSmartHistory(){
  dlg.innerHTML='<div class="modal-head"><b>Konum hareket geçmişi — son 200 kayıt</b><button class="btn ghost" onclick="this.closest(\'dialog\').close()">✕</button></div><div class="modal-body table-wrap"><table><thead><tr><th>Tarih</th><th>Parça</th><th>Tür</th><th>Kaynak</th><th>Hedef</th><th>Adet</th><th>Yapan</th><th>Açıklama</th></tr></thead><tbody>'+rows.map(h=>'<tr><td>'+e(h.ZamanISO)+'</td><td>'+partName(h.ParcaId)+'</td><td>'+e(h.Tip)+'</td><td>'+e(tbeSmartLocName(h.KaynakKonum))+'</td><td>'+e(tbeSmartLocName(h.HedefKonum))+'</td><td>'+num(h.Miktar)+'</td><td>'+e(h.Yapan)+'</td><td>'+e(h.Aciklama)+'</td></tr>').join('')+'</tbody></table></div>';dlg.showModal();
 }
 
-resetWizard();(()=>{const u=localStorage.getItem('burkab_tbe_user'),t=token();if(u&&t){try{S.user=JSON.parse(u);show()}catch(_){logout()}}})();
+installTbeLiveReview();resetWizard();(()=>{const u=localStorage.getItem('burkab_tbe_user'),t=token();if(u&&t){try{S.user=JSON.parse(u);show()}catch(_){logout()}}})();
 </script>
 </body></html>
